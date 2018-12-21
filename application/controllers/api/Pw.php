@@ -104,6 +104,43 @@ class Pw extends REST_Controller {
             }
         
     }
+    public function back_pw_get()
+    {
+
+        $params=$_REQUEST;
+        // $params['pathway']=$this->uri->segment(3);
+        // $params['step']=$this->uri->segment(4);
+        // $params['next']=$this->uri->segment(5);
+        //echo '<pre>';print_r($params);exit;
+        $step=$this->admin_model->getStepByNumber($params['step']);
+        //echo '<pre>';print_r($step);exit;
+        if($step['type']!='question')
+        {
+            $path=$this->admin_model->getPathFlowByStep($step['number'], $params['pathway']);
+            //echo '<pre>';print_r($path);exit;
+            redirect(base_url().'selfcare/pb_view/'.$path['pathway'].'/'.$path['back'].'/'.$path['step']);
+        }
+        $data['answer']=$this->admin_model->getStepAnswer($params['step'], $params['pathway']);
+
+        $data['question']=$this->admin_model->getBackPathwayQuestion($params);
+        $data['form']=$this->admin_model->getAnsForm($data['question']['question']['id']);
+        
+        
+        if ($data['question'])
+            {
+                // Set the response and exit
+                $this->response($data, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
+            }
+            else
+            {
+                // Set the response and exit
+                $this->response([
+                    'status' => FALSE,
+                    'message' => 'Pathway doesn\'t have steps',
+                ], REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
+            }
+        
+    }
 
 
 }
