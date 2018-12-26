@@ -37,7 +37,7 @@ class Pw extends REST_Controller {
 
     public function pathways_get()
     {
-        $pathways=$this->Admin_model->getAll('pathways');
+        $pathways=$this->Admin_model->getPublishedPathways();
         if ($pathways)
             {
                 // Set the response and exit
@@ -112,18 +112,18 @@ class Pw extends REST_Controller {
         // $params['step']=$this->uri->segment(4);
         // $params['next']=$this->uri->segment(5);
         //echo '<pre>';print_r($params);exit;
-        $step=$this->admin_model->getStepByNumber($params['step']);
+        $step=$this->Admin_model->getStepByNumber($params['step']);
         //echo '<pre>';print_r($step);exit;
         if($step['type']!='question')
         {
-            $path=$this->admin_model->getPathFlowByStep($step['number'], $params['pathway']);
+            $path=$this->Admin_model->getPathFlowByStep($step['number'], $params['pathway']);
             //echo '<pre>';print_r($path);exit;
             redirect(base_url().'selfcare/pb_view/'.$path['pathway'].'/'.$path['back'].'/'.$path['step']);
         }
-        $data['answer']=$this->admin_model->getStepAnswer($params['step'], $params['pathway']);
+        $data['answer']=$this->Admin_model->getStepAnswer($params['step'], $params['pathway']);
 
-        $data['question']=$this->admin_model->getBackPathwayQuestion($params);
-        $data['form']=$this->admin_model->getAnsForm($data['question']['question']['id']);
+        $data['question']=$this->Admin_model->getBackPathwayQuestion($params);
+        $data['form']=$this->Admin_model->getAnsForm($data['question']['question']['id']);
         
         
         if ($data['question'])

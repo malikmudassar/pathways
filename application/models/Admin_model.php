@@ -61,6 +61,10 @@ class Admin_model extends CI_Model {
         
         
     }
+    public function getPublishedPathways()
+    {
+        return $this->db->query('select * from pathways where publish=\'yes\' and type=1')->result_array();
+    }
 
     public function getNextStep($step, $params){
 
