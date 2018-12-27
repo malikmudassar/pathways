@@ -686,6 +686,15 @@ class Admin_model extends CI_Model {
         $this->db->WHERE('id',$menuId)->update('pathways',$item);
     }
 
+    public function getPublishedPathways()
+    {
+        return $this->db->select('*')
+                        ->from('pathways')
+                        ->where('publish','yes')
+                        ->get()
+                        ->result_array();
+    }
+
 
     public function addQuestion($data)
     {
@@ -1120,6 +1129,39 @@ class Admin_model extends CI_Model {
         {
             return array();
         }
+    }
+
+    public function pathway_review($params)
+    {
+        $st=$this->db->select('*')
+                        ->from('user_pathway_status')
+                        ->where('user_id',$params['user_id'])
+                        ->where('pathway',$params['pathway'])
+                        ->where('status','finished')  
+                        ->order_by('finished_at', 'DESC')                      
+                        ->get()
+                        ->result_array();
+        $attempt=$st[0];
+        $st=$this->db->select('*')
+                        ->from('step_answers')
+                        ->where("created_at BETWEEN '".$attempt['started_at']."' and '".$attempt['finished_at']."'")
+                        ->where('user_id',$params['user_id'])
+                        ->where('pathway', $params['pathway'])
+                        ->get()
+                        ->result_array();
+        $data=array();
+        // return $st;
+        $count=count($st);
+        for($i=0;$i<$count;$i++)
+        {
+            $step=$this->getStepByNumber($st[$i]['step']);
+            $data[$i]['type']=$step['type'];
+            $q=$this->getQuestionByStep($st[$i]['step']);
+            $data[$i]['question']=$q['statement'];
+
+        }
+
+        return $data;;
     }
 
 }
