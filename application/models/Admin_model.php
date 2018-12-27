@@ -1108,7 +1108,7 @@ class Admin_model extends CI_Model {
                             ->result_array();
         //echo '<pre> path';print_r($st);exit;
         //$st=$this->db->query('select * from step_answers where step='.$step.' and pathway='.$pathway)->result_array();
-        echo "<script>console.log('query:".$this->db->last_query()." pathway:".$pathway."')</script>";
+        echo "<script>console.log('query:".$this->db->last_query()." pathway:".$data['pathway']."')</script>";
         if(count($st)>0)
         {
             return $st[0];
