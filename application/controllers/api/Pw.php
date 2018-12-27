@@ -150,5 +150,25 @@ class Pw extends REST_Controller {
         
     }
 
+    public function pathway_preview_get()
+    {
+        $params=$_REQUEST;
+        $data=$this->Admin_model->pathway_review($params);
+        if ($data)
+        {
+            // Set the response and exit
+            $this->response($data, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
+        }
+        else
+        {
+            // Set the response and exit
+            $this->response([
+                'status' => FALSE,
+                'message' => 'Pathway doesn\'t have steps',
+            ], REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
+        }
+
+    }
+
 
 }

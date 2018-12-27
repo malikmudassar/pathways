@@ -1158,10 +1158,23 @@ class Admin_model extends CI_Model {
             $data[$i]['type']=$step['type'];
             $q=$this->getQuestionByStep($st[$i]['step']);
             $data[$i]['question']=$q['statement'];
+            $data[$i]['answer']=$this->getAnswerResult($q['id'],$st[$i]['value']);
+            // $data[$i]['answer']=$st[$i]['value'];
 
         }
 
         return $data;;
+    }
+
+    public function getAnswerResult($q, $v)
+    {
+        $st=$this->db->select('caption')
+                    ->from('ans_form')
+                    ->where('question', $q)
+                    ->where('value',$v)
+                    ->get()
+                    ->result_array();
+        return $st[0]['caption'];
     }
 
 }
