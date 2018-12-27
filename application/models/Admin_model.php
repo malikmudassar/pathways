@@ -106,6 +106,10 @@ class Admin_model extends CI_Model {
         {
             echo "<script>console.log('98. next step ".$step['id']." is not question')</script>";
             $data=$this->checkNextStep($step,$params);
+            $steps=count($this->db->select('*')->from('steps')
+                        ->where('pathway',$data['pathway'])
+                        ->get()->result_array());
+            $data['percent']=($data['step']/$steps)*100;
             return $data;
         }
         
@@ -222,7 +226,6 @@ class Admin_model extends CI_Model {
             }
 
         }
-        
         
         if($step['type']=='question' || $step['type']=='info')
         {
@@ -441,7 +444,7 @@ class Admin_model extends CI_Model {
         {
             //echo 'In age';exit;
             echo "<script>console.log('361 next step ".$step['id']." is gender')</script>";
-            $result=$this->session->userdata['gender'];
+            $result=$params['gender'];
             $st=$this->db->query('select * from step_gender where step='.$step['id'])->result_array();
             $condition=$st[0];
             
