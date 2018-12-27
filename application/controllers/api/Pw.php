@@ -83,6 +83,14 @@ class Pw extends REST_Controller {
         $params=$_REQUEST;
         //echo '<pre>';print_r($_REQUEST);exit;
         $this->Admin_model->saveResult($params);
+        if(!$params['age'])
+        {
+            $params['age']=21;
+        }
+        if(!$params['gender'])
+        {
+            $params['gender']='male';
+        }
         //echo '<pre>';print_r($_POST);exit;
         $data['question']=$this->Admin_model->getNextPathwayQuestion($params);
         $data['form']=$this->Admin_model->getAnsForm($data['question']['question']['id']);

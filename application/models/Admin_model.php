@@ -337,7 +337,7 @@ class Admin_model extends CI_Model {
         {
             //echo 'In age';exit;
             echo "<script>console.log('237 next step ".$step['id']." is age')</script>";
-            $result=$this->session->userdata['age'];
+            $result=$params['age'];
             $st=$this->db->query('select * from step_age where step='.$step['id'])->result_array();
             $condition=$st[0];
             
