@@ -61,7 +61,7 @@ class Pw extends REST_Controller {
         $data=$this->Admin_model->getFirstPathwayQuestion($Id);
         
         $data['form']=$this->Admin_model->getAnsForm($data['question']['id']);
-        
+        $data['percent']=0;
         if ($data['question'])
             {
                 // Set the response and exit
@@ -120,7 +120,7 @@ class Pw extends REST_Controller {
             //echo '<pre>';print_r($path);exit;
             redirect(base_url().'selfcare/pb_view/'.$path['pathway'].'/'.$path['back'].'/'.$path['step']);
         }
-        $data['answer']=$this->Admin_model->getStepAnswer($params['step'], $params['pathway']);
+        $data['answer']=$this->Admin_model->getStepAnswer($params);
 
         $data['question']=$this->Admin_model->getBackPathwayQuestion($params);
         $data['form']=$this->Admin_model->getAnsForm($data['question']['question']['id']);

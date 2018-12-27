@@ -29,41 +29,87 @@ class Admin_model extends CI_Model {
         $st=$this->db->query('select questions.* from questions inner join step_questions on step_questions.question=questions.id where step='.$data['step'].' and pathway='.$data['pathway'])->result_array();
         //echo '<pre>';print_r($this->db->last_query());exit;
         $data['question']=$st[0];
+        $data['percent']=0;
         return $data;
     }
 
     public function getNextPathwayQuestion($params)
     {        
+        //echo '<pre>1';print_r($params); exit;
         $st=$this->db->select('*')->from('pathflow')
                 ->where('pathway',$params['pathway'])
-                ->where('step',$params['next'])
+                ->where('step',$this->getStepNumber($params['next']))
                 ->get()->result_array();
         $data=$st[0];
         $step=$this->getStepByNumber($data['step']);
         
         $result=0;
-
+        
         if($step['type']=='question')
         {
             echo "<script>console.log('44. next step is question')</script>";
-            $st=$this->db->query('select questions.* from questions inner join step_questions on step_questions.question=questions.id where step='.$data['step'])->result_array();
+            $st=$this->db->query('select questions.* from questions inner join step_questions on step_questions.question=questions.id where step='.($params['next']).' and pathway='.$params['pathway'])->result_array();
             $data['question']=$st[0];
-            //echo '<pre>';print_r($data); exit;
-            
+            //echo '<pre>';print_r($this->db->last_query()); exit;
+            $pth=$this->db->select('*')
+                    ->from('user_pathway_status')
+                    ->where('user_id',$params['user_id'])
+                    ->where('pathway',$data['pathway'])
+                    ->where('status','pending')
+                    ->get()
+                    ->result_array();
+                    //echo $this->db->last_query();exit;
+            if($data['next']==0)
+            {   echo "<script>console.log('62. data[next] is 0')</script>";               
+                if(count($pth)>0)
+                {
+                    $item=array(
+                        'user_id'   =>  $params['user_id'],
+                        'pathway'   =>  $data['pathway'],
+                        'current_step'=>$data['step'],
+                        'finished_at' =>date('Y-m-d h:i:s'),
+                        'status'    =>  'finished',
+                        'percent'   =>  100
+                    );
+                    $this->db->where('id',$pth[0]['id'])->update('user_pathway_status',$item);
+                }
+                $data['percent']=100;
+            }
+            else
+            {
+                echo "<script>console.log('77. data[next] is not 0')</script>";
+                if(count($pth)>0)
+                {
+                    echo "<script>console.log('80. user_pathway_status found')</script>";
+                    $steps=count($this->db->select('*')->from('steps')
+                        ->where('pathway',$data['pathway'])
+                        ->get()->result_array());
+                    $item=array(
+                        'user_id'   =>  $params['user_id'],
+                        'pathway'   =>  $data['pathway'],
+                        'current_step'=>$data['step'],
+                        'status'    =>  'pending',
+                        'percent'   =>  ($data['step']/$steps)*100
+                    );
+                    $this->db->where('id',$pth[0]['id'])->update('user_pathway_status',$item);
+                }
+                else
+                {
+                    echo "<script>console.log('95 user_pathway_status not found')</script>";
+                }
+            }
+            //echo '<pre>';print_r($item);exit;
+            $data['percent']=$item['percent'];
             return $data;
         }
         else
         {
-            echo "<script>console.log('53. next step ".$step['id']." is not question')</script>";
+            echo "<script>console.log('98. next step ".$step['id']." is not question')</script>";
             $data=$this->checkNextStep($step,$params);
             return $data;
         }
         
         
-    }
-    public function getPublishedPathways()
-    {
-        return $this->db->query('select * from pathways where publish=\'yes\' and type=1')->result_array();
     }
 
     public function getNextStep($step, $params){
@@ -76,8 +122,9 @@ class Admin_model extends CI_Model {
     public function checkNextStep($step,$params)
     {
         //echo '<pre>';print_r($step);exit;
-        $result=0;
+        
         $data=$params;
+        $result=0;
         if($step['type']=='calculation')
         {
             //echo 'In calculation';exit;
@@ -85,7 +132,22 @@ class Admin_model extends CI_Model {
             $st=$this->db->query('select * from step_calculation where step='.$step['id'])->result_array();
             $stepCalcData=$st[0];
             // Get list of answers from answers table against the range above
-            $st=$this->db->query('select * from step_answers where step BETWEEN '.$stepCalcData['from_step'].' and '.$stepCalcData['to_step'].'')->result_array();
+            $pth=$this->db->select('*')
+                        ->from('user_pathway_status')
+                        ->where('user_id',$data['user_id'])
+                        ->where('pathway',$data['pathway'])
+                        ->where('status','pending')
+                        ->get()
+                        ->result_array();
+            $st=$this->db->select('*')
+                        ->from('step_answers')
+                        ->where('step BETWEEN '.$stepCalcData['from_step'].' and '.$stepCalcData['to_step'].'')
+                        ->where('user_id',$params['user_id'])
+                        ->where('created_at >',$pth[0]['started_at'])
+                        ->get()
+                        ->result_array();
+            //echo '<pre>';print_r($st);exit;
+            // $st=$this->db->query('select * from step_answers where step BETWEEN '.$stepCalcData['from_step'].' and '.$stepCalcData['to_step'].'')->result_array();
             
             if(count($st)>0)
             {
@@ -98,10 +160,18 @@ class Admin_model extends CI_Model {
             $item=array(
                 'pathway' => $params['pathway'],
                 'step'      => $step['id'],
+                'user_id'   => $params['user_id'],
                 'value'     => $result
             );
-
-            $st=$this->db->query('select * from step_answers where step='.$data['step'])->result_array();
+            $st=$this->db->select('*')
+                        ->from('step_answers')
+                        ->where('step',$step['id'])
+                        ->where('user_id',$params['user_id'])
+                        ->where('created_at >',$pth[0]['started_at'])
+                        ->get()
+                        ->result_array();
+            //echo '<pre>';print_r($st);exit;
+            // $st=$this->db->query('select * from step_answers where step='.$data['step'])->result_array();
             if(count($st)>0)
             {
                 
@@ -138,7 +208,7 @@ class Admin_model extends CI_Model {
 
                 echo "<script>console.log('113 step ".$step['id']." not question')</script>";
                 //print_r($data);exit;
-                $url = 'api/pw/next_pw';
+                $url = 'selfcare/pq_view';
                 $myvars = http_build_query($data, '', '&');
 
                 $ch = curl_init( $url );
@@ -166,8 +236,12 @@ class Admin_model extends CI_Model {
             $result=$params['score'];
             $st=$this->db->query('select * from step_condition where step='.$step['id'])->result_array();
             $condition=$st[0];
-            
-            $result=$this->getStepAnswer($condition['step_result'], $params['pathway']);
+            //echo '<pre>';print_r($condition);exit;
+            $d['step']=$condition['step_result'];
+            $d['pathway']=$params['pathway'];
+            $d['user_id']=$params['user_id'];
+
+            $result=$this->getStepAnswer($d);
             //print_r($step['id'].'-'.$params['pathway']); exit;
             echo "<script>console.log('147 result is".$result['value']."')</script>";
             switch($condition['operator'])
@@ -245,7 +319,7 @@ class Admin_model extends CI_Model {
             {   
                 echo "<script>console.log('218 next step ".$step['id']." not question')</script>";
                 //echo '<pre>';print_r($data);exit;
-                $url = 'api/pw/next_pw';
+                $url = 'selfcare/pq_view';
                 $myvars = http_build_query($data, '', '&');
 
                 $ch = curl_init( $url );
@@ -312,7 +386,7 @@ class Admin_model extends CI_Model {
             {
                 echo "<script>console.log('317 next step ".$data['step']." not question it is ".$step['type']."')</script>";
                 //echo '<pre>';print_r($data);exit;
-                $url = 'api/pw/next_pw';
+                $url = 'selfcare/pq_view';
                 $myvars = http_build_query($data, '', '&');
 
                 $ch = curl_init( $url );
@@ -352,7 +426,7 @@ class Admin_model extends CI_Model {
             {
                 echo "<script>console.log('377 Next Step ".$data['step']." is not question')</script>";
                 //echo '<pre>';print_r($data);exit;
-                $url = 'api/pw/next_pw';
+                $url = 'selfcare/pq_view';
                 $myvars = http_build_query($data, '', '&');
 
                 $ch = curl_init( $url );
@@ -367,7 +441,7 @@ class Admin_model extends CI_Model {
         {
             //echo 'In age';exit;
             echo "<script>console.log('361 next step ".$step['id']." is gender')</script>";
-            $result=$this->session->userdata['age'];
+            $result=$this->session->userdata['gender'];
             $st=$this->db->query('select * from step_gender where step='.$step['id'])->result_array();
             $condition=$st[0];
             
@@ -414,7 +488,7 @@ class Admin_model extends CI_Model {
             {
                 echo "<script>console.log('409 next step ".$data['step']." not question it is ".$step['type']."')</script>";
                 //echo '<pre>';print_r($data);exit;
-                $url = 'api/pw/next_pw';
+                $url = 'selfcare/pq_view';
                 $myvars = http_build_query($data, '', '&');
 
                 $ch = curl_init( $url );
@@ -479,7 +553,11 @@ class Admin_model extends CI_Model {
         
         
     }
-
+    public function getStepNumber($id)
+    {
+        $st=$this->db->query('select * from steps where id='.$id)->result_array();
+        return $st[0]['number'];
+    }
     
     public function getBackPathwayQuestion($params)
     {
@@ -846,6 +924,33 @@ class Admin_model extends CI_Model {
     public function saveResult($data)
     {
         //echo '<pre>';print_r($data);exit;
+        $pth=$this->db->select('*')
+                    ->from('user_pathway_status')
+                    ->where('user_id',$data['user_id'])
+                    ->where('pathway',$data['pathway'])
+                    ->where('status','pending')
+                    ->get()
+                    ->result_array();
+        if(count($pth)>0)
+        {
+            $item=array(
+                'user_id'   =>  $data['user_id'],
+                'pathway'   =>  $data['pathway'],
+                'current_step'=>$data['step'],
+                'status'    =>  'pending'
+            );
+            $this->db->where('id',$pth[0]['id'])->update('user_pathway_status',$item);
+        }
+        else
+        {
+            $item=array(
+                'user_id'   =>  $data['user_id'],
+                'pathway'   =>  $data['pathway'],
+                'current_step'=>$data['step'],
+                'status'    =>  'pending'
+            );
+            $this->db->insert('user_pathway_status',$item);
+        }
         $st=$this->db->query('Select questions.* from questions inner join step_questions on step_questions.question=questions.id where step_questions.step='.$data['step'])->result_array();
         $am=$this->getAllById('answer_models',$st[0]['ans_model']);
         if($am['text']>0)
@@ -858,9 +963,37 @@ class Admin_model extends CI_Model {
                     'pathway'   => $data['pathway'],
                     'step'      => $data['step'],
                     'value'     => $data[$ans_form[$i]['name']],
-                    'field_name'=>$ans_form[$i]['name']
+                    'field_name'=>$ans_form[$i]['name'],
+                    'user_id'   =>$data['user_id']
                 );
-                $this->db->insert('step_answers',$item);
+                $pth=$this->db->select('*')
+                            ->from('user_pathway_status')
+                            ->where('user_id',$data['user_id'])
+                            ->where('pathway',$data['pathway'])
+                            ->where('status','pending')
+                            ->get()
+                            ->result_array();
+                //echo '<pre> path';print_r($pth);exit;
+                $st=$this->db->select('*')
+                            ->from('step_answers')
+                            ->where('step',$data['step'])
+                            ->where('user_id',$data['user_id'])
+                            ->where('created_at >',$pth[0]['started_at'])
+                            ->get()
+                            ->result_array();
+                if(count($st)>0)
+                {
+                    
+                    $this->db->where('step',$data['step'])
+                            ->where('user_id',$data['user_id'])
+                            ->where('created_at >',$pth[0]['started_at'])
+                            ->update('step_answers',$item);
+                }
+                else
+                {
+                    
+                    $this->db->insert('step_answers',$item);
+                }
             }
             
         }
@@ -870,14 +1003,35 @@ class Admin_model extends CI_Model {
             $item=array(
                 'pathway'   => $data['pathway'],
                 'step'      => $data['step'],
-                'value'     => $data['score']
+                'value'     => $data['score'],
+                'user_id'   =>$data['user_id']
             );
+            // find answer whose created_at is bigger than status created_at or insert 
+            $pth=$this->db->select('*')
+                        ->from('user_pathway_status')
+                        ->where('user_id',$data['user_id'])
+                        ->where('pathway',$data['pathway'])
+                        ->where('status','pending')
+                        ->get()
+                        ->result_array();
+            //echo '<pre> path';print_r($pth);exit;
+            $st=$this->db->select('*')
+                        ->from('step_answers')
+                        ->where('step',$data['step'])
+                        ->where('user_id',$data['user_id'])
+                        ->where('created_at >',$pth[0]['started_at'])
+                        ->get()
+                        ->result_array();
 
-            $st=$this->db->query('select * from step_answers where step='.$data['step'])->result_array();
+            //echo '<pre>';print_r($st);exit;
+            // $st=$this->db->query('select * from step_answers where step='.$data['step'])->result_array();
             if(count($st)>0)
             {
                 
-                $this->db->where('step',$item['step'])->update('step_answers',$item);
+                $this->db->where('step',$data['step'])
+                        ->where('user_id',$data['user_id'])
+                        ->where('created_at >',$pth[0]['started_at'])
+                        ->update('step_answers',$item);
             }
             else
             {
@@ -887,7 +1041,42 @@ class Admin_model extends CI_Model {
         }
         if($am['checkbox']>0)
         {
-            echo $am['checkbox'].' checkboxes <br>';
+            echo "<script>console.log('886 saving checkbox data for step ".$data['step']."')</script>";
+            $item=array(
+                'pathway'   => $data['pathway'],
+                'step'      => $data['step'],
+                'user_id'   =>$data['user_id'],
+                'value'     => implode(',', $data['score'])
+            );
+
+            $pth=$this->db->select('*')
+                        ->from('user_pathway_status')
+                        ->where('user_id',$data['user_id'])
+                        ->where('pathway',$data['pathway'])
+                        ->where('status','pending')
+                        ->get()
+                        ->result_array();
+            //echo '<pre> path';print_r($pth);exit;
+            $st=$this->db->select('*')
+                        ->from('step_answers')
+                        ->where('step',$data['step'])
+                        ->where('user_id',$data['user_id'])
+                        ->where('created_at >',$pth[0]['started_at'])
+                        ->get()
+                        ->result_array();
+            if(count($st)>0)
+            {
+                
+                $this->db->where('step',$data['step'])
+                        ->where('user_id',$data['user_id'])
+                        ->where('created_at >',$pth[0]['started_at'])
+                        ->update('step_answers',$item);
+            }
+            else
+            {
+                
+                $this->db->insert('step_answers',$item);
+            }
         }
         
 
@@ -897,11 +1086,28 @@ class Admin_model extends CI_Model {
         $st=$this->db->select('*')->from('steps')->where('number',$step)->where('pathway', $pathway)->get()->result_array();
         return $st[0];
     }
-
-    public function getStepAnswer($step,$pathway)
+    // Modified
+    public function getStepAnswer($data)
     {
-        echo "<script>console.log('Step:".$step." pathway:".$pathway."')</script>";
-        $st=$this->db->query('select * from step_answers where step='.$step.' and pathway='.$pathway)->result_array();
+        echo "<script>console.log('Step:".$data['step']." pathway:".$data['pathway']."')</script>";
+        $pth=$this->db->select('*')
+                            ->from('user_pathway_status')
+                            ->where('user_id',$data['user_id'])
+                            ->where('pathway',$data['pathway'])
+                            ->where('status','pending')
+                            ->get()
+                            ->result_array();
+        
+        $st=$this->db->select('*')
+                            ->from('step_answers')
+                            ->where('step',$data['step'])
+                            ->where('user_id',$data['user_id'])
+                            ->where('pathway', $data['pathway'])
+                            ->where('created_at >',$pth[0]['started_at'])
+                            ->get()
+                            ->result_array();
+        //echo '<pre> path';print_r($st);exit;
+        //$st=$this->db->query('select * from step_answers where step='.$step.' and pathway='.$pathway)->result_array();
         echo "<script>console.log('query:".$this->db->last_query()." pathway:".$pathway."')</script>";
         if(count($st)>0)
         {
