@@ -47,7 +47,7 @@ class Admin_model extends CI_Model {
         
         if($step['type']=='question')
         {
-            echo "<script>console.log('44. next step is question')</script>";
+            // echo "<script>console.log('44. next step is question')</script>";
             $st=$this->db->query('select questions.* from questions inner join step_questions on step_questions.question=questions.id where step='.($params['next']).' and pathway='.$params['pathway'])->result_array();
             $data['question']=$st[0];
             //echo '<pre>';print_r($this->db->last_query()); exit;
@@ -60,7 +60,8 @@ class Admin_model extends CI_Model {
                     ->result_array();
                     //echo $this->db->last_query();exit;
             if($data['next']==0)
-            {   echo "<script>console.log('62. data[next] is 0')</script>";               
+            {   
+                //echo "<script>console.log('62. data[next] is 0')</script>";               
                 if(count($pth)>0)
                 {
                     $item=array(
@@ -77,10 +78,10 @@ class Admin_model extends CI_Model {
             }
             else
             {
-                echo "<script>console.log('77. data[next] is not 0')</script>";
+                //echo "<script>console.log('77. data[next] is not 0')</script>";
                 if(count($pth)>0)
                 {
-                    echo "<script>console.log('80. user_pathway_status found')</script>";
+                    //echo "<script>console.log('80. user_pathway_status found')</script>";
                     $steps=count($this->db->select('*')->from('steps')
                         ->where('pathway',$data['pathway'])
                         ->get()->result_array());
@@ -95,7 +96,7 @@ class Admin_model extends CI_Model {
                 }
                 else
                 {
-                    echo "<script>console.log('95 user_pathway_status not found')</script>";
+                    //echo "<script>console.log('95 user_pathway_status not found')</script>";
                 }
             }
             //echo '<pre>';print_r($item);exit;
@@ -104,7 +105,7 @@ class Admin_model extends CI_Model {
         }
         else
         {
-            echo "<script>console.log('98. next step ".$step['id']." is not question')</script>";
+            //echo "<script>console.log('98. next step ".$step['id']." is not question')</script>";
             $data=$this->checkNextStep($step,$params);
             $steps=count($this->db->select('*')->from('steps')
                         ->where('pathway',$data['pathway'])
@@ -132,7 +133,7 @@ class Admin_model extends CI_Model {
         if($step['type']=='calculation')
         {
             //echo 'In calculation';exit;
-            echo "<script>console.log('76 Step ".$step['id']." is calculation')</script>";
+            //echo "<script>console.log('76 Step ".$step['id']." is calculation')</script>";
             $st=$this->db->query('select * from step_calculation where step='.$step['id'])->result_array();
             $stepCalcData=$st[0];
             // Get list of answers from answers table against the range above
@@ -160,7 +161,7 @@ class Admin_model extends CI_Model {
                     $result+=$st[$i]['value'];
                 }
             }
-            echo "<script>console.log('89 saving result ".$result." for step ".$step['id']."')</script>";
+            //echo "<script>console.log('89 saving result ".$result." for step ".$step['id']."')</script>";
             $item=array(
                 'pathway' => $params['pathway'],
                 'step'      => $step['id'],
@@ -202,7 +203,7 @@ class Admin_model extends CI_Model {
             //echo '<pre>';print_r($step);print_r($data);exit;
             if($step['type']=='question')
             {
-                echo "<script>console.log('106 next step is question')</script>";
+                //echo "<script>console.log('106 next step is question')</script>";
                 $st=$this->db->query('select questions.* from questions inner join step_questions on step_questions.question=questions.id where step='.$data['step'])->result_array();
                 $data['question']=$st[0];
                 return $data;
@@ -210,7 +211,7 @@ class Admin_model extends CI_Model {
             else
             {
 
-                echo "<script>console.log('113 step ".$step['id']." not question')</script>";
+                //echo "<script>console.log('113 step ".$step['id']." not question')</script>";
                 //print_r($data);exit;
                 $url = 'selfcare/pq_view';
                 $myvars = http_build_query($data, '', '&');
@@ -229,13 +230,13 @@ class Admin_model extends CI_Model {
         
         if($step['type']=='question' || $step['type']=='info')
         {
-            echo "<script>console.log('132 next step is question')</script>";
+            //echo "<script>console.log('132 next step is question')</script>";
             return $data;
         }
 
         if($step['type']=='condition')
         {
-            echo "<script>console.log('138 step ".$step['id']." is condition')</script>";
+            //echo "<script>console.log('138 step ".$step['id']." is condition')</script>";
             $result=$params['score'];
             $st=$this->db->query('select * from step_condition where step='.$step['id'])->result_array();
             $condition=$st[0];
@@ -246,7 +247,7 @@ class Admin_model extends CI_Model {
 
             $result=$this->getStepAnswer($d);
             //print_r($step['id'].'-'.$params['pathway']); exit;
-            echo "<script>console.log('147 result is".$result['value']."')</script>";
+            //echo "<script>console.log('147 result is".$result['value']."')</script>";
             switch($condition['operator'])
             {
                 case '>':
@@ -257,7 +258,7 @@ class Admin_model extends CI_Model {
                         $path=$st[0];
                         $data['back']=$step['id'];
                         $data['next']=$path['next'];
-                        echo "<script>console.log('158 next step ".$data['next']."')</script>";
+                        //echo "<script>console.log('158 next step ".$data['next']."')</script>";
                     }
                     else
                     {
@@ -313,14 +314,14 @@ class Admin_model extends CI_Model {
 
             if($step['type']=='question')
             {
-                echo "<script>console.log('211 step ".$step['id']." is question')</script>";
+                //echo "<script>console.log('211 step ".$step['id']." is question')</script>";
                 $st=$this->db->query('select questions.* from questions inner join step_questions on step_questions.question=questions.id where step='.$data['step'])->result_array();
                 $data['question']=$st[0];
                 return $data;
             }
             else
             {   
-                echo "<script>console.log('218 next step ".$step['id']." not question')</script>";
+                //echo "<script>console.log('218 next step ".$step['id']." not question')</script>";
                 //echo '<pre>';print_r($data);exit;
                 $url = 'selfcare/pq_view';
                 $myvars = http_build_query($data, '', '&');
@@ -339,7 +340,7 @@ class Admin_model extends CI_Model {
         if($step['type']=='age')
         {
             //echo 'In age';exit;
-            echo "<script>console.log('237 next step ".$step['id']." is age')</script>";
+            //echo "<script>console.log('237 next step ".$step['id']." is age')</script>";
             $result=$params['age'];
             $st=$this->db->query('select * from step_age where step='.$step['id'])->result_array();
             $condition=$st[0];
@@ -372,7 +373,7 @@ class Admin_model extends CI_Model {
             }
             
             $step=$this->getStepByNumber($data['step']);
-            echo "<script>console.log('289 next step ".$step['id']." is ".$step['type']."')</script>";
+            //echo "<script>console.log('289 next step ".$step['id']." is ".$step['type']."')</script>";
             $data['step']=$step['id'];
             // echo '<pre>';print_r($step);print_r($data);exit;
             //$step=$this->getNextStep($step,$params);
@@ -380,14 +381,14 @@ class Admin_model extends CI_Model {
             
             if($step['type']=='question')
             {
-                echo "<script>console.log('311 next step is question')</script>";
+                //echo "<script>console.log('311 next step is question')</script>";
                 $st=$this->db->query('select questions.* from questions inner join step_questions on step_questions.question=questions.id where step='.$data['step'])->result_array();
                 $data['question']=$st[0];
                 return $data;
             }
             else
             {
-                echo "<script>console.log('317 next step ".$data['step']." not question it is ".$step['type']."')</script>";
+                //echo "<script>console.log('317 next step ".$data['step']." not question it is ".$step['type']."')</script>";
                 //echo '<pre>';print_r($data);exit;
                 $url = 'selfcare/pq_view';
                 $myvars = http_build_query($data, '', '&');
@@ -402,7 +403,7 @@ class Admin_model extends CI_Model {
         } 
         if($step['type']=='flag')
         {
-            echo "<script>console.log('Step ".$step['id']." is flag')</script>";
+            //echo "<script>console.log('Step ".$step['id']." is flag')</script>";
             $result=$params['score'];
             $st=$this->db->query('select * from step_flag where step='.$step['id'])->result_array();
             $condition=$st[0];
@@ -418,7 +419,7 @@ class Admin_model extends CI_Model {
             $step=$this->getStepByNumber($data['next']);
             //$step=$this->getNextStep($step,$params);
             //echo '<pre>';print_r($step);exit;
-            echo "<script>console.log('369 Next Step ".$step['id']." is".$step['type']." ')</script>";
+            //echo "<script>console.log('369 Next Step ".$step['id']." is".$step['type']." ')</script>";
             if($step['type']=='question')
             {
                 $st=$this->db->query('select questions.* from questions inner join step_questions on step_questions.question=questions.id where step='.$data['step'])->result_array();
@@ -427,7 +428,7 @@ class Admin_model extends CI_Model {
             }
             else
             {
-                echo "<script>console.log('377 Next Step ".$data['step']." is not question')</script>";
+                //echo "<script>console.log('377 Next Step ".$data['step']." is not question')</script>";
                 //echo '<pre>';print_r($data);exit;
                 $url = 'selfcare/pq_view';
                 $myvars = http_build_query($data, '', '&');
@@ -443,7 +444,7 @@ class Admin_model extends CI_Model {
         if($step['type']=='gender')
         {
             //echo 'In age';exit;
-            echo "<script>console.log('361 next step ".$step['id']." is gender')</script>";
+            //echo "<script>console.log('361 next step ".$step['id']." is gender')</script>";
             $result=$params['gender'];
             $st=$this->db->query('select * from step_gender where step='.$step['id'])->result_array();
             $condition=$st[0];
@@ -474,7 +475,7 @@ class Admin_model extends CI_Model {
             }
             
             $step=$this->getStepByNumber($data['step']);
-            echo "<script>console.log('394 next step ".$step['id']." is ".$step['type']."')</script>";
+            //echo "<script>console.log('394 next step ".$step['id']." is ".$step['type']."')</script>";
             $data['step']=$step['id'];
             // echo '<pre>';print_r($step);print_r($data);exit;
             //$step=$this->getNextStep($step,$params);
@@ -482,14 +483,14 @@ class Admin_model extends CI_Model {
             
             if($step['type']=='question')
             {
-                echo "<script>console.log('402 next step is question')</script>";
+                //echo "<script>console.log('402 next step is question')</script>";
                 $st=$this->db->query('select questions.* from questions inner join step_questions on step_questions.question=questions.id where step='.$data['step'])->result_array();
                 $data['question']=$st[0];
                 return $data;
             }
             else
             {
-                echo "<script>console.log('409 next step ".$data['step']." not question it is ".$step['type']."')</script>";
+                //echo "<script>console.log('409 next step ".$data['step']." not question it is ".$step['type']."')</script>";
                 //echo '<pre>';print_r($data);exit;
                 $url = 'selfcare/pq_view';
                 $myvars = http_build_query($data, '', '&');
@@ -504,7 +505,7 @@ class Admin_model extends CI_Model {
         }
         if($step['type']=='formula')
         {
-            echo 'In Formula';exit;
+            //echo 'In Formula';exit;
             $st=$this->db->select('*')->from('step_answers')
                 ->where('pathway',$params['pathway'])
                 ->where('step', $data['back'])
@@ -930,7 +931,6 @@ class Admin_model extends CI_Model {
         }
 
     }
-
 
 
     public function saveResult($data)
