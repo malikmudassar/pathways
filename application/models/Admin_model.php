@@ -1011,7 +1011,7 @@ class Admin_model extends CI_Model {
         }
         if($am['radio']>0)
         {
-            echo "<script>console.log('795 saving radio data for step ".$data['step']." and value is ".$data['score']."')</script>";
+            //echo "<script>console.log('795 saving radio data for step ".$data['step']." and value is ".$data['score']."')</script>";
             $item=array(
                 'pathway'   => $data['pathway'],
                 'step'      => $data['step'],
@@ -1053,7 +1053,7 @@ class Admin_model extends CI_Model {
         }
         if($am['checkbox']>0)
         {
-            echo "<script>console.log('886 saving checkbox data for step ".$data['step']."')</script>";
+            //echo "<script>console.log('886 saving checkbox data for step ".$data['step']."')</script>";
             $item=array(
                 'pathway'   => $data['pathway'],
                 'step'      => $data['step'],
@@ -1101,7 +1101,7 @@ class Admin_model extends CI_Model {
     // Modified
     public function getStepAnswer($data)
     {
-        echo "<script>console.log('Step:".$data['step']." pathway:".$data['pathway']."')</script>";
+        //echo "<script>console.log('Step:".$data['step']." pathway:".$data['pathway']."')</script>";
         $pth=$this->db->select('*')
                             ->from('user_pathway_status')
                             ->where('user_id',$data['user_id'])
@@ -1120,7 +1120,7 @@ class Admin_model extends CI_Model {
                             ->result_array();
         //echo '<pre> path';print_r($st);exit;
         //$st=$this->db->query('select * from step_answers where step='.$step.' and pathway='.$pathway)->result_array();
-        echo "<script>console.log('query:".$this->db->last_query()." pathway:".$data['pathway']."')</script>";
+        //echo "<script>console.log('query:".$this->db->last_query()." pathway:".$data['pathway']."')</script>";
         if(count($st)>0)
         {
             return $st[0];
