@@ -61,6 +61,7 @@ class Pw extends REST_Controller {
         $data=$this->Admin_model->getFirstPathwayQuestion($Id);
         
         $data['form']=$this->Admin_model->getAnsForm($data['question']['id']);
+        $data['step_type']=$form[0]['type'];
         $data['percent']=0;
         if ($data['question'])
             {
@@ -94,6 +95,7 @@ class Pw extends REST_Controller {
         //echo '<pre>';print_r($_POST);exit;
         $data['question']=$this->Admin_model->getNextPathwayQuestion($params);
         $data['form']=$this->Admin_model->getAnsForm($data['question']['question']['id']);
+        $data['step_type']=$form[0]['type'];
         //echo '<pre>';print_r($data);exit;
         
         
@@ -131,7 +133,9 @@ class Pw extends REST_Controller {
         $data['answer']=$this->Admin_model->getStepAnswer($params);
 
         $data['question']=$this->Admin_model->getBackPathwayQuestion($params);
+
         $data['form']=$this->Admin_model->getAnsForm($data['question']['question']['id']);
+        $data['step_type']=$form[0]['type'];
         
         
         if ($data['question'])
