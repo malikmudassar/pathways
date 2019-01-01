@@ -108,7 +108,7 @@ class Pw extends REST_Controller {
             }
         
     }
-    public function back_pw_get()
+    public function back_pw_post()
     {
 
         $params=$_REQUEST;
