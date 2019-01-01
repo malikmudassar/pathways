@@ -25,12 +25,6 @@ class Pw extends REST_Controller {
     {
         // Construct the parent class
         parent::__construct();
-
-        // Configure limits on our controller methods
-        // Ensure you have created the 'limits' table and enabled 'limits' within application/config/rest.php
-        $this->methods['users_get']['limit'] = 500; // 500 requests per hour per user/key
-        $this->methods['users_post']['limit'] = 100; // 100 requests per hour per user/key
-        $this->methods['users_delete']['limit'] = 50; // 50 requests per hour per user/key
         $this->load->model('Admin_model');
     }
 
@@ -114,7 +108,7 @@ class Pw extends REST_Controller {
             }
         
     }
-    public function back_pw_post()
+    public function back_pw_get()
     {
 
         $params=$_REQUEST;
@@ -126,25 +120,18 @@ class Pw extends REST_Controller {
         //echo '<pre>';print_r($step);exit;
         if($step['type']!='question')
         {
-            $path=$this->Admin_model->getPathFlowByStep($step['number'], $params['pathway']);
-            $url = 'api/pw/back_pw/';
-            $myvars = http_build_query($params, '', '&');
-
-            $ch = curl_init( $url );
-            curl_setopt( $ch, CURLOPT_POST, 1);
-            curl_setopt( $ch, CURLOPT_POSTFIELDS, $myvars);
-            curl_setopt( $ch, CURLOPT_FOLLOWLOCATION, 1);
-            curl_setopt( $ch, CURLOPT_HEADER, 0);
-            curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true);
-
-            curl_exec( $ch );
-            //echo '<pre>';print_r($path);exit;
-            //redirect('selfcare/pb_view/'.$path['pathway'].'/'.$path['back'].'/'.$path['step']);
+            do {
+                $path=$this->Admin_model->getPathFlowByStep($step['number'], $params['pathway']);
+                $step=$this->Admin_model->getStepByNumber($path['back']);
+                $path=$this->Admin_model->getPathFlowByStep($step['number'], $params['pathway']);
+            }while($step['type']!='question');
+            
+            $params['step']=$path['step'];
+            $params['next']=$path['next'];
+            
         }
-        $data['answer']=$this->Admin_model->getStepAnswer($params);
-
         $data=$this->Admin_model->getBackPathwayQuestion($params);
-
+        $data['answer']=$this->Admin_model->getStepAnswer($params);   
         $data['form']=$this->Admin_model->getAnsForm($data['question']['id']);
         $data['step_type']=$data['form'][0]['type'];
         

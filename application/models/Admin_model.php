@@ -565,11 +565,15 @@ class Admin_model extends CI_Model {
     
     public function getBackPathwayQuestion($params)
     {
+        $step=$this->Admin_model->getStepByNumber($params['step']);
+        //echo '<pre>';print_r($step);exit;
+        
         $st=$this->db->select('*')->from('pathflow')
                 ->where('pathway',$params['pathway'])
                 ->where('step',$params['step'])
                 ->where('next',$params['next'])
                 ->get()->result_array();
+        //echo $this->db->last_query();exit;
         $data=$st[0];
         $st=$this->db->query('select questions.* from questions inner join step_questions on step_questions.question=questions.id where step='.$data['step'])->result_array();
         $data['question']=$st[0];
