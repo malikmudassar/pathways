@@ -128,7 +128,7 @@ class Pw extends REST_Controller {
         {
             $path=$this->Admin_model->getPathFlowByStep($step['number'], $params['pathway']);
             //echo '<pre>';print_r($path);exit;
-            redirect(base_url().'selfcare/pb_view/'.$path['pathway'].'/'.$path['back'].'/'.$path['step']);
+            redirect('selfcare/pb_view/'.$path['pathway'].'/'.$path['back'].'/'.$path['step']);
         }
         $data['answer']=$this->Admin_model->getStepAnswer($params);
 
