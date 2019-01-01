@@ -213,7 +213,7 @@ class Admin_model extends CI_Model {
 
                 //echo "<script>console.log('113 step ".$step['id']." not question')</script>";
                 //print_r($data);exit;
-                $url = 'selfcare/pq_view';
+                $url = 'api/pw/next_pw/';
                 $myvars = http_build_query($data, '', '&');
 
                 $ch = curl_init( $url );
@@ -323,7 +323,7 @@ class Admin_model extends CI_Model {
             {   
                 //echo "<script>console.log('218 next step ".$step['id']." not question')</script>";
                 //echo '<pre>';print_r($data);exit;
-                $url = 'selfcare/pq_view';
+                $url = 'api/pw/next_pw/';
                 $myvars = http_build_query($data, '', '&');
 
                 $ch = curl_init( $url );
@@ -390,7 +390,7 @@ class Admin_model extends CI_Model {
             {
                 //echo "<script>console.log('317 next step ".$data['step']." not question it is ".$step['type']."')</script>";
                 //echo '<pre>';print_r($data);exit;
-                $url = 'selfcare/pq_view';
+                $url = 'api/pw/next_pw/';
                 $myvars = http_build_query($data, '', '&');
 
                 $ch = curl_init( $url );
@@ -430,7 +430,7 @@ class Admin_model extends CI_Model {
             {
                 //echo "<script>console.log('377 Next Step ".$data['step']." is not question')</script>";
                 //echo '<pre>';print_r($data);exit;
-                $url = 'selfcare/pq_view';
+                $url = 'api/pw/next_pw/';
                 $myvars = http_build_query($data, '', '&');
 
                 $ch = curl_init( $url );
@@ -492,7 +492,7 @@ class Admin_model extends CI_Model {
             {
                 //echo "<script>console.log('409 next step ".$data['step']." not question it is ".$step['type']."')</script>";
                 //echo '<pre>';print_r($data);exit;
-                $url = 'selfcare/pq_view';
+                $url = 'api/pw/next_pw/';
                 $myvars = http_build_query($data, '', '&');
 
                 $ch = curl_init( $url );

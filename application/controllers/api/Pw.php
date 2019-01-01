@@ -127,8 +127,19 @@ class Pw extends REST_Controller {
         if($step['type']!='question')
         {
             $path=$this->Admin_model->getPathFlowByStep($step['number'], $params['pathway']);
+            $url = 'api/pw/back_pw/';
+            $myvars = http_build_query($params, '', '&');
+
+            $ch = curl_init( $url );
+            curl_setopt( $ch, CURLOPT_POST, 1);
+            curl_setopt( $ch, CURLOPT_POSTFIELDS, $myvars);
+            curl_setopt( $ch, CURLOPT_FOLLOWLOCATION, 1);
+            curl_setopt( $ch, CURLOPT_HEADER, 0);
+            curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true);
+
+            curl_exec( $ch );
             //echo '<pre>';print_r($path);exit;
-            redirect('selfcare/pb_view/'.$path['pathway'].'/'.$path['back'].'/'.$path['step']);
+            //redirect('selfcare/pb_view/'.$path['pathway'].'/'.$path['back'].'/'.$path['step']);
         }
         $data['answer']=$this->Admin_model->getStepAnswer($params);
 
