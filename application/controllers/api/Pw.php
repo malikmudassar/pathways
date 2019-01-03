@@ -35,13 +35,11 @@ class Pw extends REST_Controller {
         if ($pathways)
             {
                 // Set the response and exit
-                header('Content-Type: application/json');
                 $this->response($pathways, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
             }
             else
             {
                 // Set the response and exit
-                header('Content-Type: application/json');
                 $this->response([
                     'status' => FALSE,
                     'message' => 'No pathways were found'
@@ -98,13 +96,11 @@ class Pw extends REST_Controller {
         if ($data['question'])
             {
                 // Set the response and exit
-                header('Content-Type: application/json');
                 $this->response($data, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
             }
             else
             {
                 // Set the response and exit
-                header('Content-Type: application/json');
                 $this->response([
                     'status' => FALSE,
                     'message' => 'Pathway doesn\'t have steps',
@@ -143,13 +139,11 @@ class Pw extends REST_Controller {
         if ($data['question'])
             {
                 // Set the response and exit
-                header('Content-Type: application/json');
                 $this->response($data, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
             }
             else
             {
                 // Set the response and exit
-                header('Content-Type: application/json');
                 $this->response([
                     'status' => FALSE,
                     'message' => 'Pathway doesn\'t have steps',
@@ -165,13 +159,11 @@ class Pw extends REST_Controller {
         if ($data)
         {
             // Set the response and exit
-            header('Content-Type: application/json');
             $this->response($data, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
         }
         else
         {
             // Set the response and exit
-            header('Content-Type: application/json');
             $this->response([
                 'status' => FALSE,
                 'message' => 'Pathway doesn\'t have steps',
