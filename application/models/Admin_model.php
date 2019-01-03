@@ -942,7 +942,7 @@ class Admin_model extends CI_Model {
 
     public function saveResult($data)
     {
-        //echo '<pre>';print_r($data);exit;
+        echo '<pre>';print_r($data);exit;
         $pth=$this->db->select('*')
                     ->from('user_pathway_status')
                     ->where('user_id',$data['user_id'])
