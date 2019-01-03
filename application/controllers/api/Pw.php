@@ -51,7 +51,7 @@ class Pw extends REST_Controller {
     {
         $this->session->set_userdata('flag','white');
         $Id=$_REQUEST['pw'];
-        
+        print_r($_REQUEST);exit;
         $data=$this->Admin_model->getFirstPathwayQuestion($Id);
         
         $data['form']=$this->Admin_model->getAnsForm($data['question']['id']);
