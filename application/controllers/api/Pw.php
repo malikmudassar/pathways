@@ -58,18 +58,18 @@ class Pw extends REST_Controller {
         $data['step_type']=$data['form'][0]['type'];
         $data['percent']=0;
         if ($data['question'])
-            {
-                // Set the response and exit
-                $this->response($data, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
-            }
-            else
-            {
-                // Set the response and exit
-                $this->response([
-                    'status' => FALSE,
-                    'message' => 'Pathway doesn\'t have steps',
-                ], REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
-            }
+        {
+            // Set the response and exit
+            $this->response($data, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
+        }
+        else
+        {
+            // Set the response and exit
+            $this->response([
+                'status' => FALSE,
+                'message' => 'Pathway doesn\'t have steps',
+            ], REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
+        }
         
     }
     public function next_pw_post()
@@ -94,18 +94,26 @@ class Pw extends REST_Controller {
         
         
         if ($data['question'])
-            {
-                // Set the response and exit
-                $this->response($data, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
-            }
-            else
-            {
-                // Set the response and exit
-                $this->response([
-                    'status' => FALSE,
-                    'message' => 'Pathway doesn\'t have steps',
-                ], REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
-            }
+        {
+            // Set the response and exit
+            $this->response($data, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
+        }
+        elseif(!$params['user_id'])
+        {
+            // Set the response and exit
+            $this->response([
+                'status' => FALSE,
+                'message' => 'User ID not received on server',
+            ], REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
+        }
+        else
+        {
+            // Set the response and exit
+            $this->response([
+                'status' => FALSE,
+                'message' => 'Pathway doesn\'t have steps',
+            ], REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
+        }
         
     }
     public function back_pw_post()
