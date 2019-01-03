@@ -76,7 +76,7 @@ class Pw extends REST_Controller {
     {
 
         $params=$_REQUEST;
-        print_r($_REQUEST);exit;
+        //print_r($_REQUEST);exit;
         //echo '<pre>';print_r($_REQUEST);exit;
         $this->Admin_model->saveResult($params);
         if(!$params['age'])
