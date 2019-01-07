@@ -404,7 +404,7 @@ class Admin_model extends CI_Model {
         if($step['type']=='flag')
         {
             //echo "<script>console.log('Step ".$step['id']." is flag')</script>";
-            $result=$params['score'];
+            //$result=$params['score'];
             $st=$this->db->query('select * from step_flag where step='.$step['id'])->result_array();
             $condition=$st[0];
             
