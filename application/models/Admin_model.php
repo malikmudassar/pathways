@@ -950,6 +950,7 @@ class Admin_model extends CI_Model {
                     ->where('status','pending')
                     ->get()
                     ->result_array();
+        //echo '<pre>';print_r($pth);exit;
         if(count($pth)>0)
         {
             $item=array(
@@ -971,20 +972,110 @@ class Admin_model extends CI_Model {
             $this->db->insert('user_pathway_status',$item);
         }
         $st=$this->db->query('Select questions.* from questions inner join step_questions on step_questions.question=questions.id where step_questions.step='.$data['step'])->result_array();
-        $am=$this->getAllById('answer_models',$st[0]['ans_model']);
-        if($am['text']>0)
+        if($st[0]['ans_model'])
         {
-            //echo $am['text'].' textboxes <br>';
-            $ans_form=$this->getAnsForm($st[0]['id']);
-            for($i=0;$i<count($ans_form);$i++)
+           $am=$this->getAllById('answer_models',$st[0]['ans_model']);
+            if($am['text']>0)
             {
+                //echo $am['text'].' textboxes <br>';
+                $ans_form=$this->getAnsForm($st[0]['id']);
+                //echo '<pre>';print_r($ans_form);exit;
+                for($i=0;$i<count($ans_form);$i++)
+                {
+                    $item=array(
+                        'pathway'   => $data['pathway'],
+                        'step'      => $data['step'],
+                        'value'     => $data[$ans_form[$i]['name']],
+                        'field_name'=>$ans_form[$i]['name'],
+                        'user_id'   =>$data['user_id']
+                    );
+                    $pth=$this->db->select('*')
+                                ->from('user_pathway_status')
+                                ->where('user_id',$data['user_id'])
+                                ->where('pathway',$data['pathway'])
+                                ->where('status','pending')
+                                ->get()
+                                ->result_array();
+                    
+                    $st=$this->db->select('*')
+                                ->from('step_answers')
+                                ->where('step',$data['step'])
+                                ->where('user_id',$data['user_id'])
+                                ->where('field_name',$ans_form[$i]['name'])
+                                ->where('created_at >',$pth[0]['started_at'])
+                                ->get()
+                                ->result_array();
+                    //echo '1050 <pre>';print_r($st);exit;
+                    if(count($st)>0)
+                    {
+                        $this->db->where('step',$data['step'])
+                                ->where('user_id',$data['user_id'])
+                                ->where('field_name',$ans_form[$i]['name'])
+                                ->where('created_at >',$pth[0]['started_at'])
+                                ->update('step_answers',$item);
+                    }
+                    else
+                    {
+                        
+                        $this->db->insert('step_answers',$item);
+                    }
+                    
+                }
+                //echo 'answer inserted';exit;
+                
+            }
+            if($am['radio']>0)
+            {
+                //echo "<script>console.log('795 saving radio data for step ".$data['step']." and value is ".$data['score']."')</script>";
                 $item=array(
                     'pathway'   => $data['pathway'],
                     'step'      => $data['step'],
-                    'value'     => $data[$ans_form[$i]['name']],
-                    'field_name'=>$ans_form[$i]['name'],
+                    'value'     => $data['score'],
                     'user_id'   =>$data['user_id']
                 );
+                // find answer whose created_at is bigger than status created_at or insert 
+                $pth=$this->db->select('*')
+                            ->from('user_pathway_status')
+                            ->where('user_id',$data['user_id'])
+                            ->where('pathway',$data['pathway'])
+                            ->where('status','pending')
+                            ->get()
+                            ->result_array();
+                //echo '<pre> path';print_r($pth);exit;
+                $st=$this->db->select('*')
+                            ->from('step_answers')
+                            ->where('step',$data['step'])
+                            ->where('user_id',$data['user_id'])
+                            ->where('created_at >',$pth[0]['started_at'])
+                            ->get()
+                            ->result_array();
+
+                //echo '<pre>';print_r($st);exit;
+                // $st=$this->db->query('select * from step_answers where step='.$data['step'])->result_array();
+                if(count($st)>0)
+                {
+                    
+                    $this->db->where('step',$data['step'])
+                            ->where('user_id',$data['user_id'])
+                            ->where('created_at >',$pth[0]['started_at'])
+                            ->update('step_answers',$item);
+                }
+                else
+                {
+                    
+                    $this->db->insert('step_answers',$item);
+                }
+            }
+            if($am['checkbox']>0)
+            {
+                //echo "<script>console.log('886 saving checkbox data for step ".$data['step']."')</script>";
+                $item=array(
+                    'pathway'   => $data['pathway'],
+                    'step'      => $data['step'],
+                    'user_id'   =>$data['user_id'],
+                    'value'     => implode(',', $data['score'])
+                );
+
                 $pth=$this->db->select('*')
                             ->from('user_pathway_status')
                             ->where('user_id',$data['user_id'])
@@ -1013,90 +1104,9 @@ class Admin_model extends CI_Model {
                     
                     $this->db->insert('step_answers',$item);
                 }
-            }
-            
+            } 
         }
-        if($am['radio']>0)
-        {
-            //echo "<script>console.log('795 saving radio data for step ".$data['step']." and value is ".$data['score']."')</script>";
-            $item=array(
-                'pathway'   => $data['pathway'],
-                'step'      => $data['step'],
-                'value'     => $data['score'],
-                'user_id'   =>$data['user_id']
-            );
-            // find answer whose created_at is bigger than status created_at or insert 
-            $pth=$this->db->select('*')
-                        ->from('user_pathway_status')
-                        ->where('user_id',$data['user_id'])
-                        ->where('pathway',$data['pathway'])
-                        ->where('status','pending')
-                        ->get()
-                        ->result_array();
-            //echo '<pre> path';print_r($pth);exit;
-            $st=$this->db->select('*')
-                        ->from('step_answers')
-                        ->where('step',$data['step'])
-                        ->where('user_id',$data['user_id'])
-                        ->where('created_at >',$pth[0]['started_at'])
-                        ->get()
-                        ->result_array();
-
-            //echo '<pre>';print_r($st);exit;
-            // $st=$this->db->query('select * from step_answers where step='.$data['step'])->result_array();
-            if(count($st)>0)
-            {
-                
-                $this->db->where('step',$data['step'])
-                        ->where('user_id',$data['user_id'])
-                        ->where('created_at >',$pth[0]['started_at'])
-                        ->update('step_answers',$item);
-            }
-            else
-            {
-                
-                $this->db->insert('step_answers',$item);
-            }
-        }
-        if($am['checkbox']>0)
-        {
-            //echo "<script>console.log('886 saving checkbox data for step ".$data['step']."')</script>";
-            $item=array(
-                'pathway'   => $data['pathway'],
-                'step'      => $data['step'],
-                'user_id'   =>$data['user_id'],
-                'value'     => implode(',', $data['score'])
-            );
-
-            $pth=$this->db->select('*')
-                        ->from('user_pathway_status')
-                        ->where('user_id',$data['user_id'])
-                        ->where('pathway',$data['pathway'])
-                        ->where('status','pending')
-                        ->get()
-                        ->result_array();
-            //echo '<pre> path';print_r($pth);exit;
-            $st=$this->db->select('*')
-                        ->from('step_answers')
-                        ->where('step',$data['step'])
-                        ->where('user_id',$data['user_id'])
-                        ->where('created_at >',$pth[0]['started_at'])
-                        ->get()
-                        ->result_array();
-            if(count($st)>0)
-            {
-                
-                $this->db->where('step',$data['step'])
-                        ->where('user_id',$data['user_id'])
-                        ->where('created_at >',$pth[0]['started_at'])
-                        ->update('step_answers',$item);
-            }
-            else
-            {
-                
-                $this->db->insert('step_answers',$item);
-            }
-        }
+        
         
 
     }
