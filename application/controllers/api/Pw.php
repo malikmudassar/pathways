@@ -97,7 +97,7 @@ class Pw extends REST_Controller {
         }
         else
         {
-            $data['step_type']='';
+            $data['step_type']='info';
         }
         
         //echo '<pre>';print_r($data);exit;
