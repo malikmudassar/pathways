@@ -48,7 +48,7 @@ class Admin_model extends CI_Model {
         if($step['type']=='question')
         {
             // echo "<script>console.log('44. next step is question')</script>";
-            $st=$this->db->query('select questions.* from questions inner join step_questions on step_questions.question=questions.id where step='.($params['next']).' and pathway='.$params['pathway'])->result_array();
+            $st=$this->db->query('select questions.* from questions inner join step_questions on step_questions.question=questions.id where step='.($params['next']))->result_array();
             $data['question']=$st[0];
             //echo '<pre>';print_r($this->db->last_query()); exit;
             $pth=$this->db->select('*')
@@ -1142,7 +1142,7 @@ class Admin_model extends CI_Model {
             }
             else
             {
-                return array();
+                return null;
             }
         }
         else
