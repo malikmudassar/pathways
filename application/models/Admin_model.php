@@ -41,7 +41,7 @@ class Admin_model extends CI_Model {
                 ->where('step',$this->getStepNumber($params['next']))
                 ->get()->result_array();
         $data=$st[0];
-        $step=$this->getStepByNumber($data['step']);
+        $step=$this->getStepByNumber($data['step'], $params['pathway']);
         
         $result=0;
         
@@ -122,7 +122,7 @@ class Admin_model extends CI_Model {
         $next=$this->db->query('select * from pathflow where step='.$step['id'].' and pathway='.$params['pathway'])->result_array();
 
         //echo '<pre>';print_r($next);exit;
-        return $this->getStepByNumber($next[0]['next']);
+        return $this->getStepByNumber($next[0]['next'], $params['pathway']);
     }
     public function checkNextStep($step,$params)
     {
@@ -308,7 +308,7 @@ class Admin_model extends CI_Model {
                 break;
             }
             //echo '<pre>';print_r($step);print_r($data);exit;
-            $step=$this->getStepByNumber($data['step']);
+            $step=$this->getStepByNumber($data['step'], $params['pathway']);
             //$step=$this->getNextStep($step,$params);
             //echo '<pre>';print_r($step);print_r($data);exit;
 
@@ -372,7 +372,7 @@ class Admin_model extends CI_Model {
                 
             }
             
-            $step=$this->getStepByNumber($data['step']);
+            $step=$this->getStepByNumber($data['step'], $params['pathway']);
             //echo "<script>console.log('289 next step ".$step['id']." is ".$step['type']."')</script>";
             $data['step']=$step['id'];
             // echo '<pre>';print_r($step);print_r($data);exit;
@@ -416,7 +416,7 @@ class Admin_model extends CI_Model {
             $data['back']=$step['id'];
             $data['next']=$path['next'];
 
-            $step=$this->getStepByNumber($data['next']);
+            $step=$this->getStepByNumber($data['next'], $params['pathway']);
             //$step=$this->getNextStep($step,$params);
             //echo '<pre>';print_r($step);exit;
             //echo "<script>console.log('369 Next Step ".$step['id']." is".$step['type']." ')</script>";
@@ -474,7 +474,7 @@ class Admin_model extends CI_Model {
                 
             }
             
-            $step=$this->getStepByNumber($data['step']);
+            $step=$this->getStepByNumber($data['step'], $params['pathway']);
             //echo "<script>console.log('394 next step ".$step['id']." is ".$step['type']."')</script>";
             $data['step']=$step['id'];
             // echo '<pre>';print_r($step);print_r($data);exit;
@@ -565,7 +565,7 @@ class Admin_model extends CI_Model {
     
     public function getBackPathwayQuestion($params)
     {
-        $step=$this->Admin_model->getStepByNumber($params['step']);
+        $step=$this->Admin_model->getStepByNumber($params['step'], $params['pathway']);
         //echo '<pre>';print_r($step);exit;
         
         $st=$this->db->select('*')->from('pathflow')
@@ -890,9 +890,9 @@ class Admin_model extends CI_Model {
         return $st[0];
     }
 
-    public function getStepByNumber($id)
+    public function getStepByNumber($id,$pathway)
     {
-        $st=$this->db->select('*')->from('steps')->where('number',$id)->get()->result_array();
+        $st=$this->db->select('*')->from('steps')->where('number',$id)->where('pathway',$pathway)->get()->result_array();
         return $st[0];
     }
 
@@ -1171,7 +1171,7 @@ class Admin_model extends CI_Model {
         $count=count($st);
         for($i=0;$i<$count;$i++)
         {
-            $step=$this->getStepByNumber($st[$i]['step']);
+            $step=$this->getStepByNumber($st[$i]['step'], $params['pathway']);
             $data[$i]['type']=$step['type'];
             $q=$this->getQuestionByStep($st[$i]['step']);
             $data[$i]['question']=$q['statement'];
