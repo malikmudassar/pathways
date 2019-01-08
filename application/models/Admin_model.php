@@ -409,9 +409,9 @@ class Admin_model extends CI_Model {
             $condition=$st[0];
             
             //echo '<pre>';print_r($condition);exit;
-            $this->session->set_userdata('flag','red');
+            //$this->session->set_userdata('flag','red');
             $data['step']=$condition['if_next_step'];
-            $st=$this->db->query('select * from pathflow where step='.$condition['if_next_step'])->result_array();
+            $st=$this->db->query('select * from pathflow where step='.$condition['if_next_step'].' and pathway='.$params['pathway'])->result_array();
             $path=$st[0];
             $data['back']=$step['id'];
             $data['next']=$path['next'];
@@ -1126,9 +1126,7 @@ class Admin_model extends CI_Model {
                             ->where('status','pending')
                             ->get()
                             ->result_array();
-        if(count($pth)>0)
-        {
-            $st=$this->db->select('*')
+        $st=$this->db->select('*')
                             ->from('step_answers')
                             ->where('step',$data['step'])
                             ->where('user_id',$data['user_id'])
@@ -1136,14 +1134,9 @@ class Admin_model extends CI_Model {
                             ->where('created_at >',$pth[0]['started_at'])
                             ->get()
                             ->result_array();
-            if(count($st)>0)
-            {
-                return $st[0];
-            }
-            else
-            {
-                return array();
-            }
+        if(count($st)>0)
+        {
+            return $st[0];
         }
         else
         {
