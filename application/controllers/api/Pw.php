@@ -58,7 +58,7 @@ class Pw extends REST_Controller {
 
         if(!empty($data['form']))
         {
-            $data['step_type']=$data['form'][0]['type'];
+            $data['step_type']=$data['form'][0]['type'];    
         }
         else
         {
@@ -142,13 +142,13 @@ class Pw extends REST_Controller {
         // $params['step']=$this->uri->segment(4);
         // $params['next']=$this->uri->segment(5);
         //echo '<pre>';print_r($params);exit;
-        $step=$this->Admin_model->getStepByNumber($params['step']);
+        $step=$this->Admin_model->getStepByNumber($params['step'], $params['pathway']);
         //echo '<pre>';print_r($step);exit;
         if($step['type']!='question')
         {
             do {
                 $path=$this->Admin_model->getPathFlowByStep($step['number'], $params['pathway']);
-                $step=$this->Admin_model->getStepByNumber($path['back']);
+                $step=$this->Admin_model->getStepByNumber($path['back'], $params['pathway']);
                 $path=$this->Admin_model->getPathFlowByStep($step['number'], $params['pathway']);
             }while($step['type']!='question');
             
@@ -159,7 +159,7 @@ class Pw extends REST_Controller {
         $data=$this->Admin_model->getBackPathwayQuestion($params);
         $data['answer']=$this->Admin_model->getStepAnswer($params);   
         $data['form']=$this->Admin_model->getAnsForm($data['question']['id']);
-        
+
         if(!empty($data['form']))
         {
             $data['step_type']=$data['form'][0]['type'];
