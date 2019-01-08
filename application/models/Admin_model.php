@@ -1126,22 +1126,30 @@ class Admin_model extends CI_Model {
                             ->where('status','pending')
                             ->get()
                             ->result_array();
-        $st=$this->db->select('*')
-                            ->from('step_answers')
-                            ->where('step',$data['step'])
-                            ->where('user_id',$data['user_id'])
-                            ->where('pathway', $data['pathway'])
-                            ->where('created_at >',$pth[0]['started_at'])
-                            ->get()
-                            ->result_array();
-        if(count($st)>0)
+        if(count($pth)>0)
         {
-            return $st[0];
+            $st=$this->db->select('*')
+                                ->from('step_answers')
+                                ->where('step',$data['step'])
+                                ->where('user_id',$data['user_id'])
+                                ->where('pathway', $data['pathway'])
+                                ->where('created_at >',$pth[0]['started_at'])
+                                ->get()
+                                ->result_array();
+            if(count($st)>0)
+            {
+                return $st[0];
+            }
+            else
+            {
+                return array();
+            }
         }
         else
         {
-            return array();
+            return false;
         }
+            
         
         
     }

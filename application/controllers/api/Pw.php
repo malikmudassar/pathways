@@ -158,10 +158,20 @@ class Pw extends REST_Controller {
         }
         $data=$this->Admin_model->getBackPathwayQuestion($params);
         $data['answer']=$this->Admin_model->getStepAnswer($params); 
-        if(empty($data['answer']))
+        if(!$data['answer'])
         {
-            $data['answer']="";
-        }  
+            $p['user_id']=$params['user_id'];
+            $p['pw']=$params['pathway'];
+            $url = 'api/pw/init_pw/';
+            $myvars = http_build_query($p, '', '&');
+
+            $ch = curl_init( $url );
+            curl_setopt( $ch, CURLOPT_POST, 1);
+            curl_setopt( $ch, CURLOPT_POSTFIELDS, $myvars);
+            curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true);
+
+            curl_exec( $ch );
+        }
         $data['form']=$this->Admin_model->getAnsForm($data['question']['id']);
 
         if(!empty($data['form']))
@@ -191,7 +201,7 @@ class Pw extends REST_Controller {
         
     }
 
-    public function pathway_preview_get()
+    public function pathway_preview_post()
     {
         $params=$_REQUEST;
         $data=$this->Admin_model->pathway_review($params);
