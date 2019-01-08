@@ -63,6 +63,7 @@ class Pw extends REST_Controller {
         else
         {
             $data['step_type']='info';
+            $data['form']="";
         }
         $data['percent']=0;
         if ($data['question'])
@@ -160,17 +161,7 @@ class Pw extends REST_Controller {
         $data['answer']=$this->Admin_model->getStepAnswer($params); 
         if(!$data['answer'])
         {
-            $p['user_id']=$params['user_id'];
-            $p['pw']=$params['pathway'];
-            $url = 'api/pw/init_pw/';
-            $myvars = http_build_query($p, '', '&');
-
-            $ch = curl_init( $url );
-            curl_setopt( $ch, CURLOPT_POST, 1);
-            curl_setopt( $ch, CURLOPT_POSTFIELDS, $myvars);
-            curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true);
-
-            curl_exec( $ch );
+            $data['answer']="";
         }
         $data['form']=$this->Admin_model->getAnsForm($data['question']['id']);
 
@@ -181,7 +172,7 @@ class Pw extends REST_Controller {
         else
         {
             $data['step_type']='info';
-            $data['form']="";
+            $data['form']=array();
         }
         
         
