@@ -170,7 +170,7 @@ class Pw extends REST_Controller {
         }
         
         
-        if ($data])
+        if ($data)
         {
             // Set the response and exit
             $this->response($data, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
