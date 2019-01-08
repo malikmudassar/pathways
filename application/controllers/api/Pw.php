@@ -157,8 +157,8 @@ class Pw extends REST_Controller {
             
         }
         $data=$this->Admin_model->getBackPathwayQuestion($params);
-        $data['answer']=$this->Admin_model->getStepAnswer($params);   
-        $data['form']=$this->Admin_model->getAnsForm($data['question']['id']);
+        $data['answer']=json_encode($this->Admin_model->getStepAnswer($params)) ;   
+        $data['form']=json_encode($this->Admin_model->getAnsForm($data['question']['id']));
 
         if(!empty($data['form']))
         {
