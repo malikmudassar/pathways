@@ -26,7 +26,7 @@ class Admin_model extends CI_Model {
             return false;
         }
         //echo '<pre>';print_r($step);exit;
-        $st=$this->db->query('select questions.* from questions inner join step_questions on step_questions.question=questions.id where step='.$data['step'].' and pathway='.$data['pathway'])->result_array();
+        $st=$this->db->query('select questions.* from questions inner join step_questions on step_questions.question=questions.id where step='.$data['step']])->result_array();
         //echo '<pre>';print_r($this->db->last_query());exit;
         $data['question']=$st[0];
         $data['percent']=0;
