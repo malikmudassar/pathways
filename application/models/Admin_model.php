@@ -1126,8 +1126,9 @@ class Admin_model extends CI_Model {
                             ->where('status','pending')
                             ->get()
                             ->result_array();
-        
-        $st=$this->db->select('*')
+        if(count($pth)>0)
+        {
+            $st=$this->db->select('*')
                             ->from('step_answers')
                             ->where('step',$data['step'])
                             ->where('user_id',$data['user_id'])
@@ -1135,14 +1136,21 @@ class Admin_model extends CI_Model {
                             ->where('created_at >',$pth[0]['started_at'])
                             ->get()
                             ->result_array();
-        if(count($st)>0)
-        {
-            return $st[0];
+            if(count($st)>0)
+            {
+                return $st[0];
+            }
+            else
+            {
+                return array();
+            }
         }
         else
         {
             return array();
         }
+        
+        
     }
 
     public function pathway_review($params)
