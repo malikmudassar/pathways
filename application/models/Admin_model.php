@@ -1386,7 +1386,7 @@ class Admin_model extends CI_Model {
                         ->where('pathway', $params['pathway'])
                         ->get()
                         ->result_array();
-        print_r($st);
+        print_r($this->db->last_query());
         $data=array();
         // return $st;
         $count=count($st);
