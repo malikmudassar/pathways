@@ -1186,9 +1186,7 @@ class Admin_model extends CI_Model {
         for($i=0;$i<$count;$i++)
         {
             $step=$this->getStepByNumber($st[$i]['step'], $params['pathway']);
-            
-            if($step['type']=='question')
-            {
+            if($step['type']=='question'){
                 $data[$i]['type']=$step['type'];
                 $q=$this->getQuestionByStep($st[$i]['step']);
                 if($q)
@@ -1203,6 +1201,9 @@ class Admin_model extends CI_Model {
                 }
             }
             
+            
+            // $data[$i]['answer']=$st[$i]['value'];
+
         }
 
         return $data;;
