@@ -85,7 +85,8 @@ class Pw extends REST_Controller {
     {
 
         $params=$_REQUEST;
-        //print_r($_REQUEST);exit;
+        
+        //
         //echo '<pre>';print_r($_REQUEST);exit;
         $this->Admin_model->saveResult($params);
         if(!$params['age'])
@@ -98,6 +99,7 @@ class Pw extends REST_Controller {
         }
         //echo '<pre>';print_r($_POST);exit;
         $data=$this->Admin_model->getNextPathwayQuestion($params);
+        
         $data['form']=$this->Admin_model->getAnsForm($data['question']['id']);
         //echo '<pre>';print_r($data['form']);exit;
         if(!empty($data['form']))
@@ -112,7 +114,7 @@ class Pw extends REST_Controller {
         //echo '<pre>';print_r($data);exit;
         
         
-        if ($data['question'])
+        if ($data)
         {
             // Set the response and exit
             $this->response($data, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
