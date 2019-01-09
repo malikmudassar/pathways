@@ -1191,13 +1191,15 @@ class Admin_model extends CI_Model {
             if($q)
             {
                 $data[$i]['question']=$q['statement'];
+                $data[$i]['answer']=$this->getAnswerResult($q['id'],$st[$i]['value']);
             }
             else
             {
                 $data[$i]['question']=null;
+                $data[$i]['answer']=null;
             }
             
-            $data[$i]['answer']=$this->getAnswerResult($q['id'],$st[$i]['value']);
+            
             // $data[$i]['answer']=$st[$i]['value'];
 
         }
