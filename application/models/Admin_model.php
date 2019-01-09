@@ -1188,7 +1188,15 @@ class Admin_model extends CI_Model {
             $step=$this->getStepByNumber($st[$i]['step'], $params['pathway']);
             $data[$i]['type']=$step['type'];
             $q=$this->getQuestionByStep($st[$i]['step']);
-            $data[$i]['question']=$q['statement'];
+            if($q['statement'])
+            {
+                $data[$i]['question']=$q['statement'];
+            }
+            else
+            {
+                $data[$i]['question']=null;
+            }
+            
             $data[$i]['answer']=$this->getAnswerResult($q['id'],$st[$i]['value']);
             // $data[$i]['answer']=$st[$i]['value'];
 
