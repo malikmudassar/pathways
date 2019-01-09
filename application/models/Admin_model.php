@@ -1369,7 +1369,7 @@ class Admin_model extends CI_Model {
 
     public function pathway_review($params)
     {
-        $st=$this->db->select('*')
+        $dt=$this->db->select('*')
                         ->from('user_pathway_status')
                         ->where('user_id',$params['user_id'])
                         ->where('pathway',$params['pathway'])
@@ -1377,8 +1377,8 @@ class Admin_model extends CI_Model {
                         ->order_by('finished_at', 'DESC')                      
                         ->get()
                         ->result_array();
-        print_r($st[0]);
-        $attempt=$st[0];
+        //print_r($st[0]);
+        $attempt=$dt[0];
         $st=$this->db->select('*')
                         ->from('step_answers')
                         ->where("created_at BETWEEN '".$attempt['started_at']."' and '".$attempt['finished_at']."'")
@@ -1390,7 +1390,7 @@ class Admin_model extends CI_Model {
         {
             $st=$this->db->select('*')
                         ->from('step_answers')
-                        ->where("created_at BETWEEN '".$st[1]['started_at']."' and '".$st[1]['finished_at']."'")
+                        ->where("created_at BETWEEN '".$dt[1]['started_at']."' and '".$dt[1]['finished_at']."'")
                         ->where('user_id',$params['user_id'])
                         ->where('pathway', $params['pathway'])
                         ->get()
