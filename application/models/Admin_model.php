@@ -1386,7 +1386,16 @@ class Admin_model extends CI_Model {
                         ->where('pathway', $params['pathway'])
                         ->get()
                         ->result_array();
-        print_r($this->db->last_query());
+        if(count($st)==0)
+        {
+            $st=$this->db->select('*')
+                        ->from('step_answers')
+                        ->where("created_at BETWEEN '".$st[1]['started_at']."' and '".$st[1]['finished_at']."'")
+                        ->where('user_id',$params['user_id'])
+                        ->where('pathway', $params['pathway'])
+                        ->get()
+                        ->result_array();
+        }
         $data=array();
         // return $st;
         $count=count($st);
