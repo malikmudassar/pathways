@@ -1197,7 +1197,15 @@ class Admin_model extends CI_Model {
                     ->where('value',$v)
                     ->get()
                     ->result_array();
-        return $st[0]['caption'];
+        if(count($st)>0)
+        {
+            return $st[0]['caption'];
+        }
+        else
+        {
+            return null;
+        }
+        
     }
 
 }
