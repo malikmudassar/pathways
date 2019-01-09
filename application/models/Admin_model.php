@@ -1377,6 +1377,7 @@ class Admin_model extends CI_Model {
                         ->order_by('finished_at', 'DESC')                      
                         ->get()
                         ->result_array();
+        print_r($st[0]);
         $attempt=$st[0];
         $st=$this->db->select('*')
                         ->from('step_answers')
