@@ -1402,55 +1402,55 @@ class Admin_model extends CI_Model {
         // return $st;
         $count=count($st);
         $i=0;
-        for($i=0;$i<$count;$i++)
-        {
-            $step=$this->getStepByNumber($st[$i]['step'], $params['pathway']);
-            if($step['type']=='question'){
-                $data[$i]['type']=$step['type'];
-                $q=$this->getQuestionByStep($st[$i]['step']);
-                if($q)
-                {
-                    $data[$i]['question']=$q['statement'];
-                    $data[$i]['answer']=$this->getAnswerResult($q['id'],$st[$i]['value']);
-                }
-                else
-                {
-                    $data[$i]['question']=null;
-                    $data[$i]['answer']=null;
-                }
-            }
-            // $data[$i]['answer']=$st[$i]['value'];
-            
-        }
-
-        //for($i=0;$i<$count;$i++)
-        // foreach($st as $row)
+        // for($i=0;$i<$count;$i++)
         // {
-        //     $step=$this->getStepByNumber($row['step'], $params['pathway']);
+        //     $step=$this->getStepByNumber($st[$i]['step'], $params['pathway']);
         //     if($step['type']=='question'){
-        //         $q=$this->getQuestionByStep($row['step']);
+        //         $data[$i]['type']=$step['type'];
+        //         $q=$this->getQuestionByStep($st[$i]['step']);
         //         if($q)
         //         {
-        //             $dr=array(
-        //                 'type'      => $step['type'],
-        //                 'question'  => $q['statement'],
-        //                 'answer'    => $this->getAnswerResult($q['id'],$row['value'])
-        //             );
-        //             // $data[$i]['question']=$q['statement'];
-        //             // $data[$i]['answer']=$this->getAnswerResult($q['id'],$row['value']);
+        //             $data[$i]['question']=$q['statement'];
+        //             $data[$i]['answer']=$this->getAnswerResult($q['id'],$st[$i]['value']);
         //         }
         //         else
         //         {
-        //             $dr=array(
-        //                 'type'      => $step['type'],
-        //                 'question'  => null,
-        //                 'answer'    => null
-        //             );
+        //             $data[$i]['question']=null;
+        //             $data[$i]['answer']=null;
         //         }
-        //         array_push($data, $dr);
         //     }
         //     // $data[$i]['answer']=$st[$i]['value'];
-        //  }
+            
+        // }
+
+        //for($i=0;$i<$count;$i++)
+        foreach($st as $row)
+        {
+            $step=$this->getStepByNumber($row['step'], $params['pathway']);
+            if($step['type']=='question'){
+                $q=$this->getQuestionByStep($row['step']);
+                if($q)
+                {
+                    $dr=array(
+                        'type'      => $step['type'],
+                        'question'  => $q['statement'],
+                        'answer'    => $this->getAnswerResult($q['id'],$row['value'])
+                    );
+                    // $data[$i]['question']=$q['statement'];
+                    // $data[$i]['answer']=$this->getAnswerResult($q['id'],$row['value']);
+                }
+                else
+                {
+                    $dr=array(
+                        'type'      => $step['type'],
+                        'question'  => null,
+                        'answer'    => null
+                    );
+                }
+                array_push($data, $dr);
+            }
+            // $data[$i]['answer']=$st[$i]['value'];
+         }
 
 
         return $data;;
