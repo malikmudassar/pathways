@@ -728,7 +728,15 @@ class Admin_model extends CI_Model {
     {
         $st=$this->db->query('SELECT questions.* from questions inner join step_questions sq
                         on sq.question=questions.id where sq.step='.$id)->result_array();
-        return $st[0];
+        if(count($st)>0)
+        {
+            return $st[0];
+        }
+        else
+        {
+            return array();
+        }
+        
     }
     public function addAnsModel($data)
     {
