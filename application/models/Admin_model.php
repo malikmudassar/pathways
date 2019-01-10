@@ -96,7 +96,7 @@ class Admin_model extends CI_Model {
                         'status'    =>  'pending',
                         'percent'   =>  ($data['step']/$steps)*100
                     );
-                    echo '98 go';
+                    // echo '98 go';
                     $this->db->where('id',$pth[0]['id'])->update('user_pathway_status',$item);
                     if($params['step']==$steps)
                     {
