@@ -78,12 +78,12 @@ class Admin_model extends CI_Model {
                     $this->db->where('id',$pth[0]['id'])->update('user_pathway_status',$item);
 
                 }
-                echo '81 go';
+                // echo '81 go';
                 $data['percent']=100;
             }
             else
             {
-                echo '86 go';
+                // echo '86 go';
                 // // echo "<script>console.log('77. data[next] is not 0')</script>";
                 if(count($pth)>0)
                 {
@@ -109,7 +109,7 @@ class Admin_model extends CI_Model {
                 }
             }
             //echo '<pre>';print_r($steps);
-            echo '111 go';
+            // echo '111 go';
             $data['percent']=$item['percent'];
             return $data;
         }
