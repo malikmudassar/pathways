@@ -59,6 +59,9 @@ class Admin_model extends CI_Model {
                     ->get()
                     ->result_array();
                     //echo $this->db->last_query();exit;
+            $steps=count($this->db->select('*')->from('steps')
+                        ->where('pathway',$data['pathway'])
+                        ->get()->result_array());
             if($data['next']==0)
             {   
                 // echo "<script>console.log('62. data[next] is 0')</script>";               
@@ -73,18 +76,19 @@ class Admin_model extends CI_Model {
                         'percent'   =>  100
                     );
                     $this->db->where('id',$pth[0]['id'])->update('user_pathway_status',$item);
+
                 }
+                echo '81 go';
                 $data['percent']=100;
             }
             else
             {
+                echo '86 go';
                 // // echo "<script>console.log('77. data[next] is not 0')</script>";
                 if(count($pth)>0)
                 {
                     // echo "<script>console.log('80. user_pathway_status found')</script>";
-                    $steps=count($this->db->select('*')->from('steps')
-                        ->where('pathway',$data['pathway'])
-                        ->get()->result_array());
+                    
                     $item=array(
                         'user_id'   =>  $params['user_id'],
                         'pathway'   =>  $data['pathway'],
@@ -92,14 +96,20 @@ class Admin_model extends CI_Model {
                         'status'    =>  'pending',
                         'percent'   =>  ($data['step']/$steps)*100
                     );
+                    echo '98 go';
                     $this->db->where('id',$pth[0]['id'])->update('user_pathway_status',$item);
+                    if($params['step']==$steps)
+                    {
+                        $data['next']=0;
+                    }
                 }
                 else
                 {
                     // // echo "<script>console.log('95 user_pathway_status not found')</script>";
                 }
             }
-            //echo '<pre>';print_r($item);exit;
+            //echo '<pre>';print_r($steps);
+            echo '111 go';
             $data['percent']=$item['percent'];
             return $data;
         }
@@ -111,7 +121,11 @@ class Admin_model extends CI_Model {
                         ->where('pathway',$params['pathway'])
                         ->get()->result_array());
 
-            // print_r($steps);
+            // print_r($data['step']);
+            if($data['step']==$steps)
+            {
+                $data['next']=0;
+            }
             $data['percent']=($data['step']/$steps)*100;
             return $data;
         }
