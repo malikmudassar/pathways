@@ -38,8 +38,9 @@ class Admin_model extends CI_Model {
         // echo '<pre>1';print_r($params); exit;
         $st=$this->db->select('*')->from('pathflow')
                 ->where('pathway',$params['pathway'])
-                ->where('step',$this->getStepNumber($params['next']))
+                ->where('step',$params['next'])
                 ->get()->result_array();
+        // echo '<pre>';print_r($this->db->last_query()); exit;
         $data=$st[0];
         $step=$this->getStepByNumber($data['step'], $params['pathway']);
         // echo '<pre>1';print_r($data); print_r($step);exit;
@@ -123,12 +124,18 @@ class Admin_model extends CI_Model {
 
             // print_r($data);
             // echo '125 go';
+            $data['percent']=($data['step']/$steps)*100;
             if($data['step']==$steps)
             {
                 // echo '128 go';
                 $data['next']="0";
+                $data['percent']=100;
             }
-            $data['percent']=($data['step']/$steps)*100;
+            if($data['next']==0)
+            {
+                $data['percent']=100;
+            }
+            
             return $data;
         }
         
@@ -450,6 +457,7 @@ class Admin_model extends CI_Model {
             $d['user_id']=$params['user_id'];
 
             $result=$this->getStepAnswer($d);
+            //echo '271 <pre>';print_r($result);exit;
             if(!$result)
             {
                 $result=1;
@@ -498,9 +506,9 @@ class Admin_model extends CI_Model {
                     }
                 break;
                 case '==':
-                // echo '501 go';
-                    if($result == $condition['value'])
-                    {
+                // echo 'result '.$result['value'];exit;
+                    if($result['value'] == $condition['value'])
+                     { //echo '504 go';exit;
                         $data['step']=$condition['if_next_step'];
                         $st=$this->db->query('select * from pathflow where step='.$condition['if_next_step'].' and pathway='.$params['pathway'])->result_array();
                         $path=$st[0];
@@ -508,7 +516,7 @@ class Admin_model extends CI_Model {
                         $data['next']=$path['next'];
                     }
                     else
-                    {
+                     { //echo '502 go';exit;
                         $data['step']=$condition['else_next_step'];  
                         $st=$this->db->query('select * from pathflow where step='.$condition['else_next_step'].' and pathway='.$params['pathway'])->result_array();
                         $path=$st[0];
@@ -518,7 +526,7 @@ class Admin_model extends CI_Model {
                     }
                 break;
             }
-            //echo '<pre>';print_r($step);print_r($data);exit;
+            // echo '<pre>';print_r($step);print_r($data);exit;
             $step=$this->getStepByNumber($data['step'], $params['pathway']);
             //$step=$this->getNextStep($step,$params);
             // echo '<pre>';print_r($step);print_r($data);exit;
@@ -970,7 +978,7 @@ class Admin_model extends CI_Model {
     
     public function getBackPathwayQuestion($params)
     {
-        $step=$this->Admin_model->getStepByNumber($params['step'], $params['pathway']);
+        $step=$this->getStepByNumber($params['step'], $params['pathway']);
         //echo '<pre>';print_r($step);exit;
         
         $st=$this->db->select('*')->from('pathflow')
@@ -980,7 +988,7 @@ class Admin_model extends CI_Model {
                 ->get()->result_array();
         //echo $this->db->last_query();exit;
         $data=$st[0];
-        $st=$this->db->query('select questions.* from questions inner join step_questions on step_questions.question=questions.id where step='.$data['step'])->result_array();
+        $st=$this->db->query('select questions.* from questions inner join step_questions on step_questions.question=questions.id where step='.$step['id'])->result_array();
         $data['question']=$st[0];
         $steps=count($this->db->select('*')->from('steps')
                     ->where('pathway',$params['pathway'])
@@ -1296,9 +1304,9 @@ class Admin_model extends CI_Model {
         return $this->db->query('SELECT steps.*, pathways.name as pathway from steps inner join pathways on pathways.id=steps.pathway  where steps.pathway='.$id)->result_array();
     }
 
-    public function getPathFlowByStep($id)
+    public function getPathFlowByStep($id, $pathway)
     {
-        $st=$this->db->select('*')->from('pathflow')->where('step',$id)->get()
+        $st=$this->db->select('*')->from('pathflow')->where('step',$id)->where('pathway',$pathway)->get()
         ->result_array();
         return $st[0];
     }
@@ -1387,11 +1395,12 @@ class Admin_model extends CI_Model {
         $step=$this->getStepByNumber($data['step'], $data['pathway']);
         if($step['type']=='question' || $step['type']=='info')
         {
-            $st=$this->db->query('Select questions.* from questions inner join step_questions on step_questions.question=questions.id where step_questions.step='.$data['step'])->result_array();
-            
+            $st=$this->db->query('Select questions.* from questions inner join step_questions on step_questions.question=questions.id where step_questions.step='.$step['id'])->result_array();
+            // print_r($st);exit;
             if($st[0]['ans_model'])
             {
                $am=$this->getAllById('answer_models',$st[0]['ans_model']);
+
                 if($am['text']>0)
                 {
                     //echo $am['text'].' textboxes <br>';
