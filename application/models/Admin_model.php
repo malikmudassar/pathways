@@ -100,7 +100,7 @@ class Admin_model extends CI_Model {
                     $this->db->where('id',$pth[0]['id'])->update('user_pathway_status',$item);
                     if($params['step']==$steps)
                     {
-                        $data['next']=0;
+                        $data['next']="0";
                     }
                 }
                 else
@@ -124,7 +124,7 @@ class Admin_model extends CI_Model {
             // print_r($data['step']);
             if($data['step']==$steps)
             {
-                $data['next']=0;
+                $data['next']="0";
             }
             $data['percent']=($data['step']/$steps)*100;
             return $data;
