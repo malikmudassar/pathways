@@ -1336,7 +1336,7 @@ class Admin_model extends CI_Model {
                             ->from('user_pathway_status')
                             ->where('user_id',$data['user_id'])
                             ->where('pathway',$data['pathway'])
-                            ->where('status','pending')
+                            ->order_by('started_at', 'DESC')  
                             ->get()
                             ->result_array();
         if(count($pth)>0)
