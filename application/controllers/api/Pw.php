@@ -103,7 +103,7 @@ class Pw extends REST_Controller {
         $data['form']=$this->Admin_model->getAnsForm($data['question']['id']);
         if($params['pathway']==4)
         {
-            
+            $d['form']=array();
             for($i=0;$i<count($data['form']);$i++)
             {
                 if($params['gender']=='male' && $data['form'][$i]['caption']=='pregnancy')

@@ -121,9 +121,11 @@ class Admin_model extends CI_Model {
                         ->where('pathway',$params['pathway'])
                         ->get()->result_array());
 
-            // print_r($data['step']);
+            // print_r($data);
+            // echo '125 go';
             if($data['step']==$steps)
             {
+                // echo '128 go';
                 $data['next']="0";
             }
             $data['percent']=($data['step']/$steps)*100;
@@ -142,9 +144,10 @@ class Admin_model extends CI_Model {
     }
     public function checkNextStep($step,$params)
     {
-        //echo '<pre>';print_r($step);exit;
+        // echo '<pre>';print_r($step);exit;
         
         $data=$params;
+        // echo '<pre>';print_r($params);exit;
         $result=0;
         if($step['type']=='calculation')
         {
@@ -250,7 +253,7 @@ class Admin_model extends CI_Model {
                             if($result['value'] > $condition['value'])
                             {
                                 $data['step']=$condition['if_next_step'];
-                                $st=$this->db->query('select * from pathflow where step='.$condition['if_next_step'])->result_array();
+                                $st=$this->db->query('select * from pathflow where step='.$condition['if_next_step'].' and pathway='.$params['pathway'])->result_array();
                                 $path=$st[0];
                                 $data['back']=$step['number'];
                                 $data['next']=$path['next'];
@@ -259,7 +262,7 @@ class Admin_model extends CI_Model {
                             else
                             {
                                 $data['step']=$condition['else_next_step'];  
-                                $st=$this->db->query('select * from pathflow where step='.$condition['else_next_step'])->result_array();
+                                $st=$this->db->query('select * from pathflow where step='.$condition['else_next_step'].' and pathway='.$params['pathway'])->result_array();
                                 $path=$st[0];
                                 $data['back']=$step['number']; 
                                 $data['next']=$path['next'];
@@ -270,7 +273,7 @@ class Admin_model extends CI_Model {
                             if($condition['value'] < $result)
                             {
                                 $data['step']=$condition['if_next_step'];
-                                $st=$this->db->query('select * from pathflow where step='.$condition['if_next_step'])->result_array();
+                                $st=$this->db->query('select * from pathflow where step='.$condition['if_next_step'].' and pathway='.$params['pathway'])->result_array();
                                 $path=$st[0];
                                 $data['back']=$step['number'];
                                 $data['next']=$path['next'];
@@ -278,7 +281,7 @@ class Admin_model extends CI_Model {
                             else
                             {
                                 $data['step']=$condition['else_next_step'];  
-                                $st=$this->db->query('select * from pathflow where step='.$condition['else_next_step'])->result_array();
+                                $st=$this->db->query('select * from pathflow where step='.$condition['else_next_step'].' and pathway='.$params['pathway'])->result_array();
                                 $path=$st[0];
                                 $data['back']=$step['number']; 
                                 $data['next']=$path['next'];
@@ -288,7 +291,7 @@ class Admin_model extends CI_Model {
                             if($result == $condition['value'])
                             {
                                 $data['step']=$condition['if_next_step'];
-                                $st=$this->db->query('select * from pathflow where step='.$condition['if_next_step'])->result_array();
+                                $st=$this->db->query('select * from pathflow where step='.$condition['if_next_step'].' and pathway='.$params['pathway'])->result_array();
                                 $path=$st[0];
                                 $data['back']=$step['number'];
                                 $data['next']=$path['next'];
@@ -296,7 +299,7 @@ class Admin_model extends CI_Model {
                             else
                             {
                                 $data['step']=$condition['else_next_step'];  
-                                $st=$this->db->query('select * from pathflow where step='.$condition['else_next_step'])->result_array();
+                                $st=$this->db->query('select * from pathflow where step='.$condition['else_next_step'].' and pathway='.$params['pathway'])->result_array();
                                 $path=$st[0];
                                 $data['back']=$step['number']; 
                                 $data['next']=$path['next'];
@@ -339,7 +342,7 @@ class Admin_model extends CI_Model {
                                     if($result['value'] > $condition['value'])
                                     {
                                         $data['step']=$condition['if_next_step'];
-                                        $st=$this->db->query('select * from pathflow where step='.$condition['if_next_step'])->result_array();
+                                        $st=$this->db->query('select * from pathflow where step='.$condition['if_next_step'].' and pathway='.$params['pathway'])->result_array();
                                         $path=$st[0];
                                         $data['back']=$step['number'];
                                         $data['next']=$path['next'];
@@ -348,7 +351,7 @@ class Admin_model extends CI_Model {
                                     else
                                     {
                                         $data['step']=$condition['else_next_step'];  
-                                        $st=$this->db->query('select * from pathflow where step='.$condition['else_next_step'])->result_array();
+                                        $st=$this->db->query('select * from pathflow where step='.$condition['else_next_step'].' and pathway='.$params['pathway'])->result_array();
                                         $path=$st[0];
                                         $data['back']=$step['number']; 
                                         $data['next']=$path['next'];
@@ -359,7 +362,7 @@ class Admin_model extends CI_Model {
                                     if($condition['value'] < $result)
                                     {
                                         $data['step']=$condition['if_next_step'];
-                                        $st=$this->db->query('select * from pathflow where step='.$condition['if_next_step'])->result_array();
+                                        $st=$this->db->query('select * from pathflow where step='.$condition['if_next_step'].' and pathway='.$params['pathway'])->result_array();
                                         $path=$st[0];
                                         $data['back']=$step['number'];
                                         $data['next']=$path['next'];
@@ -367,7 +370,7 @@ class Admin_model extends CI_Model {
                                     else
                                     {
                                         $data['step']=$condition['else_next_step'];  
-                                        $st=$this->db->query('select * from pathflow where step='.$condition['else_next_step'])->result_array();
+                                        $st=$this->db->query('select * from pathflow where step='.$condition['else_next_step'].' and pathway='.$params['pathway'])->result_array();
                                         $path=$st[0];
                                         $data['back']=$step['number']; 
                                         $data['next']=$path['next'];
@@ -377,7 +380,7 @@ class Admin_model extends CI_Model {
                                     if($result == $condition['value'])
                                     {
                                         $data['step']=$condition['if_next_step'];
-                                        $st=$this->db->query('select * from pathflow where step='.$condition['if_next_step'])->result_array();
+                                        $st=$this->db->query('select * from pathflow where step='.$condition['if_next_step'].' and pathway='.$params['pathway'])->result_array();
                                         $path=$st[0];
                                         $data['back']=$step['number'];
                                         $data['next']=$path['next'];
@@ -385,7 +388,7 @@ class Admin_model extends CI_Model {
                                     else
                                     {
                                         $data['step']=$condition['else_next_step'];  
-                                        $st=$this->db->query('select * from pathflow where step='.$condition['else_next_step'])->result_array();
+                                        $st=$this->db->query('select * from pathflow where step='.$condition['else_next_step'].' and pathway='.$params['pathway'])->result_array();
                                         $path=$st[0];
                                         $data['back']=$step['number']; 
                                         $data['next']=$path['next'];
@@ -406,7 +409,7 @@ class Admin_model extends CI_Model {
                             }
                             else
                             {   
-                                echo "<script>console.log('409 next step ".$step['number']." is ".$step['type'].")</script>";
+                                // echo "<script>console.log('409 next step ".$step['number']." is ".$step['type'].")</script>";
                                 //echo '<pre>';print_r($data);exit;
                                 $url = 'api/pw/next_pw/';
                                 $myvars = http_build_query($data, '', '&');
@@ -437,7 +440,7 @@ class Admin_model extends CI_Model {
 
         if($step['type']=='condition')
         {
-            // // echo "<script>console.log('247 step ".$step['id']." is condition')</script>";
+            // echo "<script>console.log('247 step ".$step['id']." is condition')</script>";
             $result=0;
             $st=$this->db->query('select * from step_condition where step='.$step['id'])->result_array();
             $condition=$st[0];
@@ -447,6 +450,10 @@ class Admin_model extends CI_Model {
             $d['user_id']=$params['user_id'];
 
             $result=$this->getStepAnswer($d);
+            if(!$result)
+            {
+                $result=1;
+            }
             // echo '271 <pre>';print_r($result);exit;
             //print_r($step['id'].'-'.$params['pathway']); exit;
             // // echo "<script>console.log('258 result is".$result['value']."')</script>";
@@ -456,7 +463,7 @@ class Admin_model extends CI_Model {
                     if($result['value'] > $condition['value'])
                     {
                         $data['step']=$condition['if_next_step'];
-                        $st=$this->db->query('select * from pathflow where step='.$condition['if_next_step'])->result_array();
+                        $st=$this->db->query('select * from pathflow where step='.$condition['if_next_step'].' and pathway='.$params['pathway'])->result_array();
                         $path=$st[0];
                         $data['back']=$step['number'];
                         $data['next']=$path['next'];
@@ -465,7 +472,7 @@ class Admin_model extends CI_Model {
                     else
                     {
                         $data['step']=$condition['else_next_step'];  
-                        $st=$this->db->query('select * from pathflow where step='.$condition['else_next_step'])->result_array();
+                        $st=$this->db->query('select * from pathflow where step='.$condition['else_next_step'].' and pathway='.$params['pathway'])->result_array();
                         $path=$st[0];
                         $data['back']=$step['number']; 
                         $data['next']=$path['next'];
@@ -476,7 +483,7 @@ class Admin_model extends CI_Model {
                     if($condition['value'] < $result)
                     {
                         $data['step']=$condition['if_next_step'];
-                        $st=$this->db->query('select * from pathflow where step='.$condition['if_next_step'])->result_array();
+                        $st=$this->db->query('select * from pathflow where step='.$condition['if_next_step'].' and pathway='.$params['pathway'])->result_array();
                         $path=$st[0];
                         $data['back']=$step['number'];
                         $data['next']=$path['next'];
@@ -484,17 +491,18 @@ class Admin_model extends CI_Model {
                     else
                     {
                         $data['step']=$condition['else_next_step'];  
-                        $st=$this->db->query('select * from pathflow where step='.$condition['else_next_step'])->result_array();
+                        $st=$this->db->query('select * from pathflow where step='.$condition['else_next_step'].' and pathway='.$params['pathway'])->result_array();
                         $path=$st[0];
                         $data['back']=$step['number']; 
                         $data['next']=$path['next'];
                     }
                 break;
                 case '==':
+                // echo '501 go';
                     if($result == $condition['value'])
                     {
                         $data['step']=$condition['if_next_step'];
-                        $st=$this->db->query('select * from pathflow where step='.$condition['if_next_step'])->result_array();
+                        $st=$this->db->query('select * from pathflow where step='.$condition['if_next_step'].' and pathway='.$params['pathway'])->result_array();
                         $path=$st[0];
                         $data['back']=$step['number'];
                         $data['next']=$path['next'];
@@ -502,8 +510,9 @@ class Admin_model extends CI_Model {
                     else
                     {
                         $data['step']=$condition['else_next_step'];  
-                        $st=$this->db->query('select * from pathflow where step='.$condition['else_next_step'])->result_array();
+                        $st=$this->db->query('select * from pathflow where step='.$condition['else_next_step'].' and pathway='.$params['pathway'])->result_array();
                         $path=$st[0];
+                        // print_r($path);
                         $data['back']=$step['number']; 
                         $data['next']=$path['next'];
                     }
@@ -512,7 +521,7 @@ class Admin_model extends CI_Model {
             //echo '<pre>';print_r($step);print_r($data);exit;
             $step=$this->getStepByNumber($data['step'], $params['pathway']);
             //$step=$this->getNextStep($step,$params);
-            //echo '<pre>';print_r($step);print_r($data);exit;
+            // echo '<pre>';print_r($step);print_r($data);exit;
 
             if($step['type']=='question' || $step['type']=='info')
             {
@@ -555,7 +564,7 @@ class Admin_model extends CI_Model {
                     {
                         $data['step']=$condition['if_next_step'];
 
-                        $st=$this->db->query('select * from pathflow where step='.$condition['if_next_step'])->result_array();
+                        $st=$this->db->query('select * from pathflow where step='.$condition['if_next_step'].' and pathway='.$params['pathway'])->result_array();
                         $path=$st[0];
                         $data['back']=$step['id'];
                         $data['next']=$path['next'];
@@ -564,7 +573,7 @@ class Admin_model extends CI_Model {
                     else
                     {
                         $data['step']=$condition['else_next_step'];  
-                        $st=$this->db->query('select * from pathflow where step='.$condition['else_next_step'])->result_array();
+                        $st=$this->db->query('select * from pathflow where step='.$condition['else_next_step'].' and pathway='.$params['pathway'])->result_array();
                         $path=$st[0];
                         $data['back']=$step['id']; 
                         $data['next']=$path['next'];
@@ -649,7 +658,7 @@ class Admin_model extends CI_Model {
                             if($result['value'] > $condition['value'])
                             {
                                 $data['step']=$condition['if_next_step'];
-                                $st=$this->db->query('select * from pathflow where step='.$condition['if_next_step'])->result_array();
+                                $st=$this->db->query('select * from pathflow where step='.$condition['if_next_step'].' and pathway='.$params['pathway'])->result_array();
                                 $path=$st[0];
                                 $data['back']=$step['number'];
                                 $data['next']=$path['next'];
@@ -658,7 +667,7 @@ class Admin_model extends CI_Model {
                             else
                             {
                                 $data['step']=$condition['else_next_step'];  
-                                $st=$this->db->query('select * from pathflow where step='.$condition['else_next_step'])->result_array();
+                                $st=$this->db->query('select * from pathflow where step='.$condition['else_next_step'].' and pathway='.$params['pathway'])->result_array();
                                 $path=$st[0];
                                 $data['back']=$step['number']; 
                                 $data['next']=$path['next'];
@@ -669,7 +678,7 @@ class Admin_model extends CI_Model {
                             if($condition['value'] < $result)
                             {
                                 $data['step']=$condition['if_next_step'];
-                                $st=$this->db->query('select * from pathflow where step='.$condition['if_next_step'])->result_array();
+                                $st=$this->db->query('select * from pathflow where step='.$condition['if_next_step'].' and pathway='.$params['pathway'])->result_array();
                                 $path=$st[0];
                                 $data['back']=$step['number'];
                                 $data['next']=$path['next'];
@@ -677,7 +686,7 @@ class Admin_model extends CI_Model {
                             else
                             {
                                 $data['step']=$condition['else_next_step'];  
-                                $st=$this->db->query('select * from pathflow where step='.$condition['else_next_step'])->result_array();
+                                $st=$this->db->query('select * from pathflow where step='.$condition['else_next_step'].' and pathway='.$params['pathway'])->result_array();
                                 $path=$st[0];
                                 $data['back']=$step['number']; 
                                 $data['next']=$path['next'];
@@ -687,7 +696,7 @@ class Admin_model extends CI_Model {
                             if($result == $condition['value'])
                             {
                                 $data['step']=$condition['if_next_step'];
-                                $st=$this->db->query('select * from pathflow where step='.$condition['if_next_step'])->result_array();
+                                $st=$this->db->query('select * from pathflow where step='.$condition['if_next_step'].' and pathway='.$params['pathway'])->result_array();
                                 $path=$st[0];
                                 $data['back']=$step['number'];
                                 $data['next']=$path['next'];
@@ -695,7 +704,7 @@ class Admin_model extends CI_Model {
                             else
                             {
                                 $data['step']=$condition['else_next_step'];  
-                                $st=$this->db->query('select * from pathflow where step='.$condition['else_next_step'])->result_array();
+                                $st=$this->db->query('select * from pathflow where step='.$condition['else_next_step'].' and pathway='.$params['pathway'])->result_array();
                                 $path=$st[0];
                                 $data['back']=$step['number']; 
                                 $data['next']=$path['next'];
@@ -732,7 +741,7 @@ class Admin_model extends CI_Model {
                                     {
                                         $data['step']=$condition['if_next_step'];
 
-                                        $st=$this->db->query('select * from pathflow where step='.$condition['if_next_step'])->result_array();
+                                        $st=$this->db->query('select * from pathflow where step='.$condition['if_next_step'].' and pathway='.$params['pathway'])->result_array();
                                         $path=$st[0];
                                         $data['back']=$step['number'];
                                         $data['next']=$path['next'];
@@ -741,7 +750,7 @@ class Admin_model extends CI_Model {
                                     else
                                     {
                                         $data['step']=$condition['else_next_step'];  
-                                        $st=$this->db->query('select * from pathflow where step='.$condition['else_next_step'])->result_array();
+                                        $st=$this->db->query('select * from pathflow where step='.$condition['else_next_step'].' and pathway='.$params['pathway'])->result_array();
                                         $path=$st[0];
                                         $data['back']=$step['number']; 
                                         $data['next']=$path['next'];
@@ -853,7 +862,7 @@ class Admin_model extends CI_Model {
                     {
                         $data['step']=$condition['if_next_step'];
 
-                        $st=$this->db->query('select * from pathflow where step='.$condition['if_next_step'])->result_array();
+                        $st=$this->db->query('select * from pathflow where step='.$condition['if_next_step'].' and pathway='.$params['pathway'])->result_array();
                         $path=$st[0];
                         $data['back']=$step['id'];
                         $data['next']=$path['next'];
@@ -861,7 +870,7 @@ class Admin_model extends CI_Model {
                     else
                     {
                         $data['step']=$condition['else_next_step'];  
-                        $st=$this->db->query('select * from pathflow where step='.$condition['else_next_step'])->result_array();
+                        $st=$this->db->query('select * from pathflow where step='.$condition['else_next_step'].' and pathway='.$params['pathway'])->result_array();
                         $path=$st[0];
                         $data['back']=$step['id']; 
                         $data['next']=$path['next'];
