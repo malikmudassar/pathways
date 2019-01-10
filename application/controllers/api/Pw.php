@@ -101,6 +101,23 @@ class Pw extends REST_Controller {
         $data=$this->Admin_model->getNextPathwayQuestion($params);
 
         $data['form']=$this->Admin_model->getAnsForm($data['question']['id']);
+        if($params['pathway']==4)
+        {
+            
+            for($i=0;$i<count($data['form']);$i++)
+            {
+                if($params['gender']=='male' && $data['form'][$i]['caption']=='pregnancy')
+                {
+                    //$d['form'][$i]=array();
+                }
+                else
+                {
+                    $d['form'][$i]=$data['form'][$i];
+                }
+            }
+            $data['form']=$d['form'];
+                            
+        }
         //echo '<pre>';print_r($data['form']);exit;
         if(!empty($data['form']))
         {
