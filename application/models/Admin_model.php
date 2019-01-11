@@ -51,7 +51,7 @@ class Admin_model extends CI_Model {
             // // // echo "<script>console.log('44. next step is question')</script>";
             $st=$this->db->query('select questions.* from questions inner join step_questions on step_questions.question=questions.id where step='.($step['id']))->result_array();
             $data['question']=$st[0];
-            //echo '<pre>';print_r($this->db->last_query()); exit;
+            // echo '<pre>';print_r($this->db->last_query()); exit;
             $pth=$this->db->select('*')
                     ->from('user_pathway_status')
                     ->where('user_id',$params['user_id'])
@@ -1447,6 +1447,54 @@ class Admin_model extends CI_Model {
                         }
                         
                     }
+                    //echo 'answer inserted';exit;
+                    
+                }
+                if($am['datepicker']>0)
+                {
+                    //echo $am['text'].' textboxes <br>';
+                    $ans_form=$this->getAnsForm($st[0]['id']);
+                    //echo '<pre>';print_r($ans_form);exit;
+                    
+                    $item=array(
+                        'pathway'   => $data['pathway'],
+                        'step'      => $data['step'],
+                        'value'     => $data[$ans_form['name']],
+                        'field_name'=>$ans_form['name'],
+                        'user_id'   =>$data['user_id']
+                    );
+                    $pth=$this->db->select('*')
+                                ->from('user_pathway_status')
+                                ->where('user_id',$data['user_id'])
+                                ->where('pathway',$data['pathway'])
+                                ->where('status','pending')
+                                ->get()
+                                ->result_array();
+                    
+                    $st=$this->db->select('*')
+                                ->from('step_answers')
+                                ->where('step',$data['step'])
+                                ->where('user_id',$data['user_id'])
+                                ->where('field_name',$ans_form['name'])
+                                ->where('created_at >',$pth[0]['started_at'])
+                                ->get()
+                                ->result_array();
+                    //echo '1050 <pre>';print_r($st);exit;
+                    if(count($st)>0)
+                    {
+                        $this->db->where('step',$data['step'])
+                                ->where('user_id',$data['user_id'])
+                                ->where('field_name',$ans_form['name'])
+                                ->where('created_at >',$pth[0]['started_at'])
+                                ->update('step_answers',$item);
+                    }
+                    else
+                    {
+                        
+                        $this->db->insert('step_answers',$item);
+                    }
+                    
+                    
                     //echo 'answer inserted';exit;
                     
                 }
