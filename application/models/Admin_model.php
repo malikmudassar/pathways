@@ -979,7 +979,7 @@ class Admin_model extends CI_Model {
     public function getBackPathwayQuestion($params)
     {
         $step=$this->getStepByNumber($params['step'], $params['pathway']);
-        //echo '<pre>';print_r($step);exit;
+        // echo '<pre>';print_r($step);exit;
         
         $st=$this->db->select('*')->from('pathflow')
                 ->where('pathway',$params['pathway'])
@@ -1634,7 +1634,7 @@ class Admin_model extends CI_Model {
                         ->where('user_id',$params['user_id'])
                         ->where('pathway',$params['pathway'])
                         ->where('status','finished')  
-                        ->order_by('finished_at', 'ASC')                      
+                        ->order_by('finished_at', 'DESC')                      
                         ->get()
                         ->result_array();
         // print_r($dt[0]);
@@ -1646,7 +1646,7 @@ class Admin_model extends CI_Model {
                         ->where('pathway', $params['pathway'])
                         ->get()
                         ->result_array();
-
+        // print_r($this->db->last_query());
         if(count($st)==0)
         {
             $st=$this->db->select('*')
@@ -1659,36 +1659,16 @@ class Admin_model extends CI_Model {
             // print_r($st);
         }
         $data=array();
-        // return $st;
+        // print_r($st);
         $count=count($st);
         $i=0;
-        // for($i=0;$i<$count;$i++)
-        // {
-        //     $step=$this->getStepByNumber($st[$i]['step'], $params['pathway']);
-        //     if($step['type']=='question' || $step['type']=='info'){
-        //         $data[$i]['type']=$step['type'];
-        //         $q=$this->getQuestionByStep($st[$i]['step']);
-        //         if($q)
-        //         {
-        //             $data[$i]['question']=$q['statement'];
-        //             $data[$i]['answer']=$this->getAnswerResult($q['id'],$st[$i]['value']);
-        //         }
-        //         else
-        //         {
-        //             $data[$i]['question']=null;
-        //             $data[$i]['answer']=null;
-        //         }
-        //     }
-        //     // $data[$i]['answer']=$st[$i]['value'];
-            
-        // }
-
-        //for($i=0;$i<$count;$i++)
         foreach($st as $row)
         {
             $step=$this->getStepByNumber($row['step'], $params['pathway']);
             if($step['type']=='question' || $step['type']=='info'){
-                $q=$this->getQuestionByStep($row['step']);
+                $d=$this->db->query('select * from steps where pathway='.$params['pathway'].' and number='.$row['step'])->result_array();
+
+                $q=$this->getQuestionByStep($d[0]['id']);
                 if($q)
                 {
                     $dr=array(
@@ -1696,8 +1676,6 @@ class Admin_model extends CI_Model {
                         'question'  => $q['statement'],
                         'answer'    => $this->getAnswerResult($q['id'],$row['value'])
                     );
-                    // $data[$i]['question']=$q['statement'];
-                    // $data[$i]['answer']=$this->getAnswerResult($q['id'],$row['value']);
                 }
                 else
                 {
@@ -1709,7 +1687,6 @@ class Admin_model extends CI_Model {
                 }
                 array_push($data, $dr);
             }
-            // $data[$i]['answer']=$st[$i]['value'];
          }
 
 
@@ -1724,6 +1701,7 @@ class Admin_model extends CI_Model {
                     ->where('value',$v)
                     ->get()
                     ->result_array();
+        // echo $this->db->last_query();
         if(count($st)>0)
         {
             return $st[0]['caption'];
