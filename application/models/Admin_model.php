@@ -1459,8 +1459,8 @@ class Admin_model extends CI_Model {
                     $item=array(
                         'pathway'   => $data['pathway'],
                         'step'      => $data['step'],
-                        'value'     => $data[$ans_form['name']],
-                        'field_name'=>$ans_form['name'],
+                        'value'     => $data[$ans_form[0]['name']],
+                        'field_name'=>$ans_form[0]['name'],
                         'user_id'   =>$data['user_id']
                     );
                     $pth=$this->db->select('*')
@@ -1475,7 +1475,7 @@ class Admin_model extends CI_Model {
                                 ->from('step_answers')
                                 ->where('step',$data['step'])
                                 ->where('user_id',$data['user_id'])
-                                ->where('field_name',$ans_form['name'])
+                                ->where('field_name',$ans_form[0]['name'])
                                 ->where('created_at >',$pth[0]['started_at'])
                                 ->get()
                                 ->result_array();
@@ -1484,7 +1484,7 @@ class Admin_model extends CI_Model {
                     {
                         $this->db->where('step',$data['step'])
                                 ->where('user_id',$data['user_id'])
-                                ->where('field_name',$ans_form['name'])
+                                ->where('field_name',$ans_form[0]['name'])
                                 ->where('created_at >',$pth[0]['started_at'])
                                 ->update('step_answers',$item);
                     }
