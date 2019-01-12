@@ -1645,7 +1645,7 @@ class Admin_model extends CI_Model {
                         ->where('pathway', $params['pathway'])
                         ->get()
                         ->result_array();
-        print_r($st);
+        // print_r($st);
         if(count($st)==0)
         {
             $st=$this->db->select('*')
