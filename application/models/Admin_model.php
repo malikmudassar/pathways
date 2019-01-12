@@ -511,7 +511,7 @@ class Admin_model extends CI_Model {
                         $data['next']=$path['next'];
                     }
                 case '<>':
-                    // print_r($result);exit;
+                    print_r($result);exit;
                     if(count($result[0])>0)
                      { 
                         if($result[0]['value'] >= $condition['value_from'] && $result[0]['value'] <= $condition['value_to'])
