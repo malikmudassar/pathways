@@ -195,7 +195,8 @@ class Pw extends REST_Controller {
             
         }
         $data=$this->Admin_model->getBackPathwayQuestion($params);
-        $data['answer']=$this->Admin_model->getStepAnswer($params); 
+        $data['answer']=array();
+        $data['answer'][0]=$this->Admin_model->getStepAnswer($params); 
         if(!$data['answer'])
         {
             $data['answer']=array();
