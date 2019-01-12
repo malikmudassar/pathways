@@ -2114,7 +2114,7 @@ class Admin_model extends CI_Model {
         }
         if(count($arr)>0)
         {
-            $caption='';
+            $caption=array();
             for($i=0;$i<count($arr);$i++)
             {
                 $st=$this->db->select('caption')
@@ -2130,11 +2130,13 @@ class Admin_model extends CI_Model {
                 }
                 
             }
+            $caption[0]=$caption;
             // print_r($caption);
             return $caption;
         }
         else
         {
+            $caption=array();
             $st=$this->db->select('caption')
                     ->from('ans_form')
                     ->where('question', $q)
@@ -2144,7 +2146,8 @@ class Admin_model extends CI_Model {
             // echo $this->db->last_query();
             if(count($st)>0)
             {
-                return $st[0]['caption'];
+                $caption[0]=$st[0]['caption'];
+                return $caption;
             }
             else
             {
