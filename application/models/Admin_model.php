@@ -2067,7 +2067,7 @@ class Admin_model extends CI_Model {
 
     public function saveResult($data)
     {
-        //echo '<pre>';print_r($data);exit;
+        // echo '<pre>';print_r($data);
         $pth=$this->db->select('*')
                     ->from('user_pathway_status')
                     ->where('user_id',$data['user_id'])
@@ -2097,16 +2097,18 @@ class Admin_model extends CI_Model {
             $this->db->insert('user_pathway_status',$item);
         }
         $step=$this->getStepByNumber($data['step'], $data['pathway']);
+        // print_r($step);
         if($step['type']=='question' || $step['type']=='info')
         {
             $st=$this->db->query('Select questions.* from questions inner join step_questions on step_questions.question=questions.id where step_questions.step='.$step['id'])->result_array();
-            // print_r($st);exit;
+            
             if($st[0]['ans_model'])
             {
                $am=$this->getAllById('answer_models',$st[0]['ans_model']);
-
+               // print_r($am);exit;
                 if($am['text']>0)
                 {
+                    // echo 'it works';
                     //echo $am['text'].' textboxes <br>';
                     $ans_form=$this->getAnsForm($st[0]['id']);
                     //echo '<pre>';print_r($ans_form);exit;
@@ -2230,7 +2232,7 @@ class Admin_model extends CI_Model {
                                 ->where('status','pending')
                                 ->get()
                                 ->result_array();
-                    //echo '<pre> path';print_r($pth);exit;
+                    // echo '<pre> path';print_r($pth);exit;
                     $st=$this->db->select('*')
                                 ->from('step_answers')
                                 ->where('step',$data['step'])
@@ -2248,10 +2250,10 @@ class Admin_model extends CI_Model {
                                 ->where('user_id',$data['user_id'])
                                 ->where('created_at >',$pth[0]['started_at'])
                                 ->update('step_answers',$item);
+                        echo $this->db->last_query();
                     }
                     else
-                    {
-                        
+                    {                        
                         $this->db->insert('step_answers',$item);
                     }
                 }
