@@ -40,7 +40,7 @@ class Admin_model extends CI_Model {
                 ->where('pathway',$params['pathway'])
                 ->where('step',$params['next'])
                 ->get()->result_array();
-        echo '<pre>';print_r($this->db->last_query()); exit;
+        // echo '<pre>';print_r($this->db->last_query()); exit;
         $data=$st[0];
         $step=$this->getStepByNumber($data['step'], $params['pathway']);
         // echo '<pre>1';print_r($data); print_r($step);exit;
