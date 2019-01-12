@@ -13,7 +13,7 @@ class Admin_model extends CI_Model {
     public function getFirstPathwayQuestion($id)
     {
         $st=$this->db->select('*')->from('pathflow')->where('pathway',$id)->where('back',0)->get()->result_array();
-        echo '<pre>';print_r($this->db->last_query());exit;
+        // echo '<pre>';print_r($this->db->last_query());exit;
         if(!count($st)>0)
         {
             return false;
@@ -48,7 +48,7 @@ class Admin_model extends CI_Model {
         
         if($step['type']=='question' || $step['type']=='info')
         {
-           / echo "<script>console.log('44. next step is question')</script>";
+           // echo "<script>console.log('44. next step is question')</script>";
             $st=$this->db->query('select questions.* from questions inner join step_questions on step_questions.question=questions.id where step='.($step['id']))->result_array();
             $data['question']=$st[0];
             // echo '<pre>';print_r($this->db->last_query()); exit;
@@ -1137,7 +1137,7 @@ class Admin_model extends CI_Model {
     public function getBackPathwayQuestion($params)
     {
         $step=$this->getStepByNumber($params['step'], $params['pathway']);
-        echo '<pre>';print_r($step);exit;
+        // echo '<pre>';print_r($step);exit;
         
         $st=$this->db->select('*')->from('pathflow')
                 ->where('pathway',$params['pathway'])
