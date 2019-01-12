@@ -2250,7 +2250,7 @@ class Admin_model extends CI_Model {
                                 ->where('user_id',$data['user_id'])
                                 ->where('created_at >',$pth[0]['started_at'])
                                 ->update('step_answers',$item);
-                        echo $this->db->last_query();
+                        // echo $this->db->last_query();
                     }
                     else
                     {                        
