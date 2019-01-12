@@ -2115,7 +2115,7 @@ class Admin_model extends CI_Model {
         if(count($arr)>0)
         {
             $caption=array();
-            $caption[0]='';
+            $caption[0]['value']='';
             for($i=0;$i<count($arr);$i++)
             {
                 $st=$this->db->select('caption')
@@ -2127,7 +2127,7 @@ class Admin_model extends CI_Model {
                 // print_r($st[0]);
                 if(count($st)>0)
                 {
-                    $caption[0].=($i+1).': '.$st[0]['caption'].' ';
+                    $caption[0]['value'].=($i+1).': '.$st[0]['caption'].' ';
                 }
                 
             }
@@ -2146,7 +2146,7 @@ class Admin_model extends CI_Model {
             // echo $this->db->last_query();
             if(count($st)>0)
             {
-                $caption[0]=$st[0]['caption'];
+                $caption[0]['value']=$st[0]['caption'];
                 return $caption;
             }
             else
