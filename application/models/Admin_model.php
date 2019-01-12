@@ -2126,7 +2126,7 @@ class Admin_model extends CI_Model {
                 // print_r($st[0]);
                 if(count($st)>0)
                 {
-                    $caption.=($i+1).': '.$st[0]['caption'].' ';
+                    $caption[0].=($i+1).': '.$st[0]['caption'].' ';
                 }
                 
             }
