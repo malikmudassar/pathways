@@ -1118,8 +1118,9 @@ class Admin_model extends CI_Model {
             $data['next']=$next[0]['next'];
             if($step['type']=='question' || $step['type']=='info')
             {
-                // // echo "<script>console.log('106 next step is question')</script>";
-                $st=$this->db->query('select questions.* from questions inner join step_questions on step_questions.question=questions.id where step='.$data['step'])->result_array();
+                // echo "<script>console.log('106 next step is question')</script>";
+                $st=$this->db->query('select questions.* from questions inner join step_questions on step_questions.question=questions.id where step='.$step['id'])->result_array();
+                // echo $this->db->last_query();
                 $data['question']=$st[0];
                 $data['question']['statement']= 'You are '.$category;
                 return $data;
