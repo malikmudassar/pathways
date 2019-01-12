@@ -2097,7 +2097,7 @@ class Admin_model extends CI_Model {
                 //             ->get()
                 //             ->result_array();
                 // echo $this->db->last_query();
-                $ans=$this->db->query('SELECT * FROM step_answers WHERE pathway=3 and step=1 ORDER BY created_at DESC LIMIT 0,2')->result_array();
+                $ans=$this->db->query('SELECT * FROM step_answers WHERE pathway=3 and step=1 and user_id='.$params['user_id'].' ORDER BY created_at DESC LIMIT 0,2')->result_array();
                 $data[0]['type']='question';
                 $data[0]['question']=$q['statement'];
                 $data[0]['answer']=$ans;  
