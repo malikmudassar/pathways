@@ -1995,7 +1995,7 @@ class Admin_model extends CI_Model {
                         ->where('pathway', $params['pathway'])
                         ->get()
                         ->result_array();
-        // print_r($st);
+        // print_r($this->db->last_query());
         if(count($st)==0)
         {
             $st=$this->db->select('*')
@@ -2013,29 +2013,43 @@ class Admin_model extends CI_Model {
         $i=0;
         foreach($st as $row)
         {
-            $step=$this->getStepByNumber($row['step'], $params['pathway']);
-            if($step['type']=='question' || $step['type']=='info'){
-                $d=$this->db->query('select * from steps where pathway='.$params['pathway'].' and number='.$row['step'])->result_array();
+            if($params['pathway']!=3)
+            {
+                $step=$this->getStepByNumber($row['step'], $params['pathway']);
+                if($step['type']=='question' || $step['type']=='info'){
+                    $d=$this->db->query('select * from steps where pathway='.$params['pathway'].' and number='.$row['step'])->result_array();
 
-                $q=$this->getQuestionByStep($d[0]['id']);
-                if($q)
-                {
-                    $dr=array(
-                        'type'      => $step['type'],
-                        'question'  => $q['statement'],
-                        'answer'    => $this->getAnswerResult($q['id'],$row['value'])
-                    );
+                    $q=$this->getQuestionByStep($d[0]['id']);
+                    if($q)
+                    {
+                        $dr=array(
+                            'type'      => $step['type'],
+                            'question'  => $q['statement'],
+                            'answer'    => $this->getAnswerResult($q['id'],$row['value'])
+                        );
+                    }
+                    else
+                    {
+                        $dr=array(
+                            'type'      => $step['type'],
+                            'question'  => null,
+                            'answer'    => null
+                        );
+                    }
+                    array_push($data, $dr);
                 }
-                else
-                {
-                    $dr=array(
-                        'type'      => $step['type'],
-                        'question'  => null,
-                        'answer'    => null
-                    );
-                }
-                array_push($data, $dr);
             }
+            else
+            {
+                $d=$this->db->query('select * from steps where pathway=3 and number=1')->result_array();
+                $q=$this->getQuestionByStep($d[0]['id']);
+                $ans=$this->db->query('select * from step_answers where pathway=3 and step=1')->result_array();
+                $data['type']='question';
+                $data['question']=$q['statement'];
+                $data['answer']=$ans;  
+
+            }
+                
          }
 
 
