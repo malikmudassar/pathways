@@ -489,14 +489,16 @@ class Admin_model extends CI_Model {
                     }
                 break;
                 case '==':
-                // echo 'result '.$result['value'];exit;
-                    if($result[0]['value'] == $condition['value'])
+                    if(count($result)>0)
                      { //echo '504 go';exit;
-                        $data['step']=$condition['if_next_step'];
-                        $st=$this->db->query('select * from pathflow where step='.$condition['if_next_step'].' and pathway='.$params['pathway'])->result_array();
-                        $path=$st[0];
-                        $data['back']=$step['number'];
-                        $data['next']=$path['next'];
+                        if($result[0]['value'] == $condition['value'])
+                        {
+                            $data['step']=$condition['if_next_step'];
+                            $st=$this->db->query('select * from pathflow where step='.$condition['if_next_step'].' and pathway='.$params['pathway'])->result_array();
+                            $path=$st[0];
+                            $data['back']=$step['number'];
+                            $data['next']=$path['next'];
+                        } 
                     }
                     else
                      { //echo '502 go';exit;
