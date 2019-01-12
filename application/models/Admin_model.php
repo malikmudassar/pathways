@@ -253,7 +253,6 @@ class Admin_model extends CI_Model {
                                     $path=$st[0];
                                     $data['back']=$step['number'];
                                     $data['next']=$path['next'];
-                                    //// // echo "<script>console.log('158 next step ".$data['next']."')</script>";
                                 }
                                 else
                                 {
@@ -274,7 +273,29 @@ class Admin_model extends CI_Model {
                                     $path=$st[0];
                                     $data['back']=$step['number'];
                                     $data['next']=$path['next'];
-                                    //// // echo "<script>console.log('158 next step ".$data['next']."')</script>";
+                                }
+                                else
+                                {
+                                    $data['step']=$condition['else_next_step'];  
+                                    $st=$this->db->query('select * from pathflow where step='.$condition['else_next_step'].' and pathway='.$params['pathway'])->result_array();
+                                    $path=$st[0];
+                                    $data['back']=$step['number']; 
+                                    $data['next']=$path['next'];
+                                    //echo '<pre>';print_r($path);exit;
+                                }
+                            } 
+                            
+                        break;
+                        case '<':
+                            if(isset($result[0]))
+                            {
+                                if($result[0]['value'] < $condition['value'])
+                                {
+                                    $data['step']=$condition['if_next_step'];
+                                    $st=$this->db->query('select * from pathflow where step='.$condition['if_next_step'].' and pathway='.$params['pathway'])->result_array();
+                                    $path=$st[0];
+                                    $data['back']=$step['number'];
+                                    $data['next']=$path['next'];
                                 }
                                 else
                                 {
@@ -286,43 +307,69 @@ class Admin_model extends CI_Model {
                                     //echo '<pre>';print_r($path);exit;
                                 }
                             }
-                                
-                        break;
-                        case '<':
-                            if($condition['value'] < $result)
-                            {
-                                $data['step']=$condition['if_next_step'];
-                                $st=$this->db->query('select * from pathflow where step='.$condition['if_next_step'].' and pathway='.$params['pathway'])->result_array();
-                                $path=$st[0];
-                                $data['back']=$step['number'];
-                                $data['next']=$path['next'];
-                            }
                             else
                             {
-                                $data['step']=$condition['else_next_step'];  
-                                $st=$this->db->query('select * from pathflow where step='.$condition['else_next_step'].' and pathway='.$params['pathway'])->result_array();
-                                $path=$st[0];
-                                $data['back']=$step['number']; 
-                                $data['next']=$path['next'];
-                            }
+                                if($result['value'] < $condition['value'])
+                                {
+                                    $data['step']=$condition['if_next_step'];
+                                    $st=$this->db->query('select * from pathflow where step='.$condition['if_next_step'].' and pathway='.$params['pathway'])->result_array();
+                                    $path=$st[0];
+                                    $data['back']=$step['number'];
+                                    $data['next']=$path['next'];
+                                }
+                                else
+                                {
+                                    $data['step']=$condition['else_next_step'];  
+                                    $st=$this->db->query('select * from pathflow where step='.$condition['else_next_step'].' and pathway='.$params['pathway'])->result_array();
+                                    $path=$st[0];
+                                    $data['back']=$step['number']; 
+                                    $data['next']=$path['next'];
+                                    //echo '<pre>';print_r($path);exit;
+                                }
+                            } 
                         break;
                         case '==':
-                            if($result == $condition['value'])
+                        // echo 'result '.$result['value'];exit;
+                            if(isset($result[0]))
                             {
-                                $data['step']=$condition['if_next_step'];
-                                $st=$this->db->query('select * from pathflow where step='.$condition['if_next_step'].' and pathway='.$params['pathway'])->result_array();
-                                $path=$st[0];
-                                $data['back']=$step['number'];
-                                $data['next']=$path['next'];
+                                if($result[0]['value'] == $condition['value'])
+                                {
+                                    $data['step']=$condition['if_next_step'];
+                                    $st=$this->db->query('select * from pathflow where step='.$condition['if_next_step'].' and pathway='.$params['pathway'])->result_array();
+                                    $path=$st[0];
+                                    $data['back']=$step['number'];
+                                    $data['next']=$path['next'];
+                                }
+                                else
+                                {
+                                    $data['step']=$condition['else_next_step'];  
+                                    $st=$this->db->query('select * from pathflow where step='.$condition['else_next_step'].' and pathway='.$params['pathway'])->result_array();
+                                    $path=$st[0];
+                                    $data['back']=$step['number']; 
+                                    $data['next']=$path['next'];
+                                    //echo '<pre>';print_r($path);exit;
+                                }
                             }
                             else
                             {
-                                $data['step']=$condition['else_next_step'];  
-                                $st=$this->db->query('select * from pathflow where step='.$condition['else_next_step'].' and pathway='.$params['pathway'])->result_array();
-                                $path=$st[0];
-                                $data['back']=$step['number']; 
-                                $data['next']=$path['next'];
-                            }
+                                if($result['value'] == $condition['value'])
+                                {
+                                    $data['step']=$condition['if_next_step'];
+                                    $st=$this->db->query('select * from pathflow where step='.$condition['if_next_step'].' and pathway='.$params['pathway'])->result_array();
+                                    $path=$st[0];
+                                    $data['back']=$step['number'];
+                                    $data['next']=$path['next'];
+                                }
+                                else
+                                {
+                                    $data['step']=$condition['else_next_step'];  
+                                    $st=$this->db->query('select * from pathflow where step='.$condition['else_next_step'].' and pathway='.$params['pathway'])->result_array();
+                                    $path=$st[0];
+                                    $data['back']=$step['number']; 
+                                    $data['next']=$path['next'];
+                                    //echo '<pre>';print_r($path);exit;
+                                }
+                            } 
                         case '<>':                   
                             if(isset($result[0]))
                              { 
@@ -401,7 +448,6 @@ class Admin_model extends CI_Model {
                             switch($condition['operator'])
                             {
                                 case '>':
-                                
                                     if(isset($result[0]))
                                     {
                                         if($result[0]['value'] > $condition['value'])
@@ -411,7 +457,6 @@ class Admin_model extends CI_Model {
                                             $path=$st[0];
                                             $data['back']=$step['number'];
                                             $data['next']=$path['next'];
-                                            //// // echo "<script>console.log('158 next step ".$data['next']."')</script>";
                                         }
                                         else
                                         {
@@ -432,7 +477,29 @@ class Admin_model extends CI_Model {
                                             $path=$st[0];
                                             $data['back']=$step['number'];
                                             $data['next']=$path['next'];
-                                            //// // echo "<script>console.log('158 next step ".$data['next']."')</script>";
+                                        }
+                                        else
+                                        {
+                                            $data['step']=$condition['else_next_step'];  
+                                            $st=$this->db->query('select * from pathflow where step='.$condition['else_next_step'].' and pathway='.$params['pathway'])->result_array();
+                                            $path=$st[0];
+                                            $data['back']=$step['number']; 
+                                            $data['next']=$path['next'];
+                                            //echo '<pre>';print_r($path);exit;
+                                        }
+                                    } 
+                                    
+                                break;
+                                case '<':
+                                    if(isset($result[0]))
+                                    {
+                                        if($result[0]['value'] < $condition['value'])
+                                        {
+                                            $data['step']=$condition['if_next_step'];
+                                            $st=$this->db->query('select * from pathflow where step='.$condition['if_next_step'].' and pathway='.$params['pathway'])->result_array();
+                                            $path=$st[0];
+                                            $data['back']=$step['number'];
+                                            $data['next']=$path['next'];
                                         }
                                         else
                                         {
@@ -444,42 +511,69 @@ class Admin_model extends CI_Model {
                                             //echo '<pre>';print_r($path);exit;
                                         }
                                     }
-                                break;
-                                case '<':
-                                    if($condition['value'] < $result)
-                                    {
-                                        $data['step']=$condition['if_next_step'];
-                                        $st=$this->db->query('select * from pathflow where step='.$condition['if_next_step'].' and pathway='.$params['pathway'])->result_array();
-                                        $path=$st[0];
-                                        $data['back']=$step['number'];
-                                        $data['next']=$path['next'];
-                                    }
                                     else
                                     {
-                                        $data['step']=$condition['else_next_step'];  
-                                        $st=$this->db->query('select * from pathflow where step='.$condition['else_next_step'].' and pathway='.$params['pathway'])->result_array();
-                                        $path=$st[0];
-                                        $data['back']=$step['number']; 
-                                        $data['next']=$path['next'];
-                                    }
+                                        if($result['value'] < $condition['value'])
+                                        {
+                                            $data['step']=$condition['if_next_step'];
+                                            $st=$this->db->query('select * from pathflow where step='.$condition['if_next_step'].' and pathway='.$params['pathway'])->result_array();
+                                            $path=$st[0];
+                                            $data['back']=$step['number'];
+                                            $data['next']=$path['next'];
+                                        }
+                                        else
+                                        {
+                                            $data['step']=$condition['else_next_step'];  
+                                            $st=$this->db->query('select * from pathflow where step='.$condition['else_next_step'].' and pathway='.$params['pathway'])->result_array();
+                                            $path=$st[0];
+                                            $data['back']=$step['number']; 
+                                            $data['next']=$path['next'];
+                                            //echo '<pre>';print_r($path);exit;
+                                        }
+                                    } 
                                 break;
                                 case '==':
-                                    if($result[0]['value'] == $condition['value'])
+                                // echo 'result '.$result['value'];exit;
+                                    if(isset($result[0]))
                                     {
-                                        $data['step']=$condition['if_next_step'];
-                                        $st=$this->db->query('select * from pathflow where step='.$condition['if_next_step'].' and pathway='.$params['pathway'])->result_array();
-                                        $path=$st[0];
-                                        $data['back']=$step['number'];
-                                        $data['next']=$path['next'];
+                                        if($result[0]['value'] == $condition['value'])
+                                        {
+                                            $data['step']=$condition['if_next_step'];
+                                            $st=$this->db->query('select * from pathflow where step='.$condition['if_next_step'].' and pathway='.$params['pathway'])->result_array();
+                                            $path=$st[0];
+                                            $data['back']=$step['number'];
+                                            $data['next']=$path['next'];
+                                        }
+                                        else
+                                        {
+                                            $data['step']=$condition['else_next_step'];  
+                                            $st=$this->db->query('select * from pathflow where step='.$condition['else_next_step'].' and pathway='.$params['pathway'])->result_array();
+                                            $path=$st[0];
+                                            $data['back']=$step['number']; 
+                                            $data['next']=$path['next'];
+                                            //echo '<pre>';print_r($path);exit;
+                                        }
                                     }
                                     else
                                     {
-                                        $data['step']=$condition['else_next_step'];  
-                                        $st=$this->db->query('select * from pathflow where step='.$condition['else_next_step'].' and pathway='.$params['pathway'])->result_array();
-                                        $path=$st[0];
-                                        $data['back']=$step['number']; 
-                                        $data['next']=$path['next'];
-                                    }
+                                        if($result['value'] == $condition['value'])
+                                        {
+                                            $data['step']=$condition['if_next_step'];
+                                            $st=$this->db->query('select * from pathflow where step='.$condition['if_next_step'].' and pathway='.$params['pathway'])->result_array();
+                                            $path=$st[0];
+                                            $data['back']=$step['number'];
+                                            $data['next']=$path['next'];
+                                        }
+                                        else
+                                        {
+                                            $data['step']=$condition['else_next_step'];  
+                                            $st=$this->db->query('select * from pathflow where step='.$condition['else_next_step'].' and pathway='.$params['pathway'])->result_array();
+                                            $path=$st[0];
+                                            $data['back']=$step['number']; 
+                                            $data['next']=$path['next'];
+                                            //echo '<pre>';print_r($path);exit;
+                                        }
+                                    } 
                                 case '<>':                   
                                     if(isset($result[0]))
                                      { 
@@ -524,35 +618,35 @@ class Admin_model extends CI_Model {
                                         }
                                     }
                                 break;
-                            }
-                            //echo '<pre>';print_r($step);print_r($data);exit;
-                            $step=$this->getStepByNumber($data['step'], $params['pathway']);
-                            //$step=$this->getNextStep($step,$params);
-                            //echo '<pre>';print_r($step);print_r($data);exit;
+                                    }
+                                    //echo '<pre>';print_r($step);print_r($data);exit;
+                                    $step=$this->getStepByNumber($data['step'], $params['pathway']);
+                                    //$step=$this->getNextStep($step,$params);
+                                    //echo '<pre>';print_r($step);print_r($data);exit;
 
-                            if($step['type']=='question' || $step['type']=='info')
-                            {
-                                //// // echo "<script>console.log('211 step ".$step['id']." is question')</script>";
-                                $st=$this->db->query('select questions.* from questions inner join step_questions on step_questions.question=questions.id where step='.$step['id'])->result_array();
-                                $data['question']=$st[0];
-                                return $data;
-                            }
-                            else
-                            {   
-                                // echo "<script>console.log('409 next step ".$step['number']." is ".$step['type'].")</script>";
-                                //echo '<pre>';print_r($data);exit;
-                                $url = 'api/pw/next_pw/';
-                                $myvars = http_build_query($data, '', '&');
+                                    if($step['type']=='question' || $step['type']=='info')
+                                    {
+                                        //// // echo "<script>console.log('211 step ".$step['id']." is question')</script>";
+                                        $st=$this->db->query('select questions.* from questions inner join step_questions on step_questions.question=questions.id where step='.$step['id'])->result_array();
+                                        $data['question']=$st[0];
+                                        return $data;
+                                    }
+                                    else
+                                    {   
+                                        // echo "<script>console.log('409 next step ".$step['number']." is ".$step['type'].")</script>";
+                                        //echo '<pre>';print_r($data);exit;
+                                        $url = 'api/pw/next_pw/';
+                                        $myvars = http_build_query($data, '', '&');
 
-                                $ch = curl_init( $url );
-                                curl_setopt( $ch, CURLOPT_POST, 1);
-                                curl_setopt( $ch, CURLOPT_POSTFIELDS, $myvars);
-                                curl_setopt( $ch, CURLOPT_FOLLOWLOCATION, 1);
-                                curl_setopt( $ch, CURLOPT_HEADER, 0);
-                                curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true);
+                                        $ch = curl_init( $url );
+                                        curl_setopt( $ch, CURLOPT_POST, 1);
+                                        curl_setopt( $ch, CURLOPT_POSTFIELDS, $myvars);
+                                        curl_setopt( $ch, CURLOPT_FOLLOWLOCATION, 1);
+                                        curl_setopt( $ch, CURLOPT_HEADER, 0);
+                                        curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true);
 
-                                curl_exec( $ch );
-                            }
+                                        curl_exec( $ch );
+                                    }
                             
                         } 
                     }
@@ -627,31 +721,55 @@ class Admin_model extends CI_Model {
                             $data['next']=$path['next'];
                             //echo '<pre>';print_r($path);exit;
                         }
-                    }
-                        
+                    } 
+                    
                 break;
                 case '<':
-                    if($condition['value'] < $result)
+                    if(isset($result[0]))
                     {
-                        $data['step']=$condition['if_next_step'];
-                        $st=$this->db->query('select * from pathflow where step='.$condition['if_next_step'].' and pathway='.$params['pathway'])->result_array();
-                        $path=$st[0];
-                        $data['back']=$step['number'];
-                        $data['next']=$path['next'];
+                        if($result[0]['value'] < $condition['value'])
+                        {
+                            $data['step']=$condition['if_next_step'];
+                            $st=$this->db->query('select * from pathflow where step='.$condition['if_next_step'].' and pathway='.$params['pathway'])->result_array();
+                            $path=$st[0];
+                            $data['back']=$step['number'];
+                            $data['next']=$path['next'];
+                        }
+                        else
+                        {
+                            $data['step']=$condition['else_next_step'];  
+                            $st=$this->db->query('select * from pathflow where step='.$condition['else_next_step'].' and pathway='.$params['pathway'])->result_array();
+                            $path=$st[0];
+                            $data['back']=$step['number']; 
+                            $data['next']=$path['next'];
+                            //echo '<pre>';print_r($path);exit;
+                        }
                     }
                     else
                     {
-                        $data['step']=$condition['else_next_step'];  
-                        $st=$this->db->query('select * from pathflow where step='.$condition['else_next_step'].' and pathway='.$params['pathway'])->result_array();
-                        $path=$st[0];
-                        $data['back']=$step['number']; 
-                        $data['next']=$path['next'];
-                    }
+                        if($result['value'] < $condition['value'])
+                        {
+                            $data['step']=$condition['if_next_step'];
+                            $st=$this->db->query('select * from pathflow where step='.$condition['if_next_step'].' and pathway='.$params['pathway'])->result_array();
+                            $path=$st[0];
+                            $data['back']=$step['number'];
+                            $data['next']=$path['next'];
+                        }
+                        else
+                        {
+                            $data['step']=$condition['else_next_step'];  
+                            $st=$this->db->query('select * from pathflow where step='.$condition['else_next_step'].' and pathway='.$params['pathway'])->result_array();
+                            $path=$st[0];
+                            $data['back']=$step['number']; 
+                            $data['next']=$path['next'];
+                            //echo '<pre>';print_r($path);exit;
+                        }
+                    } 
                 break;
                 case '==':
+                // echo 'result '.$result['value'];exit;
                     if(isset($result[0]))
-                     { 
-                        // print_r($result);exit;
+                    {
                         if($result[0]['value'] == $condition['value'])
                         {
                             $data['step']=$condition['if_next_step'];
@@ -659,19 +777,19 @@ class Admin_model extends CI_Model {
                             $path=$st[0];
                             $data['back']=$step['number'];
                             $data['next']=$path['next'];
-                        } 
+                        }
                         else
-                        { //echo '502 go';exit;
+                        {
                             $data['step']=$condition['else_next_step'];  
                             $st=$this->db->query('select * from pathflow where step='.$condition['else_next_step'].' and pathway='.$params['pathway'])->result_array();
                             $path=$st[0];
-                            // print_r($path);
                             $data['back']=$step['number']; 
                             $data['next']=$path['next'];
+                            //echo '<pre>';print_r($path);exit;
                         }
                     }
                     else
-                     { //echo '502 go';exit;
+                    {
                         if($result['value'] == $condition['value'])
                         {
                             $data['step']=$condition['if_next_step'];
@@ -679,17 +797,17 @@ class Admin_model extends CI_Model {
                             $path=$st[0];
                             $data['back']=$step['number'];
                             $data['next']=$path['next'];
-                        } 
+                        }
                         else
-                        { //echo '502 go';exit;
+                        {
                             $data['step']=$condition['else_next_step'];  
                             $st=$this->db->query('select * from pathflow where step='.$condition['else_next_step'].' and pathway='.$params['pathway'])->result_array();
                             $path=$st[0];
-                            // print_r($path);
                             $data['back']=$step['number']; 
                             $data['next']=$path['next'];
+                            //echo '<pre>';print_r($path);exit;
                         }
-                    }
+                    } 
                 case '<>':                   
                     if(isset($result[0]))
                      { 
@@ -766,85 +884,132 @@ class Admin_model extends CI_Model {
                     switch($condition['operator'])
                     {
                         case '>':
-                        if(isset($result[0]))
-                        {
-                            if($result[0]['value'] > $condition['value'])
+                            if(isset($result[0]))
                             {
-                                $data['step']=$condition['if_next_step'];
-                                $st=$this->db->query('select * from pathflow where step='.$condition['if_next_step'].' and pathway='.$params['pathway'])->result_array();
-                                $path=$st[0];
-                                $data['back']=$step['number'];
-                                $data['next']=$path['next'];
+                                if($result[0]['value'] > $condition['value'])
+                                {
+                                    $data['step']=$condition['if_next_step'];
+                                    $st=$this->db->query('select * from pathflow where step='.$condition['if_next_step'].' and pathway='.$params['pathway'])->result_array();
+                                    $path=$st[0];
+                                    $data['back']=$step['number'];
+                                    $data['next']=$path['next'];
+                                }
+                                else
+                                {
+                                    $data['step']=$condition['else_next_step'];  
+                                    $st=$this->db->query('select * from pathflow where step='.$condition['else_next_step'].' and pathway='.$params['pathway'])->result_array();
+                                    $path=$st[0];
+                                    $data['back']=$step['number']; 
+                                    $data['next']=$path['next'];
+                                    //echo '<pre>';print_r($path);exit;
+                                }
                             }
                             else
                             {
-                                $data['step']=$condition['else_next_step'];  
-                                $st=$this->db->query('select * from pathflow where step='.$condition['else_next_step'].' and pathway='.$params['pathway'])->result_array();
-                                $path=$st[0];
-                                $data['back']=$step['number']; 
-                                $data['next']=$path['next'];
-                                //echo '<pre>';print_r($path);exit;
-                            }
-                        }
-                        else
-                        {
-                            if($result['value'] > $condition['value'])
-                            {
-                                $data['step']=$condition['if_next_step'];
-                                $st=$this->db->query('select * from pathflow where step='.$condition['if_next_step'].' and pathway='.$params['pathway'])->result_array();
-                                $path=$st[0];
-                                $data['back']=$step['number'];
-                                $data['next']=$path['next'];
-                            }
-                            else
-                            {
-                                $data['step']=$condition['else_next_step'];  
-                                $st=$this->db->query('select * from pathflow where step='.$condition['else_next_step'].' and pathway='.$params['pathway'])->result_array();
-                                $path=$st[0];
-                                $data['back']=$step['number']; 
-                                $data['next']=$path['next'];
-                                //echo '<pre>';print_r($path);exit;
-                            }
-                        } 
+                                if($result['value'] > $condition['value'])
+                                {
+                                    $data['step']=$condition['if_next_step'];
+                                    $st=$this->db->query('select * from pathflow where step='.$condition['if_next_step'].' and pathway='.$params['pathway'])->result_array();
+                                    $path=$st[0];
+                                    $data['back']=$step['number'];
+                                    $data['next']=$path['next'];
+                                }
+                                else
+                                {
+                                    $data['step']=$condition['else_next_step'];  
+                                    $st=$this->db->query('select * from pathflow where step='.$condition['else_next_step'].' and pathway='.$params['pathway'])->result_array();
+                                    $path=$st[0];
+                                    $data['back']=$step['number']; 
+                                    $data['next']=$path['next'];
+                                    //echo '<pre>';print_r($path);exit;
+                                }
+                            } 
                             
                         break;
                         case '<':
-                            if($condition['value'] < $result)
+                            if(isset($result[0]))
                             {
-                                $data['step']=$condition['if_next_step'];
-                                $st=$this->db->query('select * from pathflow where step='.$condition['if_next_step'].' and pathway='.$params['pathway'])->result_array();
-                                $path=$st[0];
-                                $data['back']=$step['number'];
-                                $data['next']=$path['next'];
+                                if($result[0]['value'] < $condition['value'])
+                                {
+                                    $data['step']=$condition['if_next_step'];
+                                    $st=$this->db->query('select * from pathflow where step='.$condition['if_next_step'].' and pathway='.$params['pathway'])->result_array();
+                                    $path=$st[0];
+                                    $data['back']=$step['number'];
+                                    $data['next']=$path['next'];
+                                }
+                                else
+                                {
+                                    $data['step']=$condition['else_next_step'];  
+                                    $st=$this->db->query('select * from pathflow where step='.$condition['else_next_step'].' and pathway='.$params['pathway'])->result_array();
+                                    $path=$st[0];
+                                    $data['back']=$step['number']; 
+                                    $data['next']=$path['next'];
+                                    //echo '<pre>';print_r($path);exit;
+                                }
                             }
                             else
                             {
-                                $data['step']=$condition['else_next_step'];  
-                                $st=$this->db->query('select * from pathflow where step='.$condition['else_next_step'].' and pathway='.$params['pathway'])->result_array();
-                                $path=$st[0];
-                                $data['back']=$step['number']; 
-                                $data['next']=$path['next'];
-                            }
+                                if($result['value'] < $condition['value'])
+                                {
+                                    $data['step']=$condition['if_next_step'];
+                                    $st=$this->db->query('select * from pathflow where step='.$condition['if_next_step'].' and pathway='.$params['pathway'])->result_array();
+                                    $path=$st[0];
+                                    $data['back']=$step['number'];
+                                    $data['next']=$path['next'];
+                                }
+                                else
+                                {
+                                    $data['step']=$condition['else_next_step'];  
+                                    $st=$this->db->query('select * from pathflow where step='.$condition['else_next_step'].' and pathway='.$params['pathway'])->result_array();
+                                    $path=$st[0];
+                                    $data['back']=$step['number']; 
+                                    $data['next']=$path['next'];
+                                    //echo '<pre>';print_r($path);exit;
+                                }
+                            } 
                         break;
                         case '==':
                         // echo 'result '.$result['value'];exit;
-                            if($result['value'] == $condition['value'])
-                             { //echo '504 go';exit;
-                                $data['step']=$condition['if_next_step'];
-                                $st=$this->db->query('select * from pathflow where step='.$condition['if_next_step'].' and pathway='.$params['pathway'])->result_array();
-                                $path=$st[0];
-                                $data['back']=$step['number'];
-                                $data['next']=$path['next'];
+                            if(isset($result[0]))
+                            {
+                                if($result[0]['value'] == $condition['value'])
+                                {
+                                    $data['step']=$condition['if_next_step'];
+                                    $st=$this->db->query('select * from pathflow where step='.$condition['if_next_step'].' and pathway='.$params['pathway'])->result_array();
+                                    $path=$st[0];
+                                    $data['back']=$step['number'];
+                                    $data['next']=$path['next'];
+                                }
+                                else
+                                {
+                                    $data['step']=$condition['else_next_step'];  
+                                    $st=$this->db->query('select * from pathflow where step='.$condition['else_next_step'].' and pathway='.$params['pathway'])->result_array();
+                                    $path=$st[0];
+                                    $data['back']=$step['number']; 
+                                    $data['next']=$path['next'];
+                                    //echo '<pre>';print_r($path);exit;
+                                }
                             }
                             else
-                             { //echo '502 go';exit;
-                                $data['step']=$condition['else_next_step'];  
-                                $st=$this->db->query('select * from pathflow where step='.$condition['else_next_step'].' and pathway='.$params['pathway'])->result_array();
-                                $path=$st[0];
-                                // print_r($path);
-                                $data['back']=$step['number']; 
-                                $data['next']=$path['next'];
-                            }
+                            {
+                                if($result['value'] == $condition['value'])
+                                {
+                                    $data['step']=$condition['if_next_step'];
+                                    $st=$this->db->query('select * from pathflow where step='.$condition['if_next_step'].' and pathway='.$params['pathway'])->result_array();
+                                    $path=$st[0];
+                                    $data['back']=$step['number'];
+                                    $data['next']=$path['next'];
+                                }
+                                else
+                                {
+                                    $data['step']=$condition['else_next_step'];  
+                                    $st=$this->db->query('select * from pathflow where step='.$condition['else_next_step'].' and pathway='.$params['pathway'])->result_array();
+                                    $path=$st[0];
+                                    $data['back']=$step['number']; 
+                                    $data['next']=$path['next'];
+                                    //echo '<pre>';print_r($path);exit;
+                                }
+                            } 
                         case '<>':                   
                             if(isset($result[0]))
                              { 
@@ -1025,59 +1190,174 @@ class Admin_model extends CI_Model {
                     switch($condition['operator'])
                     {
                         case '>':
-                            if($result['value'] > $condition['value'])
+                            if(isset($result[0]))
                             {
-                                $data['step']=$condition['if_next_step'];
-                                $st=$this->db->query('select * from pathflow where step='.$condition['if_next_step'].' and pathway='.$params['pathway'])->result_array();
-                                $path=$st[0];
-                                $data['back']=$step['number'];
-                                $data['next']=$path['next'];
-                                // // echo "<script>console.log('462 next step ".$data['next']."')</script>";
+                                if($result[0]['value'] > $condition['value'])
+                                {
+                                    $data['step']=$condition['if_next_step'];
+                                    $st=$this->db->query('select * from pathflow where step='.$condition['if_next_step'].' and pathway='.$params['pathway'])->result_array();
+                                    $path=$st[0];
+                                    $data['back']=$step['number'];
+                                    $data['next']=$path['next'];
+                                }
+                                else
+                                {
+                                    $data['step']=$condition['else_next_step'];  
+                                    $st=$this->db->query('select * from pathflow where step='.$condition['else_next_step'].' and pathway='.$params['pathway'])->result_array();
+                                    $path=$st[0];
+                                    $data['back']=$step['number']; 
+                                    $data['next']=$path['next'];
+                                    //echo '<pre>';print_r($path);exit;
+                                }
                             }
                             else
                             {
-                                $data['step']=$condition['else_next_step'];  
-                                $st=$this->db->query('select * from pathflow where step='.$condition['else_next_step'].' and pathway='.$params['pathway'])->result_array();
-                                $path=$st[0];
-                                $data['back']=$step['number']; 
-                                $data['next']=$path['next'];
-                                //echo '<pre>';print_r($path);exit;
-                            }
+                                if($result['value'] > $condition['value'])
+                                {
+                                    $data['step']=$condition['if_next_step'];
+                                    $st=$this->db->query('select * from pathflow where step='.$condition['if_next_step'].' and pathway='.$params['pathway'])->result_array();
+                                    $path=$st[0];
+                                    $data['back']=$step['number'];
+                                    $data['next']=$path['next'];
+                                }
+                                else
+                                {
+                                    $data['step']=$condition['else_next_step'];  
+                                    $st=$this->db->query('select * from pathflow where step='.$condition['else_next_step'].' and pathway='.$params['pathway'])->result_array();
+                                    $path=$st[0];
+                                    $data['back']=$step['number']; 
+                                    $data['next']=$path['next'];
+                                    //echo '<pre>';print_r($path);exit;
+                                }
+                            } 
+                            
                         break;
                         case '<':
-                            if($condition['value'] < $result)
+                            if(isset($result[0]))
                             {
-                                $data['step']=$condition['if_next_step'];
-                                $st=$this->db->query('select * from pathflow where step='.$condition['if_next_step'].' and pathway='.$params['pathway'])->result_array();
-                                $path=$st[0];
-                                $data['back']=$step['number'];
-                                $data['next']=$path['next'];
+                                if($result[0]['value'] < $condition['value'])
+                                {
+                                    $data['step']=$condition['if_next_step'];
+                                    $st=$this->db->query('select * from pathflow where step='.$condition['if_next_step'].' and pathway='.$params['pathway'])->result_array();
+                                    $path=$st[0];
+                                    $data['back']=$step['number'];
+                                    $data['next']=$path['next'];
+                                }
+                                else
+                                {
+                                    $data['step']=$condition['else_next_step'];  
+                                    $st=$this->db->query('select * from pathflow where step='.$condition['else_next_step'].' and pathway='.$params['pathway'])->result_array();
+                                    $path=$st[0];
+                                    $data['back']=$step['number']; 
+                                    $data['next']=$path['next'];
+                                    //echo '<pre>';print_r($path);exit;
+                                }
                             }
                             else
                             {
-                                $data['step']=$condition['else_next_step'];  
-                                $st=$this->db->query('select * from pathflow where step='.$condition['else_next_step'].' and pathway='.$params['pathway'])->result_array();
-                                $path=$st[0];
-                                $data['back']=$step['number']; 
-                                $data['next']=$path['next'];
-                            }
+                                if($result['value'] < $condition['value'])
+                                {
+                                    $data['step']=$condition['if_next_step'];
+                                    $st=$this->db->query('select * from pathflow where step='.$condition['if_next_step'].' and pathway='.$params['pathway'])->result_array();
+                                    $path=$st[0];
+                                    $data['back']=$step['number'];
+                                    $data['next']=$path['next'];
+                                }
+                                else
+                                {
+                                    $data['step']=$condition['else_next_step'];  
+                                    $st=$this->db->query('select * from pathflow where step='.$condition['else_next_step'].' and pathway='.$params['pathway'])->result_array();
+                                    $path=$st[0];
+                                    $data['back']=$step['number']; 
+                                    $data['next']=$path['next'];
+                                    //echo '<pre>';print_r($path);exit;
+                                }
+                            } 
                         break;
-                        case '=':
-                            if($result == $condition['value'])
+                        case '==':
+                        // echo 'result '.$result['value'];exit;
+                            if(isset($result[0]))
                             {
-                                $data['step']=$condition['if_next_step'];
-                                $st=$this->db->query('select * from pathflow where step='.$condition['if_next_step'].' and pathway='.$params['pathway'])->result_array();
-                                $path=$st[0];
-                                $data['back']=$step['number'];
-                                $data['next']=$path['next'];
+                                if($result[0]['value'] == $condition['value'])
+                                {
+                                    $data['step']=$condition['if_next_step'];
+                                    $st=$this->db->query('select * from pathflow where step='.$condition['if_next_step'].' and pathway='.$params['pathway'])->result_array();
+                                    $path=$st[0];
+                                    $data['back']=$step['number'];
+                                    $data['next']=$path['next'];
+                                }
+                                else
+                                {
+                                    $data['step']=$condition['else_next_step'];  
+                                    $st=$this->db->query('select * from pathflow where step='.$condition['else_next_step'].' and pathway='.$params['pathway'])->result_array();
+                                    $path=$st[0];
+                                    $data['back']=$step['number']; 
+                                    $data['next']=$path['next'];
+                                    //echo '<pre>';print_r($path);exit;
+                                }
                             }
                             else
                             {
-                                $data['step']=$condition['else_next_step'];  
-                                $st=$this->db->query('select * from pathflow where step='.$condition['else_next_step'].' and pathway='.$params['pathway'])->result_array();
-                                $path=$st[0];
-                                $data['back']=$step['number']; 
-                                $data['next']=$path['next'];
+                                if($result['value'] == $condition['value'])
+                                {
+                                    $data['step']=$condition['if_next_step'];
+                                    $st=$this->db->query('select * from pathflow where step='.$condition['if_next_step'].' and pathway='.$params['pathway'])->result_array();
+                                    $path=$st[0];
+                                    $data['back']=$step['number'];
+                                    $data['next']=$path['next'];
+                                }
+                                else
+                                {
+                                    $data['step']=$condition['else_next_step'];  
+                                    $st=$this->db->query('select * from pathflow where step='.$condition['else_next_step'].' and pathway='.$params['pathway'])->result_array();
+                                    $path=$st[0];
+                                    $data['back']=$step['number']; 
+                                    $data['next']=$path['next'];
+                                    //echo '<pre>';print_r($path);exit;
+                                }
+                            } 
+                        case '<>':                   
+                            if(isset($result[0]))
+                             { 
+                                if($result[0]['value'] >= $condition['value_from'] && $result[0]['value'] <= $condition['value_to'])
+                                {
+                                    $data['step']=$condition['if_next_step'];
+                                    $st=$this->db->query('select * from pathflow where step='.$condition['if_next_step'].' and pathway='.$params['pathway'])->result_array();
+                                    $path=$st[0];
+                                    $data['back']=$step['number'];
+                                    $data['next']=$path['next'];
+                                }
+                                else
+                                { //
+                                    // echo '502 go';exit;
+                                    $data['step']=$condition['else_next_step'];  
+                                    $st=$this->db->query('select * from pathflow where step='.$condition['else_next_step'].' and pathway='.$params['pathway'])->result_array();
+                                    $path=$st[0];
+                                    // print_r($path);
+                                    $data['back']=$step['number']; 
+                                    $data['next']=$path['next'];
+                                }
+                            }
+                            else
+                             { //
+                                if($result['value'] >= $condition['value_from'] && $result['value'] <= $condition['value_to'])
+                                {
+                                    $data['step']=$condition['if_next_step'];
+                                    $st=$this->db->query('select * from pathflow where step='.$condition['if_next_step'].' and pathway='.$params['pathway'])->result_array();
+                                    $path=$st[0];
+                                    $data['back']=$step['number'];
+                                    $data['next']=$path['next'];
+                                }
+                                else
+                                { //
+                                    // echo '502 go';exit;
+                                    $data['step']=$condition['else_next_step'];  
+                                    $st=$this->db->query('select * from pathflow where step='.$condition['else_next_step'].' and pathway='.$params['pathway'])->result_array();
+                                    $path=$st[0];
+                                    // print_r($path);
+                                    $data['back']=$step['number']; 
+                                    $data['next']=$path['next'];
+                                }
                             }
                         break;
                     }
