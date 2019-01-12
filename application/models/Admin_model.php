@@ -61,7 +61,7 @@ class Admin_model extends CI_Model {
             
             //echo '<pre>';print_r($steps);
             // echo '111 go';
-            $data['percent']=$item['percent'];
+            $data['percent']=($data['step']/$steps)*100;
             return $data;
         }
         else
