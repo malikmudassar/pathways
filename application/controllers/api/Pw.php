@@ -181,11 +181,12 @@ class Pw extends REST_Controller {
         // $params['next']=$this->uri->segment(5);
         //echo '<pre>';print_r($params);exit;
         $step=$this->Admin_model->getStepByNumber($params['step'], $params['pathway']);
-        //echo '<pre>';print_r($step);exit;
-        if($step['type']!='question' || $step['type']!='info')
+        // echo '<pre>';print_r($step);exit;
+        if($step['type']!='question' && $step['type']!='info')
         {
             do {
                 $path=$this->Admin_model->getPathFlowByStep($step['number'], $params['pathway']);
+                print_r($path);exit;
                 $step=$this->Admin_model->getStepByNumber($path['back'], $params['pathway']);
                 $path=$this->Admin_model->getPathFlowByStep($step['number'], $params['pathway']);
             }while($step['type']!='question');
@@ -194,6 +195,7 @@ class Pw extends REST_Controller {
             $params['next']=$path['next'];
             
         }
+        // print_r($params);exit;
         $data=$this->Admin_model->getBackPathwayQuestion($params);
         $data['answer']=array();
         $data['answer'][0]=$this->Admin_model->getStepAnswer($params); 
