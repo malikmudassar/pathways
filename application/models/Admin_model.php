@@ -2115,6 +2115,7 @@ class Admin_model extends CI_Model {
         if(count($arr)>0)
         {
             $caption=array();
+            $caption[0]='';
             for($i=0;$i<count($arr);$i++)
             {
                 $st=$this->db->select('caption')
@@ -2130,7 +2131,6 @@ class Admin_model extends CI_Model {
                 }
                 
             }
-            $caption[0]=$caption;
             // print_r($caption);
             return $caption;
         }
