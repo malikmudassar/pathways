@@ -2043,7 +2043,7 @@ class Admin_model extends CI_Model {
             {
                 $d=$this->db->query('select * from steps where pathway=3 and number=1')->result_array();
                 $q=$this->getQuestionByStep($d[0]['id']);
-                $ans=$this->db->query('select * from step_answers where pathway=3 and step=1 order_by created_at DESC LIMIT 0,2')->result_array();
+                $ans=$this->db->query('select * from step_answers where pathway=3 and step=1 LIMIT 0,2')->result_array();
                 $data['type']='question';
                 $data['question']=$q['statement'];
                 $data['answer']=$ans;  
