@@ -202,7 +202,7 @@ class Pw extends REST_Controller {
         print_r($data['answer']);exit;
         if(!$data['answer'])
         {
-            $data['answer'][0]={''=>''};
+            // $data['answer'][0]={''=>''};
         }
         $data['form']=$this->Admin_model->getAnsForm($data['question']['id']);
 
