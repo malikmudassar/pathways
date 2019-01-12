@@ -1695,21 +1695,51 @@ class Admin_model extends CI_Model {
 
     public function getAnswerResult($q, $v)
     {
-        $st=$this->db->select('caption')
+        $d=$this->db->query('select * from answer_models inner join questions on questions.ans_model=answer_models.id 
+            where questions.id='.$q.'
+            ')->result_array();
+        // echo 'Q=:';print_r($d[0]);echo'<br>';
+        $arr=array();
+        if(strpos($v, ','))
+        {
+            $arr=explode(',', $v);            
+        }
+        if(count($arr)>0)
+        {
+            $caption='';
+            for($i=0;$i<count($arr);$i++)
+            {
+                $st=$this->db->select('caption')
+                    ->from('ans_form')
+                    ->where('question', $q)
+                    ->where('value',$arr[$i])
+                    ->get()
+                    ->result_array();
+                // print_r($st[0]);
+                $caption.=($i+1).': '.$st[0]['caption'].' ';
+            }
+            // print_r($caption);
+            return $caption;
+        }
+        else
+        {
+            $st=$this->db->select('caption')
                     ->from('ans_form')
                     ->where('question', $q)
                     ->where('value',$v)
                     ->get()
                     ->result_array();
-        // echo $this->db->last_query();
-        if(count($st)>0)
-        {
-            return $st[0]['caption'];
+            // echo $this->db->last_query();
+            if(count($st)>0)
+            {
+                return $st[0]['caption'];
+            }
+            else
+            {
+                return null;
+            }
         }
-        else
-        {
-            return null;
-        }
+            
         
     }
 
