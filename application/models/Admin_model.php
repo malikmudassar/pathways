@@ -117,7 +117,6 @@ class Admin_model extends CI_Model {
                         ->from('step_answers')
                         ->where('step BETWEEN '.$stepCalcData['from_step'].' and '.$stepCalcData['to_step'].'')
                         ->where('user_id',$params['user_id'])
-                        ->where('created_at >',$pth[0]['started_at'])
                         ->get()
                         ->result_array();
             //echo '<pre>';print_r($st);exit;
