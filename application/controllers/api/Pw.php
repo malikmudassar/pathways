@@ -46,6 +46,24 @@ class Pw extends REST_Controller {
                 ], REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
             }
     }
+    public function pathways_post()
+    {
+        $user_id=$_REQUEST['user_id'];
+        $pathways=$this->Admin_model->getPublishedPathways();
+        if ($pathways)
+            {
+                // Set the response and exit
+                $this->response($pathways, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
+            }
+            else
+            {
+                // Set the response and exit
+                $this->response([
+                    'status' => FALSE,
+                    'message' => 'No pathways were found'
+                ], REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
+            }
+    }
 
     public function init_pw_get()
     {
@@ -180,7 +198,7 @@ class Pw extends REST_Controller {
         $data['answer']=$this->Admin_model->getStepAnswer($params); 
         if(!$data['answer'])
         {
-            $data['answer']=(object)array();
+            $data['answer']=array();
         }
         $data['form']=$this->Admin_model->getAnsForm($data['question']['id']);
 
