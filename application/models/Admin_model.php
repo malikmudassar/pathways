@@ -2104,7 +2104,7 @@ class Admin_model extends CI_Model {
                                 ->from('step_answers')
                                 ->where('step',$data['step'])
                                 ->where('user_id',$data['user_id'])
-                                ->where('pathway', $params['pathway'])
+                                ->where('pathway', $data['pathway'])
                                 ->get()
                                 ->result_array();
 
@@ -2115,7 +2115,7 @@ class Admin_model extends CI_Model {
                         
                         $this->db->where('step',$data['step'])
                                 ->where('user_id',$data['user_id'])
-                                ->where('pathway', $params['pathway'])
+                                ->where('pathway', $data['pathway'])
                                 ->update('step_answers',$item);
                         // echo $this->db->last_query();
                     }
@@ -2138,7 +2138,7 @@ class Admin_model extends CI_Model {
                                 ->from('step_answers')
                                 ->where('step',$data['step'])
                                 ->where('user_id',$data['user_id'])
-                                ->where('pathway', $params['pathway'])
+                                ->where('pathway', $data['pathway'])
                                 ->get()
                                 ->result_array();
                     if(count($st)>0)
@@ -2146,7 +2146,7 @@ class Admin_model extends CI_Model {
                         
                         $this->db->where('step',$data['step'])
                                 ->where('user_id',$data['user_id'])
-                                ->where('pathway', $params['pathway'])
+                                ->where('pathway', $data['pathway'])
                                 ->update('step_answers',$item);
                     }
                     else
