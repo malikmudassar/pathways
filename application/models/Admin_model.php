@@ -1770,15 +1770,7 @@ class Admin_model extends CI_Model {
                                 ->result_array();
             if(count($st)>0)
             {
-                if(count($st)>1)
-                {
-                    return $st;
-                }
-                else
-                {
-                    return $st[0];
-                }
-                
+                return $st;                
             }
             else
             {
