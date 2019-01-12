@@ -164,7 +164,7 @@ class Pw extends REST_Controller {
         //echo '<pre>';print_r($params);exit;
         $step=$this->Admin_model->getStepByNumber($params['step'], $params['pathway']);
         //echo '<pre>';print_r($step);exit;
-        if($step['type']!='question')
+        if($step['type']!='question' || $step['type']!='info')
         {
             do {
                 $path=$this->Admin_model->getPathFlowByStep($step['number'], $params['pathway']);
