@@ -2069,7 +2069,7 @@ class Admin_model extends CI_Model {
                         $dr=array(
                             'type'      => $step['type'],
                             'question'  => $q['statement'],
-                            'answer'    => array()($this->getAnswerResult($q['id'],$row['value']))
+                            'answer'    => ($this->getAnswerResult($q['id'],$row['value']))
                         );
                     }
                     else
