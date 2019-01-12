@@ -672,6 +672,8 @@ class Admin_model extends CI_Model {
                     switch($condition['operator'])
                     {
                         case '>':
+                        if(isset($result[0]))
+                        {
                             if($result[0]['value'] > $condition['value'])
                             {
                                 $data['step']=$condition['if_next_step'];
@@ -689,6 +691,28 @@ class Admin_model extends CI_Model {
                                 $data['next']=$path['next'];
                                 //echo '<pre>';print_r($path);exit;
                             }
+                        }
+                        else
+                        {
+                            if($result['value'] > $condition['value'])
+                            {
+                                $data['step']=$condition['if_next_step'];
+                                $st=$this->db->query('select * from pathflow where step='.$condition['if_next_step'].' and pathway='.$params['pathway'])->result_array();
+                                $path=$st[0];
+                                $data['back']=$step['number'];
+                                $data['next']=$path['next'];
+                            }
+                            else
+                            {
+                                $data['step']=$condition['else_next_step'];  
+                                $st=$this->db->query('select * from pathflow where step='.$condition['else_next_step'].' and pathway='.$params['pathway'])->result_array();
+                                $path=$st[0];
+                                $data['back']=$step['number']; 
+                                $data['next']=$path['next'];
+                                //echo '<pre>';print_r($path);exit;
+                            }
+                        } 
+                            
                         break;
                         case '<':
                             if($condition['value'] < $result)
