@@ -491,7 +491,7 @@ class Admin_model extends CI_Model {
                 case '==':
                     if(count($result)>0)
                      { 
-                        print_r($result);exit;
+                        // print_r($result);exit;
                         if($result[0]['value'] == $condition['value'])
                         {
                             $data['step']=$condition['if_next_step'];
