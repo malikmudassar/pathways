@@ -1097,13 +1097,27 @@ class Admin_model extends CI_Model {
                         ->where('status','pending')
                         ->get()
                         ->result_array();
+            // print_r($pth);exit;
+            if(count($pth)==0)
+            {
+                $pth=$this->db->select('*')
+                        ->from('user_pathway_status')
+                        ->where('user_id',$data['user_id'])
+                        ->where('pathway',$data['pathway'])
+                        ->where('status','finished')
+                        ->order_by('started_at','DESC')
+                        ->get()
+                        ->result_array();
+            }
             $st=$this->db->select('*')
                         ->from('step_answers')
-                        ->where('step',$step['id'])
+                        ->where('step',$step['number'])
+                        ->where('pathway',$data['pathway'])
                         ->where('user_id',$params['user_id'])
                         ->where('created_at >',$pth[0]['started_at'])
                         ->get()
                         ->result_array();
+            // print_r($this->db->last_query());exit;
             if(count($st)>0)
             {
                 $this->db->where('step',$item['step'])->update('step_answers',$item);
@@ -1584,7 +1598,18 @@ class Admin_model extends CI_Model {
                                     ->where('status','pending')
                                     ->get()
                                     ->result_array();
-                        
+                        if(count($pth)==0)
+                        {
+                            $pth=$this->db->select('*')
+                                    ->from('user_pathway_status')
+                                    ->where('user_id',$data['user_id'])
+                                    ->where('pathway',$data['pathway'])
+                                    ->where('status','finished')
+                                    ->order_by('started_at','DESC')
+                                    ->get()
+                                    ->result_array();
+                        }
+                        // echo '1050 <pre>';print_r($pth);exit;
                         $st=$this->db->select('*')
                                     ->from('step_answers')
                                     ->where('step',$data['step'])
@@ -1593,7 +1618,7 @@ class Admin_model extends CI_Model {
                                     ->where('created_at >',$pth[0]['started_at'])
                                     ->get()
                                     ->result_array();
-                        // echo '1050 <pre>';print_r($st);exit;
+                        // echo $this->db->last_query();exit;
                         if(count($st)>0)
                         {
                             $this->db->where('step',$data['step'])
@@ -1774,6 +1799,7 @@ class Admin_model extends CI_Model {
                                 ->result_array();
             if(count($st)>0)
             {
+                // print_r(expression)($st);exit;
                 if(count($st)>1)
                 {
                     return $st;
