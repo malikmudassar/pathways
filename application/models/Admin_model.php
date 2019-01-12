@@ -508,8 +508,8 @@ class Admin_model extends CI_Model {
                         $data['next']=$path['next'];
                     }
                 case '<>':
-                // echo 'result '.$result['value'];exit;
-                    if($result['value'] >= $condition['value_from'] && $result['value'] <= $condition['value_to'])
+                    // print_r($result);exit;
+                    if($result[0]['value'] >= $condition['value_from'] && $result[0]['value'] <= $condition['value_to'])
                      { 
                         // echo '504 go';exit;
                         $data['step']=$condition['if_next_step'];
@@ -561,7 +561,7 @@ class Admin_model extends CI_Model {
                     switch($condition['operator'])
                     {
                         case '>':
-                            if($result['value'] > $condition['value'])
+                            if($result[0]['value'] > $condition['value'])
                             {
                                 $data['step']=$condition['if_next_step'];
                                 $st=$this->db->query('select * from pathflow where step='.$condition['if_next_step'].' and pathway='.$params['pathway'])->result_array();
@@ -618,7 +618,7 @@ class Admin_model extends CI_Model {
                             }
                         case '<>':
                         // echo 'result '.$result['value'];exit;
-                            if($result['value'] >= $condition['value_from'] && $result['value'] <= $condition['value_to'])
+                            if($result[0]['value'] >= $condition['value_from'] && $result[0]['value'] <= $condition['value_to'])
                              { 
                                 // echo '504 go';exit;
                                 $data['step']=$condition['if_next_step'];
@@ -1766,6 +1766,7 @@ class Admin_model extends CI_Model {
                                 ->where('user_id',$data['user_id'])
                                 ->where('pathway', $data['pathway'])
                                 ->where('created_at >',$pth[0]['started_at'])
+                                ->order_by('created_at','DESC')
                                 ->get()
                                 ->result_array();
             if(count($st)>0)
