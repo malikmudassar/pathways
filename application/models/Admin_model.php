@@ -2041,6 +2041,7 @@ class Admin_model extends CI_Model {
             }
             else
             {
+                $data=array();
                 $d=$this->db->query('select * from steps where pathway=3 and number=1')->result_array();
                 $q=$this->getQuestionByStep($d[0]['id']);
                 $ans=$this->db->query('select * from step_answers where pathway=3 and step=1 LIMIT 0,2')->result_array();
