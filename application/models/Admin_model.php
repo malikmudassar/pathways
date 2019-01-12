@@ -1716,7 +1716,11 @@ class Admin_model extends CI_Model {
                     ->get()
                     ->result_array();
                 // print_r($st[0]);
-                $caption.=($i+1).': '.$st[0]['caption'].' ';
+                if(count($st)>0)
+                {
+                    $caption.=($i+1).': '.$st[0]['caption'].' ';
+                }
+                
             }
             // print_r($caption);
             return $caption;
