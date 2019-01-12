@@ -72,7 +72,7 @@ class Admin_model extends CI_Model {
                         'user_id'   =>  $params['user_id'],
                         'pathway'   =>  $data['pathway'],
                         'current_step'=>$data['step'],
-                        'finished_at' =>date('Y-m-d h:i:s'),
+                        'finished_at' =>date('Y-m-d H:i:s'),
                         'status'    =>  'finished',
                         'percent'   =>  100
                     );
@@ -1632,8 +1632,7 @@ class Admin_model extends CI_Model {
         $dt=$this->db->select('*')
                         ->from('user_pathway_status')
                         ->where('user_id',$params['user_id'])
-                        ->where('pathway',$params['pathway'])
-                        ->where('status','finished')  
+                        ->where('pathway',$params['pathway']) 
                         ->order_by('finished_at', 'DESC')                      
                         ->get()
                         ->result_array();
@@ -1646,7 +1645,7 @@ class Admin_model extends CI_Model {
                         ->where('pathway', $params['pathway'])
                         ->get()
                         ->result_array();
-        // print_r($this->db->last_query());
+        print_r($st);
         if(count($st)==0)
         {
             $st=$this->db->select('*')
