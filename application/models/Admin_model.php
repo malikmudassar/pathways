@@ -2126,13 +2126,14 @@ class Admin_model extends CI_Model {
                 if($am['checkbox']>0)
                 {
                     //// // echo "<script>console.log('886 saving checkbox data for step ".$data['step']."')</script>";
+                    // echo '2129<pre>';print_r($data);exit;
                     $item=array(
                         'pathway'   => $data['pathway'],
                         'step'      => $data['step'],
                         'user_id'   =>$data['user_id'],
                         'value'     => implode(',', $data['score'])
                     );
-                    //echo '<pre> path';print_r($pth);exit;
+                    // print_r($item);exit;
                     $st=$this->db->select('*')
                                 ->from('step_answers')
                                 ->where('step',$data['step'])
@@ -2174,6 +2175,7 @@ class Admin_model extends CI_Model {
                 ->where('pathway', $data['pathway'])
                 ->get()
                 ->result_array();
+        // echo $this->db->last_query();
         if(count($st)>0)
         {
             // print_r(expression)($st);exit;
