@@ -40,7 +40,7 @@ class Admin_model extends CI_Model {
                 ->where('pathway',$params['pathway'])
                 ->where('step',$params['next'])
                 ->get()->result_array();
-        // echo '<pre>';print_r($this->db->last_query()); exit;
+        echo '<pre>';print_r($this->db->last_query()); exit;
         $data=$st[0];
         $step=$this->getStepByNumber($data['step'], $params['pathway']);
         // echo '<pre>1';print_r($data); print_r($step);exit;
@@ -490,7 +490,7 @@ class Admin_model extends CI_Model {
                 break;
                 case '==':
                 // echo 'result '.$result['value'];exit;
-                    if($result['value'] == $condition['value'])
+                    if($result[0]['value'] == $condition['value'])
                      { //echo '504 go';exit;
                         $data['step']=$condition['if_next_step'];
                         $st=$this->db->query('select * from pathflow where step='.$condition['if_next_step'].' and pathway='.$params['pathway'])->result_array();
