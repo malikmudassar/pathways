@@ -2022,7 +2022,7 @@ class Admin_model extends CI_Model {
                                     ->from('step_answers')
                                     ->where('step',$data['step'])
                                     ->where('user_id',$data['user_id'])
-                                    ->where('pathway', $params['pathway'])
+                                    ->where('pathway', $data['pathway'])
                                     ->where('field_name',$ans_form[$i]['name'])
                                     ->get()
                                     ->result_array();
@@ -2031,7 +2031,7 @@ class Admin_model extends CI_Model {
                         {
                             $this->db->where('step',$data['step'])
                                     ->where('user_id',$data['user_id'])
-                                    ->where('pathway', $params['pathway'])
+                                    ->where('pathway', $data['pathway'])
                                     ->where('field_name',$ans_form[$i]['name'])
                                     ->update('step_answers',$item);
                         }
@@ -2065,7 +2065,7 @@ class Admin_model extends CI_Model {
                                 ->where('step',$data['step'])
                                 ->where('user_id',$data['user_id'])
                                 ->where('field_name',$ans_form[0]['name'])
-                                ->where('pathway', $params['pathway'])
+                                ->where('pathway', $data['pathway'])
                                 ->get()
                                 ->result_array();
                     //echo '1050 <pre>';print_r($st);exit;
@@ -2074,7 +2074,7 @@ class Admin_model extends CI_Model {
                         $this->db->where('step',$data['step'])
                                 ->where('user_id',$data['user_id'])
                                 ->where('field_name',$ans_form[0]['name'])
-                                ->where('pathway', $params['pathway'])
+                                ->where('pathway', $data['pathway'])
                                 ->update('step_answers',$item);
                     }
                     else
