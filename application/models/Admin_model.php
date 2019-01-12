@@ -2167,36 +2167,28 @@ class Admin_model extends CI_Model {
     public function getStepAnswer($data)
     {
         // // echo "<script>console.log('Step:".$data['step']." pathway:".$data['pathway']."')</script>";
-        
-        if(count($pth)>0)
+        $st=$this->db->select('*')
+                ->from('step_answers')
+                ->where('step',$data['step'])
+                ->where('user_id',$data['user_id'])
+                ->where('pathway', $data['pathway'])
+                ->get()
+                ->result_array();
+        if(count($st)>0)
         {
-            $st=$this->db->select('*')
-                                ->from('step_answers')
-                                ->where('step',$data['step'])
-                                ->where('user_id',$data['user_id'])
-                                ->where('pathway', $data['pathway'])
-                                ->get()
-                                ->result_array();
-            if(count($st)>0)
+            // print_r(expression)($st);exit;
+            if(count($st)>1)
             {
-                // print_r(expression)($st);exit;
-                if(count($st)>1)
-                {
-                    return $st;
-                }
-                else
-                {
-                    return $st[0];
-                }              
+                return $st;
             }
             else
             {
-                return null;
-            }
+                return $st[0];
+            }              
         }
         else
         {
-            return false;
+            return array();
         }
             
         
