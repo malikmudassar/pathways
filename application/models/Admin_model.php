@@ -2235,10 +2235,12 @@ class Admin_model extends CI_Model {
                                 ->where('user_id',$params['user_id'])
                                 ->get()
                                 ->result_array();
+                        $d=array();
+                        $d[0]['value']=$st[0]['value'];
                         $dr=array(
                                 'type'      => $step['type'],
                                 'question'  => $q['statement'],
-                                'answer'    => array('value' => $st[0]['value'])
+                                'answer'    => $d
                             );
                     }
                     else
