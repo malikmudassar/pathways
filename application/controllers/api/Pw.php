@@ -205,13 +205,14 @@ class Pw extends REST_Controller {
         else
         {
             $data['answer'][0]=$this->Admin_model->getStepAnswer($params);
+            if(!$data['answer'][0])
+            {
+                $data['answer'][0]=(object)array();
+            }
         }
          
         // print_r($data['answer']);exit;
-        if(!$data['answer'][0])
-        {
-            $data['answer'][0]=(object)array();
-        }
+        
         $data['form']=$this->Admin_model->getAnsForm($data['question']['id']);
 
         if(!empty($data['form']))
