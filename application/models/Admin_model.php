@@ -2168,6 +2168,14 @@ class Admin_model extends CI_Model {
     public function getStepAnswer($data)
     {
         // // echo "<script>console.log('Step:".$data['step']." pathway:".$data['pathway']."')</script>";
+        if($data['pathway']==3)
+        {
+            $ans=$this->db->query('SELECT * FROM step_answers WHERE pathway=3 and step=1 and user_id='.$data['user_id'].' ORDER BY created_at DESC LIMIT 0,2')->result_array();
+            $data[0]['type']='question';
+            $data[0]['question']=$q['statement'];
+            $data[0]['answer']=$ans;
+            return $data;
+        }
         $st=$this->db->select('*')
                 ->from('step_answers')
                 ->where('step',$data['step'])
