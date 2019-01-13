@@ -2184,7 +2184,7 @@ class Admin_model extends CI_Model {
         // echo $this->db->last_query();
         if(count($st)>0)
         {
-            
+
             if(count($st)>1)
             {
                 return $st;
@@ -2238,8 +2238,8 @@ class Admin_model extends CI_Model {
                     {
                         $dr=array(
                             'type'      => $step['type'],
-                            'question'  => null,
-                            'answer'    => null
+                            'question'  => array(),
+                            'answer'    => array()
                         );
                     }
                     array_push($data, $dr);
