@@ -2238,7 +2238,7 @@ class Admin_model extends CI_Model {
                         $dr=array(
                                 'type'      => $step['type'],
                                 'question'  => $q['statement'],
-                                'answer'    => array('date' => $st[0]['value'])
+                                'answer'    => array('value' => $st[0]['value'])
                             );
                     }
                     else
