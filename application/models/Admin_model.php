@@ -2222,27 +2222,47 @@ class Admin_model extends CI_Model {
             if($params['pathway']!=3)
             {
                 $step=$this->getStepByNumber($row['step'], $params['pathway']);
-                if($step['type']=='question' || $step['type']=='info'){
+                if($step['type']=='question' || $step['type']=='info' || $step['type']=='datepicker'){
                     $d=$this->db->query('select * from steps where pathway='.$params['pathway'].' and number='.$row['step'])->result_array();
 
                     $q=$this->getQuestionByStep($d[0]['id']);
-                    if($q)
+                    if($q['ans_model']==16)
                     {
+                        $st=$this->db->select('*')
+                                ->from('step_answers')
+                                ->where('pathway',$params['pathway'])
+                                ->where('step',$step['number'])
+                                ->where('user_id',$params['user_id'])
+                                ->get()
+                                ->result_array();
                         $dr=array(
-                            'type'      => $step['type'],
-                            'question'  => $q['statement'],
-                            'answer'    => ($this->getAnswerResult($q['id'],$row['value']))
-                        );
+                                'type'      => $step['type'],
+                                'question'  => $q['statement'],
+                                'answer'    => array('date' => $st[0]['value'])
+                            );
                     }
                     else
                     {
-                        $dr=array(
-                            'type'      => $step['type'],
-                            'question'  => array(),
-                            'answer'    => array()
-                        );
+                        if($q)
+                        {
+                            $dr=array(
+                                'type'      => $step['type'],
+                                'question'  => $q['statement'],
+                                'answer'    => ($this->getAnswerResult($q['id'],$row['value']))
+                            );
+                        }
+                        else
+                        {
+                            $dr=array(
+                                'type'      => $step['type'],
+                                'question'  => array(),
+                                'answer'    => array()
+                            );
+                        }                    
+                        
                     }
                     array_push($data, $dr);
+                        
                 }
             }
             else
@@ -2316,8 +2336,9 @@ class Admin_model extends CI_Model {
                 return null;
             }
         }
-            
-        
+
+
+
     }
 
 }
