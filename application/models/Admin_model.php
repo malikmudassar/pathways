@@ -2184,15 +2184,16 @@ class Admin_model extends CI_Model {
         // echo $this->db->last_query();
         if(count($st)>0)
         {
+            return $st;
             // print_r(expression)($st);exit;
-            if(count($st)>1)
-            {
-                return $st;
-            }
-            else
-            {
-                return $st[0];
-            }              
+            // if(count($st)>1)
+            // {
+            //     return $st;
+            // }
+            // else
+            // {
+            //     return $st[0];
+            // }              
         }
         else
         {
