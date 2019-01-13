@@ -2171,9 +2171,7 @@ class Admin_model extends CI_Model {
         if($data['pathway']==3)
         {
             $ans=$this->db->query('SELECT * FROM step_answers WHERE pathway=3 and step=1 and user_id='.$data['user_id'].' ORDER BY created_at DESC LIMIT 0,2')->result_array();
-            $data['type']='question';
-            $data['question']=$q['statement'];
-            $data['answer']=$ans;
+            $data=$ans;
             return $data;
         }
         $st=$this->db->select('*')
