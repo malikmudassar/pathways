@@ -152,6 +152,31 @@ class Admin_model extends CI_Model {
             {
                 $this->db->insert('step_answers',$item);
             }
+            // calculate percent
+            $d=count($this->db->select('*')->from('steps')->where('pathway',$params['pathway'])
+                        ->get()->result_array());
+            $percent=round(($step['number']/$d)*100);
+            // Save Current Step and save percent in pathway status
+            $item=array(
+                    'user_id'   =>  $params['user_id'],
+                    'pathway'   =>  $params['pathway'],
+                    'current_step'  =>  $step['number'],
+                    'percent'   =>  $percent
+            );
+            $st=$this->db->select('*')->from('user_pathway_status')
+                        ->where('user_id', $params['user_id'])
+                        ->where('pathway', $params['pathway'])
+                        ->get()->result_array();
+            if(count($st)>0)
+            {
+                $this->db->where('user_id', $params['user_id'])
+                            ->where('pathway', $params['pathway'])
+                            ->update('user_pathway_status', $item);
+            }
+            else
+            {
+                $this->db->insert('user_pathway_status', $item);
+            }
             
             $step=$this->getNextStep($step,$params);
             // print_r($step);exit;
@@ -1580,6 +1605,31 @@ class Admin_model extends CI_Model {
             {
                 $this->db->insert('step_answers',$item);
             }
+            // calculate percent
+            $d=count($this->db->select('*')->from('steps')->where('pathway',$params['pathway'])
+                        ->get()->result_array());
+            $percent=round(($step['number']/$d)*100);
+            // Save Current Step and save percent in pathway status
+            $item=array(
+                    'user_id'   =>  $params['user_id'],
+                    'pathway'   =>  $params['pathway'],
+                    'current_step'  =>  $step['number'],
+                    'percent'   =>  $percent
+            );
+            $st=$this->db->select('*')->from('user_pathway_status')
+                        ->where('user_id', $params['user_id'])
+                        ->where('pathway', $params['pathway'])
+                        ->get()->result_array();
+            if(count($st)>0)
+            {
+                $this->db->where('user_id', $params['user_id'])
+                            ->where('pathway', $params['pathway'])
+                            ->update('user_pathway_status', $item);
+            }
+            else
+            {
+                $this->db->insert('user_pathway_status', $item);
+            }
 
             $step=$this->getNextStep($step,$params);
             // print_r($step);exit;
@@ -1738,6 +1788,14 @@ class Admin_model extends CI_Model {
     }
 
     public function getPublishedPathways()
+    {
+        return $this->db->select('*')
+                        ->from('pathways')
+                        ->where('publish','yes')
+                        ->get()
+                        ->result_array();
+    }
+    public function getUserPublishedPathways($user_id)
     {
         return $this->db->select('*')
                         ->from('pathways')
@@ -2159,6 +2217,29 @@ class Admin_model extends CI_Model {
                     }
                 } 
             }
+            $d=count($this->db->select('*')->from('steps')->where('pathway',$data['pathway'])
+                        ->get()->result_array());
+            $percent=round(($data['step']/$d)*100);
+            $item=array(
+                    'user_id'   =>  $data['user_id'],
+                    'pathway'   =>  $data['pathway'],
+                    'current_step'  =>  $data['step'],
+                    'percent'   =>  $percent
+            );
+            $st=$this->db->select('*')->from('user_pathway_status')
+                        ->where('user_id', $data['user_id'])
+                        ->where('pathway', $data['pathway'])
+                        ->get()->result_array();
+            if(count($st)>0)
+            {
+                $this->db->where('user_id', $data['user_id'])
+                            ->where('pathway', $data['pathway'])
+                            ->update('user_pathway_status', $item);
+            }
+            else
+            {
+                $this->db->insert('user_pathway_status', $item);
+            }
         }
 
     }
@@ -2350,6 +2431,17 @@ class Admin_model extends CI_Model {
     {
         $this->db->query('delete from step_answers where user_id='.$user_id.' 
                             and pathway='.$pathway);
+    }
+
+    public function savePercent($data)
+    {
+        $item=array(
+            'percent'   => 100
+        );
+
+        $this->db->where('pathway', $data['pathway'])->where('user_id', $data['user_id'])
+                    ->update('user_pathway_status',$item);
+        // echo $this->db->last_query();
     }
 
 }

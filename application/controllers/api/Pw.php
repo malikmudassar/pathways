@@ -49,7 +49,7 @@ class Pw extends REST_Controller {
     public function pathways_post()
     {
         $user_id=$_REQUEST['user_id'];
-        $pathways=$this->Admin_model->getPublishedPathways();
+        $pathways=$this->Admin_model->getUserPublishedPathways();
         if ($pathways)
             {
                 // Set the response and exit
@@ -155,6 +155,11 @@ class Pw extends REST_Controller {
         if($data['next']==0)
         {
             $data['percent']=100;
+            $p=array(
+                'user_id'   => $params['user_id'],
+                'pathway'   => $params['pathway']
+            );
+            $this->Admin_model->savePercent($p);
         }
         if ($data)
         {
