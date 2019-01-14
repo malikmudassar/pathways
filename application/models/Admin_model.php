@@ -36,6 +36,10 @@ class Admin_model extends CI_Model {
     public function getNextPathwayQuestion($params)
     {        
         // echo '<pre>1';print_r($params); exit;
+        if($params['next']==2)
+        {
+            $this->db->query('delete from step_answers where user_id='.$params['user_id'].' and pathway='.$params['pathway']);
+        }
         $st=$this->db->select('*')->from('pathflow')
                 ->where('pathway',$params['pathway'])
                 ->where('step',$params['next'])
