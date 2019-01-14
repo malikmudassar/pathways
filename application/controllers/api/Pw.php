@@ -152,7 +152,10 @@ class Pw extends REST_Controller {
         
         //echo '<pre>';print_r($data);exit;
         
-        
+        if($data['next']==0)
+        {
+            $data['percent']=100;
+        }
         if ($data)
         {
             // Set the response and exit
