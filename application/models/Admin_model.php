@@ -201,6 +201,7 @@ class Admin_model extends CI_Model {
                     $st=$this->db->query('select * from step_condition where step='.$step['id'])->result_array();
                     $condition=$st[0];
                     // echo '<pre>';print_r($condition);exit;
+                    $d=array();
                     $d['step']=$condition['step_result'];
                     $d['pathway']=$params['pathway'];
                     $d['user_id']=$params['user_id'];
