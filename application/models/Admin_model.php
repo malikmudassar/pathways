@@ -1798,11 +1798,26 @@ class Admin_model extends CI_Model {
     }
     public function getUserPublishedPathways($user_id)
     {
-        return $this->db->select('*')
+        $pathways=$this->db->select('*')
                         ->from('pathways')
                         ->where('publish','yes')
                         ->get()
                         ->result_array();
+        for($i=0;$i<count($pathways);$i++)
+        {
+            $st=$this->db->select('*')->from('user_pathway_status')->where('user_id',$user_id)
+                        ->where('pathway', $pathways[$i]['id'])
+                        ->get()->result_array();
+            if(count($st)>0)
+            {
+                $pathways[$i]['percent']=$st[0]['percent'];
+            }
+            else
+            {
+                $pathways[$i]['percent']='0';
+            }
+        }
+        return $pathways;
     }
 
 

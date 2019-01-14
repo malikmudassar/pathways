@@ -49,7 +49,7 @@ class Pw extends REST_Controller {
     public function pathways_post()
     {
         $user_id=$_REQUEST['user_id'];
-        $pathways=$this->Admin_model->getUserPublishedPathways();
+        $pathways=$this->Admin_model->getUserPublishedPathways($user_id);
         if ($pathways)
             {
                 // Set the response and exit
