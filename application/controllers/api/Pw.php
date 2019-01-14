@@ -106,6 +106,10 @@ class Pw extends REST_Controller {
         
         //
         //echo '<pre>';print_r($_REQUEST);exit;
+        if($params['step']==1)
+        {
+            $this->Admin_model->flush_pw_results($params['user_id'],$params['pathway']);
+        }
         $this->Admin_model->saveResult($params);
         if(!$params['age'])
         {

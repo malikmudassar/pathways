@@ -36,10 +36,7 @@ class Admin_model extends CI_Model {
     public function getNextPathwayQuestion($params)
     {        
         // echo '<pre>1';print_r($params); exit;
-        if($params['next']==2)
-        {
-            $this->db->query('delete from step_answers where user_id='.$params['user_id'].' and pathway='.$params['pathway']);
-        }
+        
         $st=$this->db->select('*')->from('pathflow')
                 ->where('pathway',$params['pathway'])
                 ->where('step',$params['next'])
@@ -1514,6 +1511,7 @@ class Admin_model extends CI_Model {
                 ->where('field_name','weight')
                 ->get()
                 ->result_array();
+            // echo $this->db->last_query();
             // print_r($st);exit;
             $weight=$st[0]['value'];
             $st=$this->db->select('*')->from('step_answers')
@@ -1565,6 +1563,7 @@ class Admin_model extends CI_Model {
                 'value'     => $result,
                 'result_caption'=> $category
             );
+            // echo 'result = '.$result;exit;
             $st=$this->db->select('*')
                         ->from('step_answers')
                         ->where('step',$step['number'])
@@ -2345,6 +2344,12 @@ class Admin_model extends CI_Model {
 
 
 
+    }
+
+    public function flush_pw_results($user_id, $pathway)
+    {
+        $this->db->query('delete from step_answers where user_id='.$user_id.' 
+                            and pathway='.$pathway);
     }
 
 }
