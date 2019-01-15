@@ -1548,7 +1548,7 @@ class Admin_model extends CI_Model {
                 ->get()
                 ->result_array();
             $height=$st[0]['value'];
-            $result=($weight)/(($height*$height)/10000);
+            $result=round(($weight)/(($height*$height)/10000));
             if($result<15)
             {
                 $category='very severely underweight';
@@ -1644,7 +1644,7 @@ class Admin_model extends CI_Model {
                 $st=$this->db->query('select questions.* from questions inner join step_questions on step_questions.question=questions.id where step='.$step['id'])->result_array();
                 // echo $this->db->last_query();
                 $data['question']=$st[0];
-                $data['question']['statement']= 'You are '.$category;
+                $data['question']['statement']= 'Your BMI is '.$result.'. Your BMI category is '.$category;
                 return $data;
             }
         }
