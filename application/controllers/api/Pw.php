@@ -238,7 +238,7 @@ class Pw extends REST_Controller {
         if(!empty($data['form']))
         {
             $data['step_type']=$data['form'][0]['type'];
-            if($Id==3)
+            if($params['pathway']==3)
             {
                 for($i=0;$i<count($data['form']);$i++)
                 {
