@@ -74,15 +74,24 @@ class Pw extends REST_Controller {
         
         $data['form']=$this->Admin_model->getAnsForm($data['question']['id']);
 
+
         if(!empty($data['form']))
         {
-            $data['step_type']=$data['form'][0]['type'];    
+            $data['step_type']=$data['form'][0]['type'];  
+            if($Id==3)
+            {
+                for($i=0;$i<count($data['form']);$i++)
+                {
+                    $data['form'][$i]['type']='number';
+                }
+            }  
         }
         else
         {
             $data['step_type']='info';
             $data['form']="";
         }
+
         $data['percent']=0;
         if ($data['question'])
         {
