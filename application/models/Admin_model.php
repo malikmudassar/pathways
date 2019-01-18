@@ -1367,7 +1367,7 @@ class Admin_model extends CI_Model {
         } 
         if($step['type']=='flag')
         {
-            // echo "<script>console.log('1121 Step ".$step['number']." is flag')</script>";
+            // echo "<script>console.log('1370 Step ".$step['number']." is flag')</script>";
             //$result=$params['score'];
             $st=$this->db->query('select * from step_flag where step='.$step['id'])->result_array();
             $condition=$st[0];
@@ -1378,14 +1378,24 @@ class Admin_model extends CI_Model {
             $st=$this->db->query('select * from pathflow where step='.$condition['if_next_step'].' and pathway='.$params['pathway'])->result_array();
             $path=$st[0];
             // echo '<pre>';print_r($path);exit;
-            $step=$this->getStepByNumber($path['next'], $params['pathway']);
+            $step=$this->getStepByNumber($path['step'], $params['pathway']);
+            if($step['type']=='question' || $step['type']=='info')
+            {
+                // echo "<script>console.log('1384 Next Step ".$step['number']." is ".$step['type']." ')</script>";
+                $st=$this->db->query('select questions.* from questions inner join step_questions on step_questions.question=questions.id where step='.$step['id'])->result_array();
+                $data['question']=$st[0];
+                $data['back']=$path['back'];
+                $data['step']=$step['number'];
+                $data['next']=$path['next'];
+                return $data;
+            }
             $st=$this->db->query('select * from pathflow where step='. $step['number'].' and pathway='.$params['pathway'])->result_array();
             $path=$st[0];
             $data['back']=$path['back'];
             $data['step']=$step['number'];
             $data['next']=$path['next'];
 
-            // echo "<script>console.log('1136 Next Step ".$step['number']." is ".$step['type']." ')</script>";
+            // echo "<script>console.log('1398 Next Step ".$step['number']." is ".$step['type']." ')</script>";
             // echo '<pre>';print_r($path);print_r($data);print_r($step);exit;
             if($step['type']=='question' || $step['type']=='info')
             {
