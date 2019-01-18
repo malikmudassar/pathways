@@ -108,6 +108,52 @@ class Pw extends REST_Controller {
         }
         
     }
+
+    public function init_pw_post()
+    {
+        $this->session->set_userdata('flag','white');
+        $Id=$_REQUEST['pw'];
+        $user_id=$_REQUEST['user_id'];
+        
+        $data=$this->Admin_model->getFirstPathwayQuestion($Id, $user_id);
+        
+        $data['form']=$this->Admin_model->getAnsForm($data['question']['id']);
+
+
+        if(!empty($data['form']))
+        {
+            $data['step_type']=$data['form'][0]['type'];  
+            if($Id==3)
+            {
+                for($i=0;$i<count($data['form']);$i++)
+                {
+                    $data['form'][$i]['type']='number';
+                }
+            }  
+        }
+        else
+        {
+            $data['step_type']='info';
+            $data['form']="";
+        }
+
+        $data['percent']=0;
+        if ($data['question'])
+        {
+            // Set the response and exit
+            $this->response($data, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
+        }
+        else
+        {
+            // Set the response and exit
+            $this->response([
+                'status' => FALSE,
+                'message' => 'Pathway doesn\'t have steps',
+            ], REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
+        }
+        
+    }
+
     public function next_pw_post()
     {
 

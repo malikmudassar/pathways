@@ -10,15 +10,30 @@ class Admin_model extends CI_Model {
     {
         parent::__construct();
     }
-    public function getFirstPathwayQuestion($id)
+    public function getFirstPathwayQuestion($id, $user_id=0)
     {
-        $st=$this->db->select('*')->from('pathflow')->where('pathway',$id)->where('back',0)->get()->result_array();
-        // echo '<pre>';print_r($this->db->last_query());exit;
-        if(!count($st)>0)
+        if($user_id==0)
         {
-            return false;
+            $st=$this->db->select('*')->from('pathflow')->where('pathway',$id)->where('back',0)->get()->result_array();
+            // echo '<pre>';print_r($this->db->last_query());exit;
+            if(!count($st)>0)
+            {
+                return false;
+            }
+            $data=$st[0];
         }
-        $data=$st[0];
+        else
+        {
+            $st=$this->db->select('*')->from('user_pathway_status')->where('pathway',$id)->where('user_id',$user_id)->get()->result_array();
+            // echo '<pre>';print_r($this->db->last_query());exit;
+            if(!count($st)>0)
+            {
+                return false;
+            }
+            $data=array();
+            $data['pathway']=$id;
+            $data['step']=$st[0]['current_step'];
+        }  
         $step=$this->getStepByNumberPathway($data['step'],$data['pathway']);
         $data['step']=$step['number'];
         if(empty($data['step']))
