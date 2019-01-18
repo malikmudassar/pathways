@@ -83,6 +83,7 @@ class Pw extends REST_Controller {
                 for($i=0;$i<count($data['form']);$i++)
                 {
                     $data['form'][$i]['type']='number';
+                    $data['form'][$i]['max']=3;
                 }
             }  
         }
@@ -128,6 +129,7 @@ class Pw extends REST_Controller {
                 for($i=0;$i<count($data['form']);$i++)
                 {
                     $data['form'][$i]['type']='number';
+                    $data['form'][$i]['max']=3;
                 }
             }  
         }
