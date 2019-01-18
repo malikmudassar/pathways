@@ -185,7 +185,7 @@ class Pw extends REST_Controller {
             $d['form']=array();
             for($i=0;$i<count($data['form']);$i++)
             {
-                if($params['gender']=='male' && $data['form'][$i]['caption']=='pregnancy')
+                if(($params['gender']=='male' || $params['gender']=='Male')  && $data['form'][$i]['caption']=='pregnancy')
                 {
                     //$d['form'][$i]=array();
                 }
