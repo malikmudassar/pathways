@@ -55,6 +55,7 @@ class Admin_model extends CI_Model {
                     $data['step']=$step['number'];
                     $data['back']=$path['back'];
                     $data['next']=$path['next'];
+                    $data['percent']=$st[0]['percent'];
                 }
                 else
                 {
@@ -63,6 +64,7 @@ class Admin_model extends CI_Model {
                     $data['back']=$path['back'];
                     $data['next']=$path['next'];
                     $data['pathway']=$id;
+                    $data['percent']=$st[0]['percent'];
                 }
                 
                 
@@ -78,7 +80,10 @@ class Admin_model extends CI_Model {
         $st=$this->db->query('select questions.* from questions inner join step_questions on step_questions.question=questions.id where step='.$step['id'])->result_array();
         //echo '<pre>';print_r($this->db->last_query());exit;
         $data['question']=$st[0];
-        $data['percent']=0;
+        if(!$data['percent'])
+        {            
+            $data['percent']=0;
+        }
         return $data;
     }
 
