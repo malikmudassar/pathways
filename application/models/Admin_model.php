@@ -38,6 +38,7 @@ class Admin_model extends CI_Model {
             }
             else
             {
+                $data=array();
                 $step=$this->getStepByNumberPathway($st[0]['current_step'],$id);
                 if($step['type']!='question' && $step['type']!='info')
                 {
@@ -46,17 +47,25 @@ class Admin_model extends CI_Model {
                         // print_r($path);exit;
                         $step=$this->getStepByNumber($path['back'], $id);
                         $path=$this->getPathFlowByStep($step['number'], $id);
-                        
+
                     }while($step['type']!='question');
                     
                     $params['step']=$path['step'];
                     $params['next']=$path['next'];
-                    print_r($path);
+                    $data['step']=$step['number'];
+                    $data['back']=$path['back'];
+                    $data['next']=$path['next'];
                 }
-                $data['step']=$step['number'];
-                $data['pathway']=$id;
-                $data['back']=$path['back'];
-                $data['next']=$path['next'];
+                else
+                {
+                    $path=$this->getPathFlowByStep($step['number'], $id);
+                    $data['step']=$step['number'];
+                    $data['back']=$path['back'];
+                    $data['next']=$path['next'];
+                    $data['pathway']=$id;
+                }
+                
+                
             }
         }  
         $step=$this->getStepByNumberPathway($data['step'],$data['pathway']);
