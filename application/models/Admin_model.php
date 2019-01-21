@@ -46,11 +46,12 @@ class Admin_model extends CI_Model {
                         // print_r($path);exit;
                         $step=$this->getStepByNumber($path['back'], $id);
                         $path=$this->getPathFlowByStep($step['number'], $id);
+                        
                     }while($step['type']!='question');
                     
                     $params['step']=$path['step'];
                     $params['next']=$path['next'];
-                    
+                    print_r($path);
                 }
                 $data['step']=$step['number'];
                 $data['pathway']=$id;
