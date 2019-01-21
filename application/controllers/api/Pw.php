@@ -283,25 +283,25 @@ class Pw extends REST_Controller {
         // print_r($data['answer']);exit;
         
         $data['form']=$this->Admin_model->getAnsForm($data['question']['id']);
-        if($params['pathway']==4)
-        {
-            if(isset($params['gender']))
-            {
-                $d['form']=array();
-                for($i=0;$i<count($data['form']);$i++)
-                {
-                    if(($params['gender']=='male' || $params['gender']=='Male')  && $data['form'][$i]['caption']=='pregnancy')
-                    {
-                        //$d['form'][$i]=array();
-                    }
-                    else
-                    {
-                        $d['form'][$i]=$data['form'][$i];
-                    }
-                }
-                $data['form']=$d['form'];
-            }                            
-        }
+        // if($params['pathway']==4)
+        // {
+        //     if(isset($params['gender']))
+        //     {
+        //         $d['form']=array();
+        //         for($i=0;$i<count($data['form']);$i++)
+        //         {
+        //             if(($params['gender']=='male' || $params['gender']=='Male')  && $data['form'][$i]['caption']=='pregnancy')
+        //             {
+        //                 //$d['form'][$i]=array();
+        //             }
+        //             else
+        //             {
+        //                 $d['form'][$i]=$data['form'][$i];
+        //             }
+        //         }
+        //         $data['form']=$d['form'];
+        //     }                            
+        // }
         if(!empty($data['form']))
         {
             $data['step_type']=$data['form'][0]['type'];
