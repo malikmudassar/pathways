@@ -1995,6 +1995,10 @@ class Admin_model extends CI_Model {
                     ->where('pathway',$params['pathway'])
                     ->get()->result_array());
         $data['percent']=($params['step']/$steps)*100;
+        if($params['back']==0)
+        {
+            $data['percent']=0;
+        }
         return $data;
     }    
     public function checkUser($data)
