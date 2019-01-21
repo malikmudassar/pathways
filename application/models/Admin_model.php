@@ -164,7 +164,7 @@ class Admin_model extends CI_Model {
         if($step['type']=='calculation')
         {
             //echo 'In calculation';exit;
-            // echo "<script>console.log('113 Step ".$step['id']." is calculation')</script>";
+            // echo "<script>console.log('113 Step ".$step['number']." is calculation')</script>";
             $st=$this->db->query('select * from step_calculation where step='.$step['id'])->result_array();
             $stepCalcData=$st[0];
 
@@ -185,7 +185,7 @@ class Admin_model extends CI_Model {
                     $result+=$st[$i]['value'];
                 }
             }
-            // echo "<script>console.log('133 saving result ".$result." for step ".$step['id']."')</script>";
+            // echo "<script>console.log('133 saving result ".$result." for step ".$step['number']."')</script>";
             $item=array(
                 'pathway' => $params['pathway'],
                 'step'      => $step['number'],
@@ -194,14 +194,16 @@ class Admin_model extends CI_Model {
             );
             $st=$this->db->select('*')
                         ->from('step_answers')
-                        ->where('step',$step['id'])
+                        ->where('step',$step['number'])
                         ->where('user_id',$params['user_id'])
                         ->where('pathway', $params['pathway'])
                         ->get()
                         ->result_array();
+            // print_r($this->db->last_query());exit;
             if(count($st)>0)
             {
-                $this->db->where('step',$item['step'])->update('step_answers',$item);
+                $this->db->where('step',$item['step'])->where('user_id',$params['user_id'])
+                        ->where('pathway', $params['pathway'])->update('step_answers',$item);
             }
             else
             {
@@ -232,7 +234,7 @@ class Admin_model extends CI_Model {
             {
                 $this->db->insert('user_pathway_status', $item);
             }
-            
+            // get next step
             $step=$this->getNextStep($step,$params);
             // print_r($step);exit;
             $next=$this->db->query('select * from pathflow where step='.$step['number'].' and pathway='.$params['pathway'])->result_array();
@@ -251,7 +253,7 @@ class Admin_model extends CI_Model {
 
                 if($step['type']=='condition')
                 {
-                    // echo "<script>console.log('199 step ".$step['id']." is condition')</script>";
+                    // echo "<script>console.log('199 step ".$step['number']." is condition')</script>";
                     $result=0;
                     $st=$this->db->query('select * from step_condition where step='.$step['id'])->result_array();
                     $condition=$st[0];
@@ -269,7 +271,7 @@ class Admin_model extends CI_Model {
                         case '>':
                             if(isset($result[0]))
                             {
-                                if($result[0]['value'] > $condition['value'])
+                                if($result['value'] > $condition['value'])
                                 {
                                     $data['step']=$condition['if_next_step'];
                                     $st=$this->db->query('select * from pathflow where step='.$condition['if_next_step'].' and pathway='.$params['pathway'])->result_array();
@@ -455,7 +457,7 @@ class Admin_model extends CI_Model {
                         // echo "<script>console.log('401 next step ".$step['number']." not question')</script>";
                         if($step['type']=='condition')
                         {
-                            // echo "<script>console.log('404 step ".$step['id']." is condition')</script>";
+                            // echo "<script>console.log('404 step ".$step['number']." is condition')</script>";
                             $result=0;
                             $st=$this->db->query('select * from step_condition where step='.$step['id'])->result_array();
                             $condition=$st[0];
