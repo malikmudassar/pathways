@@ -81,7 +81,7 @@ class Admin_model extends CI_Model {
         $st=$this->db->query('select questions.* from questions inner join step_questions on step_questions.question=questions.id where step='.$step['id'])->result_array();
         //echo '<pre>';print_r($this->db->last_query());exit;
         $data['question']=$st[0];
-        if(!$data['percent'])
+        if(!isset($data['percent']))
         {            
             $data['percent']=0;
         }
@@ -1995,7 +1995,7 @@ class Admin_model extends CI_Model {
                     ->where('pathway',$params['pathway'])
                     ->get()->result_array());
         $data['percent']=($params['step']/$steps)*100;
-        
+
         return $data;
     }    
     public function checkUser($data)
