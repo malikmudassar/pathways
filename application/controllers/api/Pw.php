@@ -139,7 +139,10 @@ class Pw extends REST_Controller {
             $data['form']="";
         }
 
-        $data['percent']=0;
+        if(!$data['percent'])
+        {            
+            $data['percent']=0;
+        }
         if ($data['question'])
         {
             // Set the response and exit
