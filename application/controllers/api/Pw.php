@@ -316,10 +316,10 @@ class Pw extends REST_Controller {
             $data['step_type']='info';
             $data['form']=array();
         }
-        if($params['back']==0)
-        {
-            $data['percent']=0;
-        }
+        // if($params['back']==0)
+        // {
+        //     $data['percent']=0;
+        // }
         
         if ($data)
         {
