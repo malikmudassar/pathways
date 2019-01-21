@@ -33,6 +33,11 @@ class Admin_model extends CI_Model {
             $data=array();
             $data['pathway']=$id;
             $data['step']=$st[0]['current_step'];
+            
+            $st=$this->db->select('*')->from('pathflow')->where('pathway',$id)->where('step',$st[0]['current_step'])->get()->result_array();
+            
+            $data['next']=$st[0]['next'];
+            $data['back']=$st[0]['back'];
         }  
         $step=$this->getStepByNumberPathway($data['step'],$data['pathway']);
         $data['step']=$step['number'];
@@ -428,7 +433,7 @@ class Admin_model extends CI_Model {
                             $result=$this->getStepAnswer($d);
                             // echo '271 <pre>';print_r($result);exit;
                             //print_r($step['id'].'-'.$params['pathway']); exit;
-                            // echo "<script>console.log('416 result is".$result['value']."')</script>";
+                            // echo "<script>console.log('416 result is".$result[0]['value']."')</script>";
                             switch($condition['operator'])
                             {
                                 case '>':
@@ -602,35 +607,35 @@ class Admin_model extends CI_Model {
                                         }
                                     }
                                 break;
-                                    }
-                                    //echo '<pre>';print_r($step);print_r($data);exit;
-                                    $step=$this->getStepByNumber($data['step'], $params['pathway']);
-                                    //$step=$this->getNextStep($step,$params);
-                                    //echo '<pre>';print_r($step);print_r($data);exit;
+                            }
+                            //echo '<pre>';print_r($step);print_r($data);exit;
+                            $step=$this->getStepByNumber($data['step'], $params['pathway']);
+                            //$step=$this->getNextStep($step,$params);
+                            //echo '<pre>';print_r($step);print_r($data);exit;
 
-                                    if($step['type']=='question' || $step['type']=='info')
-                                    {
-                                        // echo "<script>console.log('598 step ".$step['id']." is question')</script>";
-                                        $st=$this->db->query('select questions.* from questions inner join step_questions on step_questions.question=questions.id where step='.$step['id'])->result_array();
-                                        $data['question']=$st[0];
-                                        return $data;
-                                    }
-                                    else
-                                    {   
-                                        // echo "<script>console.log('605 next step ".$step['number']." is ".$step['type'].")</script>";
-                                        //echo '<pre>';print_r($data);exit;
-                                        $url = 'api/pw/next_pw/';
-                                        $myvars = http_build_query($data, '', '&');
+                            if($step['type']=='question' || $step['type']=='info')
+                            {
+                                // echo "<script>console.log('598 step ".$step['number']." is question')</script>";
+                                $st=$this->db->query('select questions.* from questions inner join step_questions on step_questions.question=questions.id where step='.$step['id'])->result_array();
+                                $data['question']=$st[0];
+                                return $data;
+                            }
+                            else
+                            {   
+                                // echo "<script>console.log('605 next step ".$step['number']." is ".$step['type'].")</script>";
+                                //echo '<pre>';print_r($data);exit;
+                                $url = 'api/pw/next_pw/';
+                                $myvars = http_build_query($data, '', '&');
 
-                                        $ch = curl_init( $url );
-                                        curl_setopt( $ch, CURLOPT_POST, 1);
-                                        curl_setopt( $ch, CURLOPT_POSTFIELDS, $myvars);
-                                        curl_setopt( $ch, CURLOPT_FOLLOWLOCATION, 1);
-                                        curl_setopt( $ch, CURLOPT_HEADER, 0);
-                                        curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true);
+                                $ch = curl_init( $url );
+                                curl_setopt( $ch, CURLOPT_POST, 1);
+                                curl_setopt( $ch, CURLOPT_POSTFIELDS, $myvars);
+                                curl_setopt( $ch, CURLOPT_FOLLOWLOCATION, 1);
+                                curl_setopt( $ch, CURLOPT_HEADER, 0);
+                                curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true);
 
-                                        curl_exec( $ch );
-                                    }
+                                curl_exec( $ch );
+                            }
                             
                         } 
                     }
