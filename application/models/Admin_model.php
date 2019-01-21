@@ -31,13 +31,27 @@ class Admin_model extends CI_Model {
                 return false;
             }
             $data=array();
-            $data['pathway']=$id;
-            $data['step']=$st[0]['current_step'];
+            if($st[0]['percent']!=100)
+            {
+                $data['pathway']=$id;
+                $data['step']=$st[0]['current_step'];
+
+                $st=$this->db->select('*')->from('pathflow')->where('pathway',$id)->where('step',$st[0]['current_step'])->get()->result_array();
+                
+                $data['next']=$st[0]['next'];
+                $data['back']=$st[0]['back'];
+            }
+            else
+            {
+                $st=$this->db->select('*')->from('pathflow')->where('pathway',$id)->where('back',0)->get()->result_array();
+                // echo '<pre>';print_r($this->db->last_query());exit;
+                if(!count($st)>0)
+                {
+                    return false;
+                }
+                $data=$st[0];
+            }
             
-            $st=$this->db->select('*')->from('pathflow')->where('pathway',$id)->where('step',$st[0]['current_step'])->get()->result_array();
-            
-            $data['next']=$st[0]['next'];
-            $data['back']=$st[0]['back'];
         }  
         $step=$this->getStepByNumberPathway($data['step'],$data['pathway']);
         $data['step']=$step['number'];
