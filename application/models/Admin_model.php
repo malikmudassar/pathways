@@ -2462,7 +2462,7 @@ class Admin_model extends CI_Model {
                 {
                     // echo 'it works';
                     //echo $am['text'].' textboxes <br>';
-                    $ans_form=$this->getAnsForm($st[0]['id']);
+                    $ans_form=$this->getAnsForm($st[0]['id'], $data);
                     //echo '<pre>';print_r($ans_form);exit;
                     for($i=0;$i<count($ans_form);$i++)
                     {
@@ -2505,7 +2505,7 @@ class Admin_model extends CI_Model {
                 if($am['datepicker']>0)
                 {
                     //echo $am['text'].' textboxes <br>';
-                    $ans_form=$this->getAnsForm($st[0]['id']);
+                    $ans_form=$this->getAnsForm($st[0]['id'], $data);
                     //echo '<pre>';print_r($ans_form);exit;
                     
                     $item=array(
