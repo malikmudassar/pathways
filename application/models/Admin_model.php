@@ -2217,20 +2217,20 @@ class Admin_model extends CI_Model {
             {
                 if($params['gender']=='male' || $params['gender']=='Male')
                 {
-                    $d['form'][0]=array();
+                    $d['form']=array();
                     for($i=0;$i<count($data[0]);$i++)
                     {
                         if($data[0][$i]['caption']=='pregnancy')
                         {
-                            // echo '<b>Male</b>';exit;
+                            unset($data[0][$i]);
                         }
-                        else
-                        {
-                            $d['form'][0][$i]=$data[0][$i];                            
-                        }
+                        // else
+                        // {
+                        //     $d['form'][$i]=$data[0][$i];                            
+                        // }
                     }
-                    $data[0]=$d['form'][0];
-                    return $data[0]; 
+                    // $data[0]=$d['form'];
+                    return array_values($data[0]); 
                 }
                 else
                 {
