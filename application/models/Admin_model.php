@@ -2207,10 +2207,11 @@ class Admin_model extends CI_Model {
 
     public function getAnsForm($qId, $params)
     {
-        $data=array();
-        $data[0]=$this->db->select('*')->from('ans_form')->where('question',$qId)->get()->result_array();
+        
         if($params['pathway']==4)
         {
+            $data=array();
+            $data[0]=$this->db->select('*')->from('ans_form')->where('question',$qId)->get()->result_array();
             // $d['form']=array();
             for($i=0;$i<count($data);$i++)
             {
@@ -2228,7 +2229,7 @@ class Admin_model extends CI_Model {
         }
         else
         {
-            return $data[0];
+            return $this->db->select('*')->from('ans_form')->where('question',$qId)->get()->result_array();
         }
         
     }
