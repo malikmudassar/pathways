@@ -120,7 +120,11 @@ class Pw extends REST_Controller {
         {
             $params['gender']='Male';
         }
-        $params['gender']=$_REQUEST['gender'];
+        else
+        {
+            $params['gender']=$_REQUEST['gender'];
+        }
+        
         $data['form']=$this->Admin_model->getAnsForm($data['question']['id'], $params);
 
 
