@@ -2533,6 +2533,7 @@ class Admin_model extends CI_Model {
                     else
                     {                        
                         $this->db->insert('step_answers',$item);
+                        // echo $this->db->last_query();
                     }
                 }
                 if($am['checkbox']>0)
