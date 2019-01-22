@@ -2207,7 +2207,25 @@ class Admin_model extends CI_Model {
 
     public function getAnsForm($qId)
     {
-        return $this->db->select('*')->from('ans_form')->where('question',$qId)->get()->result_array();
+        $data=$this->db->select('*')->from('ans_form')->where('question',$qId)->get()->result_array();
+        if($params['pathway']==4)
+        {
+            $d['form']=array();
+            for($i=0;$i<count($data);$i++)
+            {
+                if(($params['gender']=='male' || $params['gender']=='Male')  && $data[$i]['caption']=='pregnancy')
+                {
+                    //$d['form'][$i]=array();
+                }
+                else
+                {
+                    $d['form'][$i]=$data[$i];
+                }
+            }
+            $data=$d['form'];
+                            
+        }
+        return $data;
     }
 
     public function assign_ans_model($data, $id)
