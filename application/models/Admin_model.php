@@ -2231,7 +2231,7 @@ class Admin_model extends CI_Model {
             }
             else
             {
-                return (object)array();
+                return array();
             }
                           
         }
