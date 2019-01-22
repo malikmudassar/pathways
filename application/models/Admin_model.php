@@ -2212,20 +2212,24 @@ class Admin_model extends CI_Model {
         {
             $data=array();
             $data[0]=$this->db->select('*')->from('ans_form')->where('question',$qId)->get()->result_array();
-            // $d['form']=array();
-            for($i=0;$i<count($data);$i++)
+            if(count($data[0])>0)
             {
-                if(($params['gender']=='male' || $params['gender']=='Male')  && $data[0][$i]['caption']=='pregnancy')
+                // $d['form']=array();
+                for($i=0;$i<count($data);$i++)
                 {
-                    //$d['form'][$i]=array();
+                    if(($params['gender']=='male' || $params['gender']=='Male')  && $data[0][$i]['caption']=='pregnancy')
+                    {
+                        //$d['form'][$i]=array();
+                    }
+                    else
+                    {
+                        $d['form'][$i]=$data[$i];
+                    }
                 }
-                else
-                {
-                    $d['form'][$i]=$data[$i];
-                }
+                $data[0]=$d['form'];
+                return $data[0][0]; 
             }
-            $data[0]=$d['form'];
-            return $data[0][0];               
+                          
         }
         else
         {
