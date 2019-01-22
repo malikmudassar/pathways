@@ -2215,15 +2215,15 @@ class Admin_model extends CI_Model {
             if(count($data[0])>0)
             {
                 // $d['form']=array();
-                for($i=0;$i<count($data);$i++)
+                for($i=0;$i<count($data[0]);$i++)
                 {
-                    if(($params['gender']=='male' || $params['gender']=='Male')  && $data[$i]['caption']=='pregnancy')
+                    if(($params['gender']=='male' || $params['gender']=='Male')  && $data[0][$i]['caption']=='pregnancy')
                     {
                         // echo '<b>Male</b>';
                     }
                     else
                     {
-                        $d['form'][$i]=$data[$i];
+                        $d['form'][$i]=$data[0][$i];
                     }
                 }
                 $data[0]=$d['form'];
