@@ -2223,7 +2223,7 @@ class Admin_model extends CI_Model {
                     }
                     else
                     {
-                        $d['form'][$i]=$data[$i];
+                        $d['form'][$i]=$data[0][$i];
                     }
                 }
                 $data[0]=$d['form'];
