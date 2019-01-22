@@ -2219,11 +2219,11 @@ class Admin_model extends CI_Model {
                 {
                     if(($params['gender']=='male' || $params['gender']=='Male')  && $data[0][$i]['caption']=='pregnancy')
                     {
-                        //;
+                        echo '<b>Male</b>';
                     }
                     else
                     {
-                        $d['form'][$i]=$data[0][$i];
+                        $d['form'][$i]=$data[$i];
                     }
                 }
                 $data[0]=$d['form'];
