@@ -2217,7 +2217,7 @@ class Admin_model extends CI_Model {
                 // $d['form']=array();
                 for($i=0;$i<count($data);$i++)
                 {
-                    if(($params['gender']=='male' || $params['gender']=='Male')  && $data[$i]['caption']=='pregnancy')
+                    if(($params['gender']=='male' || $params['gender']=='Male')  && $data[0][$i]['caption']=='pregnancy')
                     {
                         // echo '<b>Male</b>';
                     }
