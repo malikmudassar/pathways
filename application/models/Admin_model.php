@@ -2229,6 +2229,10 @@ class Admin_model extends CI_Model {
                 $data[0]=$d['form'];
                 return $data[0][0]; 
             }
+            else
+            {
+                return (object)array();
+            }
                           
         }
         else
