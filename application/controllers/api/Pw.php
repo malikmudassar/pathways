@@ -191,7 +191,7 @@ class Pw extends REST_Controller {
 
         $data['form']=$this->Admin_model->getAnsForm($data['question']['id'], $params);
         
-        //echo '<pre>';print_r($data['form']);exit;
+        // echo '<pre>';print_r($data['form']);exit;
         if(!empty($data['form']))
         {
             $data['step_type']=$data['form'][0]['type'];
