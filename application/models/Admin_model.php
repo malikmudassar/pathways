@@ -2205,7 +2205,7 @@ class Admin_model extends CI_Model {
         return true;
     }
 
-    public function getAnsForm($qId)
+    public function getAnsForm($qId, $params)
     {
         $data=$this->db->select('*')->from('ans_form')->where('question',$qId)->get()->result_array();
         if($params['pathway']==4)

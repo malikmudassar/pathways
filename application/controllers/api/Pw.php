@@ -180,7 +180,7 @@ class Pw extends REST_Controller {
         //echo '<pre>';print_r($_POST);exit;
         $data=$this->Admin_model->getNextPathwayQuestion($params);
 
-        $data['form']=$this->Admin_model->getAnsForm($data['question']['id']);
+        $data['form']=$this->Admin_model->getAnsForm($data['question']['id'], $params);
         
         //echo '<pre>';print_r($data['form']);exit;
         if(!empty($data['form']))
@@ -266,8 +266,8 @@ class Pw extends REST_Controller {
          
         // print_r($data['answer']);exit;
         
-        $data['form']=$this->Admin_model->getAnsForm($data['question']['id']);
-        
+        $data['form']=$this->Admin_model->getAnsForm($data['question']['id'], $params);
+
         if(!empty($data['form']))
         {
             $data['step_type']=$data['form'][0]['type'];
