@@ -2207,13 +2207,14 @@ class Admin_model extends CI_Model {
 
     public function getAnsForm($qId, $params)
     {
-        $data=$this->db->select('*')->from('ans_form')->where('question',$qId)->get()->result_array();
+        $data=array();
+        $data[0]=$this->db->select('*')->from('ans_form')->where('question',$qId)->get()->result_array();
         if($params['pathway']==4)
         {
-            $d['form']=array();
+            // $d['form']=array();
             for($i=0;$i<count($data);$i++)
             {
-                if(($params['gender']=='male' || $params['gender']=='Male')  && $data[$i]['caption']=='pregnancy')
+                if(($params['gender']=='male' || $params['gender']=='Male')  && $data[0][$i]['caption']=='pregnancy')
                 {
                     //$d['form'][$i]=array();
                 }
@@ -2222,10 +2223,14 @@ class Admin_model extends CI_Model {
                     $d['form'][$i]=$data[$i];
                 }
             }
-            $data=$d['form'];
-                            
+            $data[0]=$d['form'];
+            return $data[0][0];               
         }
-        return $data;
+        else
+        {
+            return $data[0];
+        }
+        
     }
 
     public function assign_ans_model($data, $id)
