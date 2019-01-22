@@ -116,7 +116,7 @@ class Pw extends REST_Controller {
         
         $data=$this->Admin_model->getFirstPathwayQuestion($Id, $user_id);
         
-        $data['form']=$this->Admin_model->getAnsForm($data['question']['id']);
+        $data['form']=$this->Admin_model->getAnsForm($data['question']['id'], $params);
 
 
         if(!empty($data['form']))
