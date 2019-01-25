@@ -409,6 +409,7 @@ class Admin_model extends CI_Model {
                                     //echo '<pre>';print_r($path);exit;
                                 }
                             } 
+                        break;
                         case '<>':                   
                             if(isset($result[0]))
                              { 
@@ -613,6 +614,7 @@ class Admin_model extends CI_Model {
                                             //echo '<pre>';print_r($path);exit;
                                         }
                                     } 
+                                break;
                                 case '<>':                   
                                     if(isset($result[0]))
                                      { 
@@ -703,7 +705,7 @@ class Admin_model extends CI_Model {
 
         if($step['type']=='condition')
         {
-            // echo "<script>console.log('636 step ".$step['id']." is condition')</script>";
+            // echo "<script>console.log('636 step ".$step['number']." is condition')</script>";
             $result=0;
             $st=$this->db->query('select * from step_condition where step='.$step['id'])->result_array();
             $condition=$st[0];
@@ -858,6 +860,7 @@ class Admin_model extends CI_Model {
                             //echo '<pre>';print_r($path);exit;
                         }
                     } 
+                break;
                 case '<>':                   
                     if(isset($result[0]))
                     {
@@ -885,7 +888,7 @@ class Admin_model extends CI_Model {
                     {
                         $min=$condition['value_from'];
                         $max=$condition['value_to'];
-                        // echo "<script>console.log('816. result of 0 not set')</script>";
+                        // echo "<script>console.log('888. result of 0 not set')</script>";
                         if($result['value'] >= $min && $result['value'] <= $max)
                         {
                             // echo 'Result value '.$result['value'].' is greater than '.$min.' and smaller than '.$max;
@@ -1081,6 +1084,7 @@ class Admin_model extends CI_Model {
                                     //echo '<pre>';print_r($path);exit;
                                 }
                             } 
+                        break;
                         case '<>':                   
                             if(isset($result[0]))
                              { 
@@ -1295,6 +1299,7 @@ class Admin_model extends CI_Model {
                                             //echo '<pre>';print_r($path);exit;
                                         }
                                     } 
+                                break;
                                 case '<>':                   
                                     if(isset($result[0]))
                                      { 
@@ -1618,6 +1623,7 @@ class Admin_model extends CI_Model {
                                     //echo '<pre>';print_r($path);exit;
                                 }
                             } 
+                        break;
                         case '<>':                   
                             if(isset($result[0]))
                              { 
@@ -2380,7 +2386,18 @@ class Admin_model extends CI_Model {
 
     public function getAllSteps()
     {
-        return $this->db->query('SELECT steps.*, pathways.name as pathway from steps inner join pathways on pathways.id=steps.pathway ')->result_array();
+        $steps=$this->db->query('SELECT steps.*, pathways.name as pathway from steps inner join pathways on pathways.id=steps.pathway ')->result_array();
+        for($i=0;$i<count($steps);$i++)
+        {
+            if($steps[$i]['type']=='question' || $steps[$i]['type']=='info')
+            {
+                $steps[$i]['content']=$steps[$i]['type'];
+            }
+            else
+            {
+                $steps[$i]['content']='';
+            }
+        }
     }
 
     public function getPathFlowSteps($id)
