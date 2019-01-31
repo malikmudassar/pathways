@@ -864,7 +864,7 @@ class Admin_model extends CI_Model {
                 case '<>':                   
                     if(isset($result[0]))
                     {
-                        // // echo "<script>console.log('794. result of 0 is set')</script>";
+                        // echo "<script>console.log('794. result of 0 is set')</script>";
                         if($result[0]['value'] > $condition['value'])
                         {
                             $data['step']=$condition['if_next_step'];
@@ -2536,7 +2536,7 @@ class Admin_model extends CI_Model {
                     $d['user_id']=$params['user_id'];
 
                     $result=$this->getStepAnswer($d);
-                    // echo '<pre>';print_r($condition);exit;
+                    // echo '<pre>';print_r($result);exit;
                     //print_r($step['id'].'-'.$params['pathway']); exit;
                     // echo "<script>>console.log('2541 result is ".$result['value']."')</script>";
                     switch($condition['operator'])
