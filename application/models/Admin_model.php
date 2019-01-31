@@ -196,7 +196,11 @@ class Admin_model extends CI_Model {
             {
                 for($i=0;$i<count($st);$i++)
                 {
-                    $result+=$st[$i]['value'];
+                    if($params['pathway']==2 && $st[$i]['step']!=7)
+                    {
+                        $result+=$st[$i]['value'];
+                    }
+                    
                 }
             }
             // echo "<script>console.log('133 saving result ".$result." for step ".$step['number']."')</script>";
@@ -2131,7 +2135,7 @@ class Admin_model extends CI_Model {
                                 $d['user_id']=$params['user_id'];
 
                                 $result=$this->getStepAnswer($d);
-                                // echo '<pre>';print_r($condition);exit;
+                                // echo '<pre>';print_r($result);exit;
                                 //print_r($step['id'].'-'.$params['pathway']); exit;
                                 // echo "<script>>console.log('2136 result is ".$result['value']."')</script>";
                                 switch($condition['operator'])
