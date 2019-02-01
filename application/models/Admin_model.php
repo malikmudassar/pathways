@@ -196,7 +196,14 @@ class Admin_model extends CI_Model {
             {
                 for($i=0;$i<count($st);$i++)
                 {
-                    if($params['pathway']==2 && $st[$i]['step']!=7)
+                    if($params['pathway']==2 )
+                    {
+                        if($st[$i]['step']!=7)
+                        {
+                            $result+=$st[$i]['value'];
+                        }                        
+                    }
+                    else
                     {
                         $result+=$st[$i]['value'];
                     }
