@@ -353,7 +353,8 @@ class Pw extends REST_Controller {
             $data['step_type']='info';
             $data['form']="";
         }
-        
+        $steps=$this->Admin_model->countPathwaySteps($params['pathway']);
+        $data['percent']=($params['step']/$steps)*100;
         if($data)
         {
             // Set the response and exit

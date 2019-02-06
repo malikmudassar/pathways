@@ -3956,4 +3956,10 @@ class Admin_model extends CI_Model {
         // echo $this->db->last_query();
     }
 
+    public function countPathwaySteps($pathway)
+    {
+        $count=count($this->db->select("*")->from('steps')->where('pathway', $pathway)->get()->result_array());
+        return $count;
+    }
+
 }
