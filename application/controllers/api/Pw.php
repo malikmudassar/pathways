@@ -340,6 +340,10 @@ class Pw extends REST_Controller {
         $data=$this->Admin_model->getEditedQuestion($params);
         $data['form']=$this->Admin_model->getAnsForm($data['question']['id'],$params);
         $data['answer']=$this->Admin_model->getStepAnswer($params);
+        $path=$this->Admin_model->getPathFlowByStep($params['step'],$params['pathway']);
+        $data['step']=$path['step'];
+        $data['back']=$path['back'];
+        $data['next']=$path['next'];
         if(!empty($data['form']))
         {
             $data['step_type']=$data['form'][0]['type'];  
