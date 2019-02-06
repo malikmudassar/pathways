@@ -3791,15 +3791,18 @@ class Admin_model extends CI_Model {
         // print_r($st);
         $count=count($st);
         $i=0;
-        foreach($st as $row)
+        
+        if($params['pathway']!=3)
         {
-            if($params['pathway']!=3)
+            foreach($st as $row)
             {
                 $step=$this->getStepByNumber($row['step'], $params['pathway']);
+
                 if($step['type']=='question' || $step['type']=='info' || $step['type']=='datepicker'){
                     $d=$this->db->query('select * from steps where pathway='.$params['pathway'].' and number='.$row['step'])->result_array();
 
                     $q=$this->getQuestionByStep($d[0]['id']);
+                    $path=$this->getPathFlowByStep($row['step'], $params['pathway']);
                     if($q['ans_model']==16)
                     {
                         $st=$this->db->select('*')
@@ -3814,7 +3817,10 @@ class Admin_model extends CI_Model {
                         $dr=array(
                                 'type'      => $step['type'],
                                 'question'  => $q['statement'],
-                                'answer'    => $d
+                                'answer'    => $d,
+                                'step'      => $path['step'],
+                                'back'      => $path['back'],
+                                'next'      => $path['next']
                             );
                     }
                     else
@@ -3824,7 +3830,10 @@ class Admin_model extends CI_Model {
                             $dr=array(
                                 'type'      => $step['type'],
                                 'question'  => $q['statement'],
-                                'answer'    => ($this->getAnswerResult($q['id'],$row['value']))
+                                'answer'    => ($this->getAnswerResult($q['id'],$row['value'])),
+                                'step'      => $path['step'],
+                                'back'      => $path['back'],
+                                'next'      => $path['next']
                             );
                         }
                         else
@@ -3832,7 +3841,10 @@ class Admin_model extends CI_Model {
                             $dr=array(
                                 'type'      => $step['type'],
                                 'question'  => array(),
-                                'answer'    => array()
+                                'answer'    => array(),
+                                'step'      => $path['step'],
+                                'back'      => $path['back'],
+                                'next'      => $path['next']
                             );
                         }                    
                         
@@ -3841,19 +3853,23 @@ class Admin_model extends CI_Model {
                         
                 }
             }
-            else
-            {
-                $data=array();
-                $d=$this->db->query('select * from steps where pathway=3 and number=1')->result_array();
-                $q=$this->getQuestionByStep($d[0]['id']);
-                $ans=$this->db->query('SELECT * FROM step_answers WHERE pathway=3 and step=1 and user_id='.$params['user_id'].' ORDER BY created_at DESC LIMIT 0,2')->result_array();
-                $data[0]['type']='question';
-                $data[0]['question']=$q['statement'];
-                $data[0]['answer']=$ans;  
-
-            }
+        }
+        else
+        {
+            $data=array();
+            $d=$this->db->query('select * from steps where pathway=3 and number=1')->result_array();
+            $q=$this->getQuestionByStep($d[0]['id']);
+            $path=$this->getPathFlowByStep(1, 3);
+            $ans=$this->db->query('SELECT * FROM step_answers WHERE pathway=3 and step=1 and user_id='.$params['user_id'].' ORDER BY created_at DESC LIMIT 0,2')->result_array();
+            $data[0]['type']='question';
+            $data[0]['question']=$q['statement'];
+            $data[0]['answer']=$ans;  
+            $data[0]['step']=$path['step'];
+            $data[0]['back']=$path['back'];
+            $data[0]['next']=$path['next'];
+        }
                 
-         }
+         
 
 
         return $data;;
