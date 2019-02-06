@@ -334,5 +334,36 @@ class Pw extends REST_Controller {
 
     }
 
+    public function edit_q_post()
+    {
+        $params=$_REQUEST;
+        $data=$this->Admin_model->getEditedQuestion($params);
+        $data['form']=$this->Admin_model->getAnsForm($data['question']['id'],$params);
+        $data['answer']=$this->Admin_model->getStepAnswer($params);
+        if(!empty($data['form']))
+        {
+            $data['step_type']=$data['form'][0]['type'];  
+        }
+        else
+        {
+            $data['step_type']='info';
+            $data['form']="";
+        }
+        
+        if($data)
+        {
+            // Set the response and exit
+            $this->response($data, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
+        }
+        else
+        {
+            // Set the response and exit
+            $this->response([
+                'status' => FALSE,
+                'message' => 'Pathway doesn\'t have steps',
+            ], REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
+        }
+    }
+
 
 }

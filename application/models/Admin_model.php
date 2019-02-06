@@ -3868,11 +3868,17 @@ class Admin_model extends CI_Model {
             $data[0]['back']=$path['back'];
             $data[0]['next']=$path['next'];
         }
-                
-         
-
 
         return $data;;
+    }
+
+    public function getEditedQuestion($params)
+    {
+        $st=$this->db->query("SELECT * from steps where number=".$params['step']." and pathway=".$params['pathway'])->result_array();
+        $step=$st[0];
+        $q=$this->getQuestionByStep($step['id']);
+        $data['question']=$q;
+        return $data;
     }
 
     public function getAnswerResult($q, $v)
