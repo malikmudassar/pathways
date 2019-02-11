@@ -3225,7 +3225,7 @@ class Admin_model extends CI_Model {
                         ->get()->result_array();
             if(count($st)>0)
             {
-                $pathways[$i]['percent']=$st[0]['percent'];
+                $pathways[$i]['percent']=number_format($st[0]['percent'],2);
                 $pathways[$i]['attempt']=$st[0]['created_at'];
             }
             else
