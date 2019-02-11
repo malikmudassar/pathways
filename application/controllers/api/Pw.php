@@ -276,7 +276,7 @@ class Pw extends REST_Controller {
         }
          
         // print_r($data['answer']);exit;
-        
+        $data['form']=array();
         $data['form']=$this->Admin_model->getAnsForm($data['question']['id'], $params);
 
         if(!empty($data['form']))
@@ -293,7 +293,7 @@ class Pw extends REST_Controller {
         else
         {
             $data['step_type']='info';
-            $data['form']=array();
+            $data['form'][0]=array();
         }
         if($data['back']==0)
         {
