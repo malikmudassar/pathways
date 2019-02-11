@@ -138,6 +138,7 @@ class Pw extends REST_Controller {
                     $data['form'][$i]['type']='decimal';
                     $data['form'][$i]['max']=5;
                 }
+                $data['percent']=(int)$data['percent'];
             }  
         }
         else
