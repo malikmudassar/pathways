@@ -3655,19 +3655,19 @@ class Admin_model extends CI_Model {
                         'pathway'   => $data['pathway'],
                         'step'      => $data['step'],
                         'value'     => $data['score'],
-                        'user_id'   =>$data['user_id']
+                        'user_id'   => $data['user_id']
                     );
                     
                     // echo '<pre> path';print_r($pth);exit;
                     $st=$this->db->select('*')
-                                ->from('step_answers')
-                                ->where('step',$data['step'])
+                                ->from('step_answers')                                
                                 ->where('user_id',$data['user_id'])
                                 ->where('pathway', $data['pathway'])
+                                ->where('step',$data['step'])
                                 ->get()
                                 ->result_array();
 
-                    //echo '<pre>';print_r($st);exit;
+                    echo '<pre>';print_r($st);
                     // $st=$this->db->query('select * from step_answers where step='.$data['step'])->result_array();
                     if(count($st)>0)
                     {
