@@ -149,7 +149,7 @@ class Pw extends REST_Controller {
 
         if(!$data['percent'])
         {            
-            $data['percent']=number_format(0,2);
+            $data['percent']=0;
         }
         if ($data['question'])
         {
