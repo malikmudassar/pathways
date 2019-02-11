@@ -131,7 +131,7 @@ class Pw extends REST_Controller {
         if(!empty($data['form']))
         {
             $data['step_type']=$data['form'][0]['type'];  
-            if($Id==3)
+            if($Id==3 && $data['step']==1)
             {
                 for($i=0;$i<count($data['form']);$i++)
                 {
@@ -282,7 +282,7 @@ class Pw extends REST_Controller {
         if(!empty($data['form']))
         {
             $data['step_type']=$data['form'][0]['type'];
-            if($params['pathway']==3)
+            if($params['pathway']==3 && $params['step']==1)
             {
                 for($i=0;$i<count($data['form']);$i++)
                 {
@@ -302,7 +302,7 @@ class Pw extends REST_Controller {
         $data['user_id']=$params['user_id'];
         $this->Admin_model->updateStats($data);
         $st=$this->Admin_model->getStats($data);
-        $data['percent']=$st['percent'];
+        $data['percent']=(int)$st['percent'];
         if ($data)
         {
             // Set the response and exit

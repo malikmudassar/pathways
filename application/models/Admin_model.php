@@ -134,7 +134,7 @@ class Admin_model extends CI_Model {
             $data['user_id']=$params['user_id'];
             $this->updateStats($data);
             $st=$this->getStats($data);
-            $data['percent']=$st['percent'];
+            $data['percent']=(int)$st['percent'];
             return $data;
         }
         else
