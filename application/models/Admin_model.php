@@ -94,6 +94,7 @@ class Admin_model extends CI_Model {
         {
             $data['step']=1;
             $step=$this->getStepByNumberPathway($data['step'],$id);
+            $data['percent']=0;
         }
         // echo '<pre>';print_r($step);exit;
         $st=$this->db->query('select questions.* from questions inner join step_questions on step_questions.question=questions.id where step='.$step['id'])->result_array();
