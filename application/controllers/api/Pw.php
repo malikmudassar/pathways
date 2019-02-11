@@ -293,7 +293,7 @@ class Pw extends REST_Controller {
         else
         {
             $data['step_type']='info';
-            $data['form'][0]=array();
+            $data['form']=array();
         }
         if($data['back']==0)
         {
