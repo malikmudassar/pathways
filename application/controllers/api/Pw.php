@@ -144,7 +144,7 @@ class Pw extends REST_Controller {
         else
         {
             $data['step_type']='info';
-            $data['form']="";
+            $data['form']=array();
         }
 
         if(!$data['percent'])
