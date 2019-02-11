@@ -171,8 +171,7 @@ class Pw extends REST_Controller {
     {
 
         $params=$_REQUEST;
-        
-        //
+        $this->Admin_model->removeAnswers($params);
         //echo '<pre>';print_r($_REQUEST);exit;
         if($params['step']==1)
         {

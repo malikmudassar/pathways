@@ -3657,7 +3657,6 @@ class Admin_model extends CI_Model {
                         'value'     => $data['score'],
                         'user_id'   =>$data['user_id']
                     );
-                    // find answer whose created_at is bigger than status created_at or insert 
                     
                     // echo '<pre> path';print_r($pth);exit;
                     $st=$this->db->select('*')
