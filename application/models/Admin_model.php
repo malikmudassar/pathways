@@ -4001,4 +4001,10 @@ class Admin_model extends CI_Model {
         return $st[0];
     }
 
+    public function removeAnswers($params)
+    {
+        $this->db->query('Delete from step_answers where user_id='.$params['user_id'].'
+             and pathway='.$params['pathway'].' and step > '.$params['step']);
+    }
+
 }
