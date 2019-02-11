@@ -92,7 +92,7 @@ class Admin_model extends CI_Model {
         }
         if($data['pathway']==3 && $data['step']==3)
         {
-            $data['step']=1;
+            $data['step']="1";
             $step=$this->getStepByNumberPathway($data['step'],$id);
             $data['percent']=0;
         }
