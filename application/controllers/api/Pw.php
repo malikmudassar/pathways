@@ -269,10 +269,11 @@ class Pw extends REST_Controller {
         else
         {
             $data['answer'][0]=$this->Admin_model->getStepAnswer($params);
-            if(!$data['answer'][0])
-            {
-                $data['answer'][0]=(object)array();
-            }
+            
+        }
+        if(!$data['answer'][0])
+        {
+            $data['answer'][0]=(object)array();
         }
          
         // print_r($data['answer']);exit;
@@ -370,6 +371,7 @@ class Pw extends REST_Controller {
         }
         $steps=$this->Admin_model->countPathwaySteps($params['pathway']);
         $data['percent']=($params['step']/$steps)*100;
+        $this->Admin_model->removeAnswers($data);
         if($data)
         {
             // Set the response and exit
