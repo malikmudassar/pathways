@@ -213,7 +213,7 @@ class Pw extends REST_Controller {
             );
             $this->Admin_model->savePercent($p);
         }
-        
+
         if ($data)
         {
             // Set the response and exit
@@ -301,6 +301,8 @@ class Pw extends REST_Controller {
         }
         $data['user_id']=$params['user_id'];
         $this->Admin_model->updateStats($data);
+        $st=$this->Admin_model->getStats($data);
+        $data['percent']=$st['percent'];
         if ($data)
         {
             // Set the response and exit

@@ -133,6 +133,8 @@ class Admin_model extends CI_Model {
             $data['percent']=($data['step']/$steps)*100;
             $data['user_id']=$params['user_id'];
             $this->updateStats($data);
+            $st=$this->getStats($data);
+            $data['percent']=$st['percent'];
             return $data;
         }
         else
@@ -146,7 +148,7 @@ class Admin_model extends CI_Model {
             // print_r($data);
             // echo '125 go';
             $data['percent']=($data['step']/$steps)*100;
-            
+
             if($data['step']==$steps)
             {
                 // echo '128 go';
@@ -3988,6 +3990,15 @@ class Admin_model extends CI_Model {
         {
             $this->db->insert('user_pathway_status', $item);
         }
+    }
+
+    public function getStats($params)
+    {
+        $st=$this->db->select('*')->from('user_pathway_status')
+                    ->where('user_id', $params['user_id'])
+                    ->where('pathway', $params['pathway'])
+                    ->get()->result_array();
+        return $st[0];
     }
 
 }
