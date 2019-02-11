@@ -213,6 +213,7 @@ class Pw extends REST_Controller {
             );
             $this->Admin_model->savePercent($p);
         }
+        
         if ($data)
         {
             // Set the response and exit
