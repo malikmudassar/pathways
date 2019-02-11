@@ -90,6 +90,11 @@ class Admin_model extends CI_Model {
         {
             return false;
         }
+        if($data['pathway']==3 && $data['step']==2)
+        {
+            $data['step']=1;
+            $step=$this->getStepByNumberPathway($data['step'],$id);
+        }
         // echo '<pre>';print_r($step);exit;
         $st=$this->db->query('select questions.* from questions inner join step_questions on step_questions.question=questions.id where step='.$step['id'])->result_array();
         //echo '<pre>';print_r($this->db->last_query());exit;
