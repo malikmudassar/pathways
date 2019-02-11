@@ -3666,7 +3666,7 @@ class Admin_model extends CI_Model {
                                 ->where('step',$data['step'])
                                 ->get()
                                 ->result_array();
-
+                    
                     // echo '<pre>';print_r($st);
                     // $st=$this->db->query('select * from step_answers where step='.$data['step'])->result_array();
                     if(count($st)>0)
