@@ -371,6 +371,7 @@ class Pw extends REST_Controller {
         }
         $steps=$this->Admin_model->countPathwaySteps($params['pathway']);
         $data['percent']=($params['step']/$steps)*100;
+        $data['user_id']=$params['user_id'];
         $this->Admin_model->removeAnswers($data);
         if($data)
         {
