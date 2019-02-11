@@ -3962,4 +3962,28 @@ class Admin_model extends CI_Model {
         return $count;
     }
 
+    public function updateStats($params)
+    {
+        $item=array(
+                'user_id'   =>  $params['user_id'],
+                'pathway'   =>  $params['pathway'],
+                'current_step'  =>  $params['step'],
+                'percent'   =>  $params['percent']
+        );
+        $st=$this->db->select('*')->from('user_pathway_status')
+                    ->where('user_id', $params['user_id'])
+                    ->where('pathway', $params['pathway'])
+                    ->get()->result_array();
+        if(count($st)>0)
+        {
+            $this->db->where('user_id', $params['user_id'])
+                        ->where('pathway', $params['pathway'])
+                        ->update('user_pathway_status', $item);
+        }
+        else
+        {
+            $this->db->insert('user_pathway_status', $item);
+        }
+    }
+
 }

@@ -298,7 +298,8 @@ class Pw extends REST_Controller {
         {
             $data['percent']=0;
         }
-        
+        $data['user_id']=$params['user_id'];
+        $this->Admin_model->updateStats($data);
         if ($data)
         {
             // Set the response and exit
