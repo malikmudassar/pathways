@@ -296,7 +296,7 @@ class Admin_model extends CI_Model {
                         case '>':
                             if(isset($result[0]))
                             {
-                                if($result['value'] > $condition['value'])
+                                if($result[0]['value'] > $condition['value'])
                                 {
                                     $data['step']=$condition['if_next_step'];
                                     $st=$this->db->query('select * from pathflow where step='.$condition['if_next_step'].' and pathway='.$params['pathway'])->result_array();
