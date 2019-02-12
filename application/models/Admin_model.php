@@ -3666,7 +3666,7 @@ class Admin_model extends CI_Model {
                                 ->where('step',$data['step'])
                                 ->get()
                                 ->result_array();
-                    
+
                     // echo '<pre>';print_r($st);
                     // $st=$this->db->query('select * from step_answers where step='.$data['step'])->result_array();
                     if(count($st)>0)
@@ -4008,8 +4008,18 @@ class Admin_model extends CI_Model {
 
     public function removeAnswers($params)
     {
-        $this->db->query('Delete from step_answers where user_id='.$params['user_id'].'
+        $st=$this->db->select('*')
+                ->from('step_answers')
+                ->where('user_id',$params['user_id'])
+                ->where('pathway', $params['pathway'])
+                ->where('step >', $params['step'])
+                ->result_array();
+        if(count($st)>0)
+        {
+            $this->db->query('Delete from step_answers where user_id='.$params['user_id'].'
              and pathway='.$params['pathway'].' and step > '.$params['step']);
+        }
+        
     }
 
 }
