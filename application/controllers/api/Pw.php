@@ -177,7 +177,14 @@ class Pw extends REST_Controller {
         {
             $this->Admin_model->flush_pw_results($params['user_id'],$params['pathway']);
         }
-        $this->Admin_model->saveResult($params);
+        $d=$this->Admin_model->saveResult($params);
+        if(!$d)
+        {
+            $this->response([
+                'status' => FALSE,
+                'message' => 'Pathway Id not sent in request',
+            ], REST_Controller::HTTP_NOT_FOUND);
+        }
         if(!$params['age'])
         {
             $params['age']=21;
