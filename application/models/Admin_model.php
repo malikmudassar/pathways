@@ -4013,6 +4013,7 @@ class Admin_model extends CI_Model {
                 ->where('user_id',$params['user_id'])
                 ->where('pathway', $params['pathway'])
                 ->where('step >', $params['step'])
+                ->get()
                 ->result_array();
         if(count($st)>0)
         {
