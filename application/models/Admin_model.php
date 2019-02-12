@@ -138,7 +138,7 @@ class Admin_model extends CI_Model {
             // echo '111 go';
             $data['percent']=($data['step']/$steps)*100;
             $data['user_id']=$params['user_id'];
-            $data['step']=$step['number'];
+            $data['step']=$params['next'];
             $this->updateStats($data);
             $st=$this->getStats($data);
             $data['percent']=(int)$st['percent'];
@@ -168,7 +168,7 @@ class Admin_model extends CI_Model {
             }
             $data['user_id']=$params['user_id'];
             $data['pathway']=$params['pathway'];
-            $data['step']=$step['number'];
+            $data['step']=$params['next'];
             $this->updateStats($data);
             return $data;
         }

@@ -307,6 +307,7 @@ class Pw extends REST_Controller {
             $data['percent']=0;
         }
         $data['user_id']=$params['user_id'];
+        $data['step']=$params['step'];
         $this->Admin_model->updateStats($data);
         $st=$this->Admin_model->getStats($data);
         $this->Admin_model->removeAnswers($data);
