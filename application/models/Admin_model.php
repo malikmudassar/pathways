@@ -166,6 +166,7 @@ class Admin_model extends CI_Model {
                 $data['percent']=100;
             }
             $data['user_id']=$params['user_id'];
+            $data['pathway']=$params['pathway'];
             $this->updateStats($data);
             return $data;
         }
