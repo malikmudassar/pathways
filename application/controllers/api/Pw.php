@@ -172,7 +172,7 @@ class Pw extends REST_Controller {
 
         $params=$_REQUEST;
         $this->Admin_model->removeAnswers($params);
-        //echo '<pre>';print_r($_REQUEST);exit;
+        print_r($_REQUEST);
         if($params['step']==1)
         {
             $this->Admin_model->flush_pw_results($params['user_id'],$params['pathway']);
