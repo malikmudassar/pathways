@@ -3946,7 +3946,7 @@ class Admin_model extends CI_Model {
             }
             else
             {
-                return null;
+                return array();
             }
         }
 
