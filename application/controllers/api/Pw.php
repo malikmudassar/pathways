@@ -113,8 +113,8 @@ class Pw extends REST_Controller {
         $this->session->set_userdata('flag','white');
         $Id=$_REQUEST['pw'];
         $user_id=$_REQUEST['user_id'];
-        
-        $data=$this->Admin_model->getFirstPathwayQuestion($Id, $user_id);
+        $age=$_REQUEST['age'];
+        $data=$this->Admin_model->getFirstPathwayQuestion($Id, $user_id, $age);
         $params['pathway']=$Id;
         if(!isset($params['gender']))
         {

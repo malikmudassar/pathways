@@ -10,7 +10,7 @@ class Admin_model extends CI_Model {
     {
         parent::__construct();
     }
-    public function getFirstPathwayQuestion($id, $user_id=0)
+    public function getFirstPathwayQuestion($id, $user_id=0, $age=0)
     {
         if($user_id==0)
         {
@@ -86,16 +86,40 @@ class Admin_model extends CI_Model {
         }  
         $step=$this->getStepByNumberPathway($data['step'],$id);
         $data['step']=$step['number'];
-        if(empty($data['step']))
-        {
-            return false;
-        }
+        
         if($data['pathway']==3 && $data['step']==3)
         {
             $data['step']="1";
             $step=$this->getStepByNumberPathway($data['step'],$id);
             $data['percent']=0;
         }
+        if($id==5)
+        {
+            if($step['type']=='age')
+            {
+                $st=$this->db->select('*')->from('step_age')
+                            ->where('step',$step['id'])
+                            ->get()->result_array();
+                if($age > $st[0]['value'])
+                {
+                    $step=$step=$this->getStepByNumberPathway($st[0]['if_next_step'],$id);
+                    $data['step']=$step['number'];
+                    $t=$this->db->select('*')->from('pathflow')->where('pathway',$id)->where('step',$step['number'])->get()->result_array();
+                    $data['back']=$t[0]['back'];
+                    $data['next']=$t[0]['next'];
+                }
+                else
+                {
+                    $step=$step=$this->getStepByNumberPathway($st[0]['else_next_step'],$id);
+                    $data['step']=$step['number'];
+                    $t=$this->db->select('*')->from('pathflow')->where('pathway',$id)->where('step',$step['number'])->get()->result_array();
+                    $data['back']=$t[0]['back'];
+                    $data['next']=$t[0]['next'];
+                }
+
+            }
+        }
+        // print_r($data);exit;
         // echo '<pre>';print_r($step);exit;
         $st=$this->db->query('select questions.* from questions inner join step_questions on step_questions.question=questions.id where step='.$step['id'])->result_array();
         //echo '<pre>';print_r($this->db->last_query());exit;
