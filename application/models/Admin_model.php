@@ -3554,14 +3554,7 @@ class Admin_model extends CI_Model {
 
     public function saveResult($data)
     {
-        if(!$data['pathway'])
-        {
-            return false;
-        }
-        if($data['pathway']==3)
-        {
-            $data['step']==1;
-        }
+        
         $step=$this->getStepByNumber($data['step'], $data['pathway']);
         // print_r($step);
         if($step['type']=='question' || $step['type']=='info')
