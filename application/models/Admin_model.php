@@ -3097,7 +3097,7 @@ class Admin_model extends CI_Model {
                 $st=$this->db->query('select questions.* from questions inner join step_questions on step_questions.question=questions.id where step='.$step['id'])->result_array();
                 // echo $this->db->last_query();
                 $data['question']=$st[0];
-                $data['question']['statement']= 'Your BMI is '.number_format($result,2).'. Your BMI category is '.$category;
+                $data['question']['statement']= 'Your BMI is '.number_format($result,2).'. Your result suggests you are '.$category;
                 return $data;
             }
         }
