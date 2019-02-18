@@ -3255,6 +3255,7 @@ class Admin_model extends CI_Model {
         $pathways=$this->db->select('*')
                         ->from('pathways')
                         ->where('publish','yes')
+                        ->order_by('orders', 'asc')
                         ->get()
                         ->result_array();
         for($i=0;$i<count($pathways);$i++)
