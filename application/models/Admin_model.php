@@ -1002,7 +1002,13 @@ class Admin_model extends CI_Model {
                         $weight=$result[0]['value'];
                         $height=$result[1]['value'];
                         $result=array();
-                        $result['value']=(($weight)/(($height*$height)/10000));
+                        $t=$this->db->select('*')->from('step_answers')
+                                    ->where('user_id', $params['user_id'])
+                                    ->where('pathway', $params['pathway'])
+                                    ->where('step', 2)
+                                    ->get()
+                                    ->result_array();
+                        $result['value']=$t[0]['value'];
                         // echo "<script>console.log('653. Result is '".$result['value'].")</script>";
                     }
                     else
@@ -1216,7 +1222,13 @@ class Admin_model extends CI_Model {
                                 $weight=$result[0]['value'];
                                 $height=$result[1]['value'];
                                 $result=array();
-                                $result['value']=(($weight)/(($height*$height)/10000));
+                                $t=$this->db->select('*')->from('step_answers')
+                                            ->where('user_id', $params['user_id'])
+                                            ->where('pathway', $params['pathway'])
+                                            ->where('step', 2)
+                                            ->get()
+                                            ->result_array();
+                                $result['value']=$t[0]['value'];
                                 // echo "<script>console.log('1089. Result is '".$result['value'].")</script>";
 
                             }
