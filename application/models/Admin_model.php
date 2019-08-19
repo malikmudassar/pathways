@@ -1581,7 +1581,7 @@ class Admin_model extends CI_Model {
                                     $path=$st[0];
                                     $data['back']=$step['number']; 
                                     $data['next']=$path['next'];
-                                    echo '1582 <pre>';print_r($data);exit;
+                                    // echo '1582 <pre>';print_r($data);exit;
                                 }
                             }
                             else
