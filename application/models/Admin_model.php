@@ -1303,7 +1303,7 @@ class Admin_model extends CI_Model {
             $d['user_id']=$params['user_id'];
 
             $result=$this->getStepAnswer($d);
-            // echo '271 <pre>';print_r($result);exit;
+            // echo '271 <pre>';print_r($d);exit;
             if($params['pathway']==3 && $d['step']==2)
             {
                 $weight=$result[0]['value'];
@@ -1316,8 +1316,9 @@ class Admin_model extends CI_Model {
                             ->get()
                             ->result_array();
                 $result[0]['value']=$t[0]['value'];
+                // print_r($result);exit;
                 // $result['value']=(($weight)/(($height*$height)/10000));
-                // echo "<script>console.log('1320. Result is '".$result['value'].")</script>";
+                // // echo "<script>console.log('1320. Result is '".$result['value'].")</script>";
             }
             else
             {
@@ -1459,14 +1460,16 @@ class Admin_model extends CI_Model {
                 case '<>':                   
                     if(isset($result[0]))
                     {
+                        // print_r($result);
                         // echo "<script>console.log('1462. result of 0 is set')</script>";
-                        if($result[0]['value'] >= $condition['value_from'] && $result[0]['value'] <= $condition['value_from'])
+                        if($result[0]['value'] >= $condition['value_from'] && $result[0]['value'] <= $condition['value_to'])
                         {
                             $data['step']=$condition['if_next_step'];
                             $st=$this->db->query('select * from pathflow where step='.$condition['if_next_step'].' and pathway='.$params['pathway'])->result_array();
                             $path=$st[0];
                             $data['back']=$step['number'];
                             $data['next']=$path['next'];
+                            // echo '1471 <pre>';print_r($path);exit;
                         }
                         else
                         {
@@ -1475,7 +1478,7 @@ class Admin_model extends CI_Model {
                             $path=$st[0];
                             $data['back']=$step['number']; 
                             $data['next']=$path['next'];
-                            //echo '<pre>';print_r($path);exit;
+                            // echo '1480 <pre>';print_r($path);exit;
                         }
                         // echo '812 <pre>';print_r($data);exit;
                     }
@@ -1508,8 +1511,9 @@ class Admin_model extends CI_Model {
                 break;
             }
                 
-            // echo '<pre>';print_r($step);print_r($data);exit;
+            
             $step=$this->getStepByNumber($data['step'], $params['pathway']);
+            // echo '<pre>';print_r($step);print_r($data);exit;
 
             if($step['type']=='question' || $step['type']=='info')
             {
@@ -1547,7 +1551,8 @@ class Admin_model extends CI_Model {
                                     ->get()
                                     ->result_array();
                         $result[0]['value']=$t[0]['value'];
-                        // echo "<script>console.log('1550. Result is '".$result['value'].")</script>";
+                        // print_r($result);exit;
+                        // // echo "<script>console.log('1550. Result is '".$result['value'].")</script>";
                     }
                     else
                     {
@@ -1576,7 +1581,7 @@ class Admin_model extends CI_Model {
                                     $path=$st[0];
                                     $data['back']=$step['number']; 
                                     $data['next']=$path['next'];
-                                    //echo '<pre>';print_r($path);exit;
+                                    echo '1582 <pre>';print_r($data);exit;
                                 }
                             }
                             else
@@ -1596,7 +1601,7 @@ class Admin_model extends CI_Model {
                                     $path=$st[0];
                                     $data['back']=$step['number']; 
                                     $data['next']=$path['next'];
-                                    //echo '<pre>';print_r($path);exit;
+                                    // echo '1602 <pre>';print_r($path);exit;
                                 }
                             } 
                             
