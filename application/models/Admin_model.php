@@ -222,35 +222,60 @@ class Admin_model extends CI_Model {
             // echo "<script>console.log('223 Step ".$step['number']." is calculation')</script>";
             $st=$this->db->query('select * from step_calculation where step='.$step['id'])->result_array();
             $stepCalcData=$st[0];
-
-            $st=$this->db->select('*')
+            // print_r($stepCalcData);exit;
+            if($params['pathway']==5 && $step['number']==11)
+            {
+                $st=$this->db->select('*')
+                        ->from('step_answers')
+                        ->where('step = '.$stepCalcData['from_step'])
+                        ->where('user_id',$params['user_id'])
+                        ->where('pathway', $params['pathway'])
+                        ->get()
+                        ->result_array();
+                $res1=$st[0]['value'];
+                $st=$this->db->select('*')
+                        ->from('step_answers')
+                        ->where('step = '.$stepCalcData['to_step'])
+                        ->where('user_id',$params['user_id'])
+                        ->where('pathway', $params['pathway'])
+                        ->get()
+                        ->result_array();
+                $res2=$st[0]['value'];
+                $result=$res1*$res2;
+            }
+            else
+            {
+                $st=$this->db->select('*')
                         ->from('step_answers')
                         ->where('step BETWEEN '.$stepCalcData['from_step'].' and '.$stepCalcData['to_step'].'')
                         ->where('user_id',$params['user_id'])
                         ->where('pathway', $params['pathway'])
                         ->get()
                         ->result_array();
-            // echo '<pre>';print_r($st);exit;
-            // $st=$this->db->query('select * from step_answers where step BETWEEN '.$stepCalcData['from_step'].' and '.$stepCalcData['to_step'].'')->result_array();
-            
-            if(count($st)>0)
-            {
-                for($i=0;$i<count($st);$i++)
+                // echo '<pre>';print_r($st);exit;
+                // $st=$this->db->query('select * from step_answers where step BETWEEN '.$stepCalcData['from_step'].' and '.$stepCalcData['to_step'].'')->result_array();
+                
+                if(count($st)>0)
                 {
-                    if($params['pathway']==2 )
+                    for($i=0;$i<count($st);$i++)
                     {
-                        if($st[$i]['step']!=7)
+                        if($params['pathway']==2 )
+                        {
+                            if($st[$i]['step']!=7)
+                            {
+                                $result+=$st[$i]['value'];
+                            }                        
+                        }
+                        else
                         {
                             $result+=$st[$i]['value'];
-                        }                        
+                        }
+                        
                     }
-                    else
-                    {
-                        $result+=$st[$i]['value'];
-                    }
-                    
                 }
             }
+            // echo '<pre>';print_r($stepCalcData);exit;
+            
             // echo "<script>console.log('254 saving result ".$result." for step ".$step['number']."')</script>";
             $item=array(
                 'pathway' => $params['pathway'],
@@ -752,35 +777,58 @@ class Admin_model extends CI_Model {
                     // echo "<script>console.log('752 Step ".$step['number']." is calculation')</script>";
                     $st=$this->db->query('select * from step_calculation where step='.$step['id'])->result_array();
                     $stepCalcData=$st[0];
-
-                    $st=$this->db->select('*')
+                    if($params['pathway']==5 && $step['number']==12)
+                    {
+                        $st=$this->db->select('*')
                                 ->from('step_answers')
-                                ->where('step BETWEEN '.$stepCalcData['from_step'].' and '.$stepCalcData['to_step'].'')
+                                ->where('step = '.$stepCalcData['from_step'])
                                 ->where('user_id',$params['user_id'])
                                 ->where('pathway', $params['pathway'])
                                 ->get()
                                 ->result_array();
-                    // echo '<pre>';print_r($st);exit;
-                    // $st=$this->db->query('select * from step_answers where step BETWEEN '.$stepCalcData['from_step'].' and '.$stepCalcData['to_step'].'')->result_array();
-                    
-                    if(count($st)>0)
+                        $res1=$st[0]['value'];
+                        $st=$this->db->select('*')
+                                ->from('step_answers')
+                                ->where('step = '.$stepCalcData['to_step'])
+                                ->where('user_id',$params['user_id'])
+                                ->where('pathway', $params['pathway'])
+                                ->get()
+                                ->result_array();
+                        $res2=$st[0]['value'];
+                        $result=$res1*$res2;
+                    }
+                    else
                     {
-                        for($i=0;$i<count($st);$i++)
+                        $st=$this->db->select('*')
+                                    ->from('step_answers')
+                                    ->where('step BETWEEN '.$stepCalcData['from_step'].' and '.$stepCalcData['to_step'].'')
+                                    ->where('user_id',$params['user_id'])
+                                    ->where('pathway', $params['pathway'])
+                                    ->get()
+                                    ->result_array();
+                        // echo '<pre>';print_r($st);exit;
+                        // $st=$this->db->query('select * from step_answers where step BETWEEN '.$stepCalcData['from_step'].' and '.$stepCalcData['to_step'].'')->result_array();
+                        
+                        if(count($st)>0)
                         {
-                            if($params['pathway']==2 )
+                            for($i=0;$i<count($st);$i++)
                             {
-                                if($st[$i]['step']!=7)
+                                if($params['pathway']==2 )
+                                {
+                                    if($st[$i]['step']!=7)
+                                    {
+                                        $result+=$st[$i]['value'];
+                                    }                        
+                                }
+                                else
                                 {
                                     $result+=$st[$i]['value'];
-                                }                        
+                                }
+                                
                             }
-                            else
-                            {
-                                $result+=$st[$i]['value'];
-                            }
-                            
                         }
                     }
+                        
                     // echo "<script>console.log('784 saving result ".$result." for step ".$step['number']."')</script>";
                     $item=array(
                         'pathway' => $params['pathway'],
