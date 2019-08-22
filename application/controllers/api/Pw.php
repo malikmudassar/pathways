@@ -314,7 +314,7 @@ class Pw extends REST_Controller {
         $this->Admin_model->removeAnswers($data);
         $data['percent']=(int)$st['percent'];
         // BMI Pathway, If step =1 , the step type should be dropdown
-        if($Id==3 && $data['step']==1)
+        if($params['pathway']==3 && $params['step']==1)
         {
             $data['step_type']='dropdown';
         } 
