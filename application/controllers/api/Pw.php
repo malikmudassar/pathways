@@ -148,7 +148,12 @@ class Pw extends REST_Controller {
             $data['step_type']='info';
             $data['form']=array();
         }
-
+        // BMI Pathway, If step =1 , the step type should be dropdown
+        if($Id==3 && $data['step']==1)
+        {
+            $data['step_type']='dropdown';
+        } 
+        ///////////////////////////////////////////////////////////////
         if(!$data['percent'])
         {            
             $data['percent']=0;
