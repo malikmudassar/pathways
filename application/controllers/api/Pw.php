@@ -51,18 +51,18 @@ class Pw extends REST_Controller {
         $user_id=$_REQUEST['user_id'];
         $pathways=$this->Admin_model->getUserPublishedPathways($user_id);
         if ($pathways)
-            {
-                // Set the response and exit
-                $this->response($pathways, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
-            }
-            else
-            {
-                // Set the response and exit
-                $this->response([
-                    'status' => FALSE,
-                    'message' => 'No pathways were found'
-                ], REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
-            }
+        {
+            // Set the response and exit
+            $this->response($pathways, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
+        }
+        else
+        {
+            // Set the response and exit
+            $this->response([
+                'status' => FALSE,
+                'message' => 'No pathways were found'
+            ], REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
+        }
     }
 
     public function init_pw_get()
@@ -137,7 +137,7 @@ class Pw extends REST_Controller {
             {
                 for($i=0;$i<count($data['form']);$i++)
                 {
-                    $data['form'][$i]['type']='decimal';
+                    $data['form'][$i]['type']='dropdown';
                     $data['form'][$i]['max']=5;
                 }
                 $data['percent']=(int)$data['percent'];
@@ -289,7 +289,7 @@ class Pw extends REST_Controller {
             {
                 for($i=0;$i<count($data['form']);$i++)
                 {
-                    $data['form'][$i]['type']='decimal';
+                    $data['form'][$i]['type']='dropdown';
                 }
             } 
         }
