@@ -313,6 +313,12 @@ class Pw extends REST_Controller {
         $st=$this->Admin_model->getStats($data);
         $this->Admin_model->removeAnswers($data);
         $data['percent']=(int)$st['percent'];
+        // BMI Pathway, If step =1 , the step type should be dropdown
+        if($Id==3 && $data['step']==1)
+        {
+            $data['step_type']='dropdown';
+        } 
+        ///////////////////////////////////////////////////////////////
         if ($data)
         {
             // Set the response and exit
@@ -382,6 +388,12 @@ class Pw extends REST_Controller {
         $data['user_id']=$params['user_id'];
         $data['pathway']=$params['pathway'];
         $this->Admin_model->removeAnswers($data);
+        // BMI Pathway, If step =1 , the step type should be dropdown
+        if($params['pathway']==3 && $params['step']==1)
+        {
+            $data['step_type']='dropdown';
+        } 
+        ///////////////////////////////////////////////////////////////
         if($data)
         {
             // Set the response and exit
