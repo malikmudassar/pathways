@@ -152,9 +152,9 @@ class Pw extends REST_Controller {
         if($Id==3 && $data['step']==1)
         {
             $data['step_type']='dropdown';
-            $data['step']=1;
-            $data['back']=0;
-            $data['next']=2;
+            $data['step']='1';
+            $data['back']='0';
+            $data['next']='2';
         } 
         ///////////////////////////////////////////////////////////////
         if(!$data['percent'])
@@ -334,9 +334,9 @@ class Pw extends REST_Controller {
         if($params['pathway']==3 && $params['step']==1)
         {
             $data['step_type']='dropdown';
-            $data['step']=1;
-            $data['back']=0;
-            $data['next']=2;
+            $data['step']='1';
+            $data['back']='0';
+            $data['next']='2';
         } 
         ///////////////////////////////////////////////////////////////
         if ($data)
