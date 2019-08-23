@@ -152,12 +152,16 @@ class Pw extends REST_Controller {
         if($Id==3 && $data['step']==1)
         {
             $data['step_type']='dropdown';
+            $data['step']=1;
+            $data['back']=0;
+            $data['next']=2;
         } 
         ///////////////////////////////////////////////////////////////
         if(!$data['percent'])
         {            
             $data['percent']=0;
         }
+        // print_r($data);exit;
         if ($data['question'])
         {
             // Set the response and exit
@@ -330,6 +334,9 @@ class Pw extends REST_Controller {
         if($params['pathway']==3 && $params['step']==1)
         {
             $data['step_type']='dropdown';
+            $data['step']=1;
+            $data['back']=0;
+            $data['next']=2;
         } 
         ///////////////////////////////////////////////////////////////
         if ($data)
