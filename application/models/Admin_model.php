@@ -6318,15 +6318,15 @@ class Admin_model extends CI_Model {
             {
                 $category='very severely underweight';
             }
-            elseif($result >=15 && $result <=15.9)
+            elseif($result >=15 && $result <=15.99)
             {
                 $category='severely underweight';
             }     
-            elseif($result >=16 && $result <=18.5)
+            elseif($result >=16 && $result <=18.50)
             {
                 $category='underweight';
             } 
-            elseif($result >= 18.5 && $result <=25)
+            elseif($result >= 18.50 && $result <=25)
             {
                 $category='normal (healthy weight)';
             } 
