@@ -7246,9 +7246,10 @@ class Admin_model extends CI_Model {
             $q=$this->getQuestionByStep($d[0]['id']);
             $path=$this->getPathFlowByStep(1, 3);
             $ans=$this->db->query('SELECT * FROM step_answers WHERE pathway=3 and step=1 and user_id='.$params['user_id'].' ORDER BY created_at DESC LIMIT 0,2')->result_array();
+            // print_r(array_reverse($ans));exit;
             $data[0]['type']='question';
             $data[0]['question']=$q['statement'];
-            $data[0]['answer']=$ans;  
+            $data[0]['answer']=array_reverse($ans);  
             $data[0]['step']=$path['step'];
             $data[0]['back']=$path['back'];
             $data[0]['next']=$path['next'];
