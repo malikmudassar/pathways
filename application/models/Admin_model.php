@@ -6313,6 +6313,7 @@ class Admin_model extends CI_Model {
                 ->result_array();
             $height=$st[0]['value'];
             $result=(($weight)/(($height*$height)/10000));
+            $category='not set';
             if($result<15)
             {
                 $category='very severely underweight';
