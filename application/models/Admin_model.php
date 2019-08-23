@@ -6353,7 +6353,7 @@ class Admin_model extends CI_Model {
                 'value'     => $result,
                 'result_caption'=> $category
             );
-            // echo 'result = '.$result;exit;
+            // echo 'result = '.$result; print_r($item);exit;
             $st=$this->db->select('*')
                         ->from('step_answers')
                         ->where('step',$step['number'])
@@ -7099,6 +7099,38 @@ class Admin_model extends CI_Model {
             $data=$ans;
             return array_reverse($data);
         }
+        $st=$this->db->select('*')
+                ->from('step_answers')
+                ->where('step',$data['step'])
+                ->where('user_id',$data['user_id'])
+                ->where('pathway', $data['pathway'])
+                ->get()
+                ->result_array();
+                // print_r($st);
+        // echo $this->db->last_query();
+        if(count($st)>0)
+        {
+            // return $st;
+            if(count($st)>1)
+            {
+                return $st;
+            }
+            else
+            {
+                return $st[0];
+            }              
+        }
+        else
+        {
+            return array();
+        }
+            
+        
+        
+    }
+
+    public function getStepAnswerforBMI($data)
+    {        
         $st=$this->db->select('*')
                 ->from('step_answers')
                 ->where('step',$data['step'])

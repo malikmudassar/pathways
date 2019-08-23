@@ -261,6 +261,7 @@ class Pw extends REST_Controller {
                 // print_r($path);exit;
                 $step=$this->Admin_model->getStepByNumber($path['back'], $params['pathway']);
                 $path=$this->Admin_model->getPathFlowByStep($step['number'], $params['pathway']);
+                
             }while($step['type']!='question' && $step['type']!='info');
             
             $params['step']=$path['step'];
@@ -269,6 +270,18 @@ class Pw extends REST_Controller {
         }
         // print_r($params);exit;
         $data=$this->Admin_model->getBackPathwayQuestion($params);
+        if($step['number']==3 && $params['pathway']==3)
+        {
+            $item=array(
+                'pathway'   => 3,
+                'step'      => 2,
+                'user_id'   => $params['user_id']
+            );
+            $ans=$this->Admin_model->getStepAnswerforBMI($item);
+            // print_r($ans);exit;
+            $data['question']['statement'].=' '.$ans['result_caption'];
+            // print_r($data);exit;
+        }
         if($params['pathway']==3)
         {
             $data['answer']=$this->Admin_model->getStepAnswer($params);
