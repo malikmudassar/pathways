@@ -414,6 +414,14 @@ class Pw extends REST_Controller {
             $data['step_type']='dropdown';
         } 
         ///////////////////////////////////////////////////////////////
+        if($data['next']==0)
+        {   
+            $data['percent']=100;
+        }
+        
+        //echo '<pre>';print_r($steps);
+        // echo '111 go';
+        $data['percent']=(int)(($data['step']/$steps)*100);
         if($data)
         {
             // Set the response and exit
