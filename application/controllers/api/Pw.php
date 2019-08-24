@@ -407,6 +407,9 @@ class Pw extends REST_Controller {
         $data['percent']=($params['step']/$steps)*100;
         $data['user_id']=$params['user_id'];
         $data['pathway']=$params['pathway'];
+        $data['step']=$params['step'];
+        $this->Admin_model->updateStats($data);
+        $st=$this->Admin_model->getStats($data);
         $this->Admin_model->removeAnswers($data);
         // BMI Pathway, If step =1 , the step type should be dropdown
         if($params['pathway']==3 && $params['step']==1)
@@ -414,14 +417,7 @@ class Pw extends REST_Controller {
             $data['step_type']='dropdown';
         } 
         ///////////////////////////////////////////////////////////////
-        if($data['next']==0)
-        {   
-            $data['percent']=100;
-        }
         
-        //echo '<pre>';print_r($steps);
-        // echo '111 go';
-        $data['percent']=(int)(($data['step']/$steps)*100);
         if($data)
         {
             // Set the response and exit
