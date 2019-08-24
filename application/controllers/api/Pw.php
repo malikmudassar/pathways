@@ -396,12 +396,19 @@ class Pw extends REST_Controller {
         $data['next']=$path['next'];
         if(!empty($data['form']))
         {
-            $data['step_type']=$data['form'][0]['type'];  
+            $data['step_type']=$data['form'][0]['type'];
+            if($params['pathway']==3 && $params['step']==1)
+            {
+                for($i=0;$i<count($data['form']);$i++)
+                {
+                    $data['form'][$i]['type']='dropdown';
+                }
+            } 
         }
         else
         {
             $data['step_type']='info';
-            $data['form']="";
+            $data['form']=array();
         }
         $steps=$this->Admin_model->countPathwaySteps($params['pathway']);
         $data['percent']=($params['step']/$steps)*100;
