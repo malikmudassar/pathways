@@ -6648,7 +6648,7 @@ class Admin_model extends CI_Model {
             // print_r($data[0]);
             if(count($data[0])>0)
             {
-                if($params['gender']=='male' || $params['gender']=='Male')
+                if(strtolower($params['gender'])=='male')
                 {
                     $d['form']=array();
                     for($i=0;$i<count($data[0]);$i++)
