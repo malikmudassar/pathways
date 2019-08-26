@@ -283,7 +283,7 @@ class Pw extends REST_Controller {
             );
             $ans=$this->Admin_model->getStepAnswerforBMI($item);
             // print_r($ans);exit;
-            $data['question']['statement'].=' '.$ans['result_caption'];
+            $data['question']['statement']='Your BMI is '.$ans['value'].' '.$data['question']['statement'].' '.$ans['result_caption'];
             // print_r($data);exit;
         }
         if($params['pathway']==3)
