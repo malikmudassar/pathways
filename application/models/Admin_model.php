@@ -6653,7 +6653,7 @@ class Admin_model extends CI_Model {
                     $d['form']=array();
                     for($i=0;$i<count($data[0]);$i++)
                     {
-                        if($data[0][$i]['caption']=='pregnancy')
+                        if(strtolower($data[0][$i]['caption'])==strtolower('pregnancy'))
                         {
                             unset($data[0][$i]);
                         }
