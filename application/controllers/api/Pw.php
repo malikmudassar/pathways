@@ -182,6 +182,10 @@ class Pw extends REST_Controller {
     {
 
         $params=$_REQUEST;
+        if(!isset($params['practice_id']))
+        {
+            $params['practice_id']=0;
+        }
         $this->Admin_model->removeAnswers($params);
         //print_r($_REQUEST);
         if($params['step']==1)

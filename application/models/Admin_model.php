@@ -7063,10 +7063,11 @@ class Admin_model extends CI_Model {
                         ->get()->result_array());
             $percent=round(($data['step']/$d)*100);
             $item=array(
-                    'user_id'   =>  $data['user_id'],
-                    'pathway'   =>  $data['pathway'],
+                    'user_id'       =>  $data['user_id'],
+                    'practice_id'   =>  $data['practice_id'],
+                    'pathway'       =>  $data['pathway'],
                     'current_step'  =>  $data['step'],
-                    'percent'   =>  $percent
+                    'percent'       =>  $percent
             );
             $st=$this->db->select('*')->from('user_pathway_status')
                         ->where('user_id', $data['user_id'])
