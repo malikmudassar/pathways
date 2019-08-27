@@ -4748,7 +4748,7 @@ class Admin_model extends CI_Model {
                         //echo '<pre>';print_r($path);exit;
                     }
                 break;
-                case '=':
+                case '==':
                     if($result == $condition['value'])
                     {
                         $data['step']=$condition['if_next_step'];
