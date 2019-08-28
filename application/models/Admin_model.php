@@ -5210,7 +5210,7 @@ class Admin_model extends CI_Model {
                         $data['step']=$condition['else_next_step'];  
                         $st=$this->db->query('select * from pathflow where step='.$condition['else_next_step'].' and pathway='.$params['pathway'])->result_array();
                         $path=$st[0];
-                        $data['back']=$step['id']; 
+                        $data['back']=$step['number']; 
                         $data['next']=$path['next'];
                     }
                 break;
@@ -5219,14 +5219,14 @@ class Admin_model extends CI_Model {
             
             $step=$this->getStepByNumber($data['step'], $params['pathway']);
             // echo "<script>console.log('1860 next step ".$step['number']." is ".$step['type']."')</script>";
-            $data['step']=$step['id'];
+            $data['step']=$step['number'];
             // echo '<pre>';print_r($step);print_r($data);exit;
             //$step=$this->getNextStep($step,$params);
             
             
             if($step['type']=='question' || $step['type']=='info')
             {
-                // echo "<script>console.log('1510 next step is question')</script>";
+                // echo "<script>console.log('5229 next step is question')</script>";
                 $st=$this->db->query('select questions.* from questions inner join step_questions on step_questions.question=questions.id where step='.$step['id'])->result_array();
                 $data['question']=$st[0];
                 return $data;
