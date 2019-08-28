@@ -475,6 +475,7 @@ class Pw extends REST_Controller {
         // $params=$_REQUEST;
         $data=$_REQUEST;
         $data['message']='Pathway Submitted successfully';
+        print_r($data);exit;
         if($data)
         {
             // Set the response and exit
