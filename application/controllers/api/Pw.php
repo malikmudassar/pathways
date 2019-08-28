@@ -260,6 +260,7 @@ class Pw extends REST_Controller {
         // $params['step']=$this->uri->segment(4);
         // $params['next']=$this->uri->segment(5);
         //echo '<pre>';print_r($params);exit;
+
         $step=$this->Admin_model->getStepByNumber($params['step'], $params['pathway']);
         // echo '<pre>';print_r($step);exit;
         if($step['type']!='question' && $step['type']!='info')
@@ -276,8 +277,12 @@ class Pw extends REST_Controller {
             $params['next']=$path['next'];
             
         }
-        // print_r($params);exit;
+        // print_r($params);
+
         $data=$this->Admin_model->getBackPathwayQuestion($params);
+        // print_r($data);exit;
+        $data['user_id']=$params['user_id'];
+        $this->Admin_model->removeAnswers($data);
         if($step['number']==3 && $params['pathway']==3)
         {
             $item=array(
@@ -332,7 +337,7 @@ class Pw extends REST_Controller {
         $data['step']=$params['step'];
         $this->Admin_model->updateStats($data);
         $st=$this->Admin_model->getStats($data);
-        $this->Admin_model->removeAnswers($data);
+      
         $data['percent']=(int)$st['percent'];
         // BMI Pathway, If step =1 , the step type should be dropdown
         if($params['pathway']==3 && $params['step']==1)
