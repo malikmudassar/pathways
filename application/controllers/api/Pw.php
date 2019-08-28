@@ -449,7 +449,7 @@ class Pw extends REST_Controller {
         }
     }
 
-    public function submit_pw()
+    public function submit_pw_post()
     {
         $params=$_REQUEST;
         $data['user_id']=$params['user_id'];
