@@ -475,7 +475,7 @@ class Pw extends REST_Controller {
         // $params=$_REQUEST;
         $data=$_REQUEST;
         $data['message']='Pathway Submitted successfully';
-        print_r($data);exit;
+        // print_r($data);exit;
         if($data)
         {
             // Set the response and exit
@@ -511,7 +511,7 @@ class Pw extends REST_Controller {
         curl_setopt( $ch, CURLOPT_HEADER, 0);
         curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true);
 
-        $data=curl_exec( $ch );
+        print_r(curl_exec( $ch ));exit;
 
         if($data)
         {
