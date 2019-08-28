@@ -454,7 +454,26 @@ class Pw extends REST_Controller {
         $params=$_REQUEST;
         $data['user_id']=$params['user_id'];
         $data['organization_id']=$params['practice_id'];
-        $data['condition']=$data['pathway'];
+        $data['condition']=$params['pathway'];
+        $data['message']='Pathway Submitted successfully';
+        if($data)
+        {
+            // Set the response and exit
+            $this->response($data, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
+        }
+        else
+        {
+            // Set the response and exit
+            $this->response([
+                'status' => FALSE,
+                'message' => 'Pathway doesn\'t have steps',
+            ], REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
+        }
+    }
+    public function submit_pwT_post()
+    {
+        // $params=$_REQUEST;
+        $data=$_REQUEST;
         $data['message']='Pathway Submitted successfully';
         if($data)
         {
@@ -480,6 +499,18 @@ class Pw extends REST_Controller {
         $data['condition_id']=$params['pathway'];
         $data['condition_key']='activity';
         $data['condition_schema']=$this->Admin_model->pathway_review_for_BS($params);
+
+        $url = 'http://pathways.dr-iq.com/pathways/index.php/api/pw/submit_pwT';
+        $myvars = http_build_query($data, '', '&');
+
+        $ch = curl_init( $url );
+        curl_setopt( $ch, CURLOPT_POST, 1);
+        curl_setopt( $ch, CURLOPT_POSTFIELDS, $myvars);
+        curl_setopt( $ch, CURLOPT_FOLLOWLOCATION, 1);
+        curl_setopt( $ch, CURLOPT_HEADER, 0);
+        curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true);
+
+        $data=curl_exec( $ch );
 
         if($data)
         {
