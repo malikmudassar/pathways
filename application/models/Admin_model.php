@@ -7259,6 +7259,92 @@ class Admin_model extends CI_Model {
         return $data;;
     }
 
+    public function pathway_review_for_BS($params)
+    {
+        
+        $st=$this->db->select('*')
+                        ->from('step_answers')
+                        ->where('user_id',$params['user_id'])
+                        ->where('pathway', $params['pathway'])
+                        ->get()
+                        ->result_array();
+        
+        $data=array();
+        // print_r($st);
+        $count=count($st);
+        $i=0;
+        
+        if($params['pathway']!=3)
+        {
+            foreach($st as $row)
+            {
+                $step=$this->getStepByNumber($row['step'], $params['pathway']);
+
+                if($step['type']=='question' || $step['type']=='info' || $step['type']=='datepicker')
+                {
+                    $d=$this->db->query('select * from steps where pathway='.$params['pathway'].' and number='.$row['step'])->result_array();
+
+                    $q=$this->getQuestionByStep($d[0]['id']);
+                    $path=$this->getPathFlowByStep($row['step'], $params['pathway']);
+                    if($q['ans_model']==16)
+                    {
+                        $st=$this->db->select('*')
+                                ->from('step_answers')
+                                ->where('pathway',$params['pathway'])
+                                ->where('step',$step['number'])
+                                ->where('user_id',$params['user_id'])
+                                ->get()
+                                ->result_array();
+                        $d=array();
+                        $d[0]['value']=$st[0]['value'];
+                        $dr=array(
+                                'question'  => $q['statement'],
+                                'selected_choice'    => $d[0]['value']
+                            );
+                    }
+                    else
+                    {
+                        if($q)
+                        {
+                            $dr=array(
+                                'question'  => $q['statement'],
+                                'selected_choice'    => ($this->getAnswerResult_for_BS($q['id'],$row['value']))
+                            );
+                        }
+                        else
+                        {
+                            $dr=array(
+                                'type'      => $step['type'],
+                                'question'  => array(),
+                                'selected_choice'    => array()
+                            );
+                        }                    
+                        
+                    }
+                    array_push($data, $dr);
+                        
+                }
+            }
+        }
+        else
+        {
+            $data=array();
+            $d=$this->db->query('select * from steps where pathway=3 and number=1')->result_array();
+            $q=$this->getQuestionByStep($d[0]['id']);
+            $path=$this->getPathFlowByStep(1, 3);
+            $ans=$this->db->query('SELECT * FROM step_answers WHERE pathway=3 and step=1 and user_id='.$params['user_id'].' ORDER BY created_at DESC LIMIT 0,2')->result_array();
+            // print_r(array_reverse($ans));exit;
+            $data[0]['type']='question';
+            $data[0]['question']=$q['statement'];
+            $data[0]['answer']=array_reverse($ans);  
+            $data[0]['step']=$path['step'];
+            $data[0]['back']=$path['back'];
+            $data[0]['next']=$path['next'];
+        }
+
+        return $data;;
+    }
+
     public function getEditedQuestion($params)
     {
         $st=$this->db->query("SELECT * from steps where number=".$params['step']." and pathway=".$params['pathway'])->result_array();
@@ -7315,6 +7401,64 @@ class Admin_model extends CI_Model {
             {
                 $caption[0]['value']=$st[0]['caption'];
                 return $caption;
+            }
+            else
+            {
+                return array();
+            }
+        }
+
+
+
+    }
+
+    public function getAnswerResult_for_BS($q, $v)
+    {
+        $d=$this->db->query('select * from answer_models inner join questions on questions.ans_model=answer_models.id 
+            where questions.id='.$q.'
+            ')->result_array();
+        // echo 'Q=:';print_r($d[0]);echo'<br>';
+        $arr=array();
+        if(strpos($v, ','))
+        {
+            $arr=explode(',', $v);            
+        }
+        if(count($arr)>0)
+        {
+            $caption=array();
+            $caption[0]['value']='';
+            for($i=0;$i<count($arr);$i++)
+            {
+                $st=$this->db->select('caption')
+                    ->from('ans_form')
+                    ->where('question', $q)
+                    ->where('value',$arr[$i])
+                    ->get()
+                    ->result_array();
+                // print_r($st[0]);
+                if(count($st)>0)
+                {
+                    $caption[0]['value'].=($i+1).': '.$st[0]['caption'].' ';
+                }
+                
+            }
+            // print_r($caption);
+            return $caption;
+        }
+        else
+        {
+            $caption=array();
+            $st=$this->db->select('caption')
+                    ->from('ans_form')
+                    ->where('question', $q)
+                    ->where('value',$v)
+                    ->get()
+                    ->result_array();
+            // echo $this->db->last_query();
+            if(count($st)>0)
+            {
+                $caption[0]['value']=$st[0]['caption'];
+                return $caption[0]['value'];
             }
             else
             {

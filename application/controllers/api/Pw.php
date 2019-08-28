@@ -449,5 +449,52 @@ class Pw extends REST_Controller {
         }
     }
 
+    public function submit_pw()
+    {
+        $params=$_REQUEST;
+        $data['user_id']=$params['user_id'];
+        $data['organization_id']=$params['practice_id'];
+        $data['condition']=$data['pathway'];
+        $data['message']='Pathway Submitted successfully';
+        if($data)
+        {
+            // Set the response and exit
+            $this->response($data, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
+        }
+        else
+        {
+            // Set the response and exit
+            $this->response([
+                'status' => FALSE,
+                'message' => 'Pathway doesn\'t have steps',
+            ], REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
+        }
+    }
+
+    public function submit_pathway_post()
+    {
+        $params=$_REQUEST;
+        $data['type']='ob';
+        $data['user_id']=$params['user_id'];
+        $data['organization_id']=$params['practice_id'];
+        $data['condition_id']=$params['pathway'];
+        $data['condition_key']='activity';
+        $data['condition_schema']=$this->Admin_model->pathway_review_for_BS($params);
+
+        if($data)
+        {
+            // Set the response and exit
+            $this->response($data, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
+        }
+        else
+        {
+            // Set the response and exit
+            $this->response([
+                'status' => FALSE,
+                'message' => 'Pathway doesn\'t have steps',
+            ], REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
+        }
+    }
+
 
 }
