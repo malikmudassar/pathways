@@ -511,7 +511,7 @@ class Pw extends REST_Controller {
         curl_setopt( $ch, CURLOPT_HEADER, 0);
         curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true);
 
-        print_r(curl_exec( $ch ));exit;
+        print_r(json_decode(curl_exec( $ch )));exit;
 
         if($data)
         {
