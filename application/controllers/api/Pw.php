@@ -461,7 +461,7 @@ class Pw extends REST_Controller {
         $data['status']='200';
         $data['message']='Pathway submitted successfully';
         $endpoint='v3/dr-iq/onboarding/pathway-save';
-        $url = 'https://dev-server.attech-ltd.com/'.$endpoint;
+        $url = 'https://qa-driq-server.attech-ltd.com/'.$endpoint;
         $myvars = http_build_query($data, '', '&');
 
         $ch = curl_init( $url );
@@ -519,17 +519,17 @@ class Pw extends REST_Controller {
         $data['condition_key']='activity';
         $data['condition_schema']=$this->Admin_model->pathway_review_for_BS($params);
 
-        $url = 'http://pathways.dr-iq.com/pathways/index.php/api/pw/submit_pwT';
-        $myvars = http_build_query($data, '', '&');
+        // $url = 'http://pathways.dr-iq.com/pathways/index.php/api/pw/submit_pwT';
+        // $myvars = http_build_query($data, '', '&');
 
-        $ch = curl_init( $url );
-        curl_setopt( $ch, CURLOPT_POST, 1);
-        curl_setopt( $ch, CURLOPT_POSTFIELDS, $myvars);
-        curl_setopt( $ch, CURLOPT_FOLLOWLOCATION, 1);
-        curl_setopt( $ch, CURLOPT_HEADER, 0);
-        curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true);
+        // $ch = curl_init( $url );
+        // curl_setopt( $ch, CURLOPT_POST, 1);
+        // curl_setopt( $ch, CURLOPT_POSTFIELDS, $myvars);
+        // curl_setopt( $ch, CURLOPT_FOLLOWLOCATION, 1);
+        // curl_setopt( $ch, CURLOPT_HEADER, 0);
+        // curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true);
 
-        curl_exec( $ch );
+        // curl_exec( $ch );
 
         if($data)
         {
