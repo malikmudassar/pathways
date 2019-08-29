@@ -452,10 +452,27 @@ class Pw extends REST_Controller {
     public function submit_pw_post()
     {
         $params=$_REQUEST;
+        $data['source']='obServer';
+        $data['platform']='ob';
         $data['user_id']=$params['user_id'];
         $data['organization_id']=$params['practice_id'];
-        $data['condition']=$params['pathway'];
-        $data['message']='Pathway Submitted successfully';
+        $data['condition_key']=strtolower($this->getPathwayName($params['pathway']));
+        $data['condition_schema']=$this->Admin_model->pathway_review_for_BS($params);
+        $data['status']='200';
+        $data['message']='Pathway submitted successfully';
+        $endpoint='v3/dr-iq/onboarding/pathway-save';
+        $url = 'https://dev-server.attech-ltd.com/'.$endpoint;
+        $myvars = http_build_query($data, '', '&');
+
+        $ch = curl_init( $url );
+        curl_setopt( $ch, CURLOPT_POST, 1);
+        curl_setopt( $ch, CURLOPT_POSTFIELDS, $myvars);
+        curl_setopt( $ch, CURLOPT_FOLLOWLOCATION, 1);
+        curl_setopt( $ch, CURLOPT_HEADER, 0);
+        curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true);
+
+        curl_exec( $ch );
+
         if($data)
         {
             // Set the response and exit
@@ -494,7 +511,8 @@ class Pw extends REST_Controller {
     public function submit_pathway_post()
     {
         $params=$_REQUEST;
-        $data['type']='ob';
+        $data['source']='obServer';
+        $data['platform']='ob';
         $data['user_id']=$params['user_id'];
         $data['organization_id']=$params['practice_id'];
         $data['condition_id']=$params['pathway'];
@@ -511,7 +529,7 @@ class Pw extends REST_Controller {
         curl_setopt( $ch, CURLOPT_HEADER, 0);
         curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true);
 
-        print_r(json_decode(curl_exec( $ch )));exit;
+        curl_exec( $ch );
 
         if($data)
         {
