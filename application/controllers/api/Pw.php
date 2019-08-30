@@ -362,7 +362,6 @@ class Pw extends REST_Controller {
     {
         $params=$_REQUEST;
         $data=$this->Admin_model->pathway_review($params);
-        $data['submit']='true';
         if($data)
         {
             // Set the response and exit
