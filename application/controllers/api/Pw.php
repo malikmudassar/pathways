@@ -185,13 +185,7 @@ class Pw extends REST_Controller {
         if(!isset($params['practice_id']))
         {
             $params['practice_id']=0;
-        }
-        $this->Admin_model->removeAnswers($params);
-        //print_r($_REQUEST);
-        if($params['step']==1)
-        {
-            $this->Admin_model->flush_pw_results($params['user_id'],$params['pathway']);
-        }
+        }       
         $this->Admin_model->saveResult($params);
         
         if(!$params['age'])
@@ -368,6 +362,7 @@ class Pw extends REST_Controller {
     {
         $params=$_REQUEST;
         $data=$this->Admin_model->pathway_review($params);
+        $data['submit']='true';
         if($data)
         {
             // Set the response and exit
