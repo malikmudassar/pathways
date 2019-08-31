@@ -7092,7 +7092,7 @@ class Admin_model extends CI_Model {
     public function changeIsSubmittedStatus($data, $status)
     {
         // print_r($data);exit;
-        $this->db->query('update user_pathway_status set is_submitted='.$status.' where pathway='.$data['pathway'].' and user_id='.$data['user_id']);
+        $this->db->query('update user_pathway_status set is_submitted=\''.$status.'\' where pathway='.$data['pathway'].' and user_id='.$data['user_id']);
         return true;
     }
     public function getStepByNumberPathway($step, $pathway)
