@@ -7296,6 +7296,10 @@ class Admin_model extends CI_Model {
             $data[0]['step']=$path['step'];
             $data[0]['back']=$path['back'];
             $data[0]['next']=$path['next'];
+
+            $data[0]['can_submit']=$this->getCanSubmit($params);
+            $data[0]['is_submitted']=$this->getIsSubmitted($params);
+
         }
 
         return $data;;
