@@ -6891,7 +6891,6 @@ class Admin_model extends CI_Model {
 
     public function saveResult($data)
     {
-        
         $step=$this->getStepByNumber($data['step'], $data['pathway']);
         // print_r($step);
         if($step['type']=='question' || $step['type']=='info')
@@ -7085,6 +7084,14 @@ class Admin_model extends CI_Model {
             }
         }
         $this->changeIsSubmittedStatus($data, 'no');
+        if($data['pathway']==2 && $data['score']==0 && $data['step']==198)
+        {
+            $this->changeCanSubmittedStatus($data, 'no');
+        }
+        if($data['pathway']==4 && $data['score']==0 && $data['step']==186)
+        {
+            $this->changeCanSubmittedStatus($data, 'no');
+        }
         return true;
 
     }
@@ -7093,6 +7100,12 @@ class Admin_model extends CI_Model {
     {
         // print_r($data);exit;
         $this->db->query('update user_pathway_status set is_submitted=\''.$status.'\' where pathway='.$data['pathway'].' and user_id='.$data['user_id']);
+        return true;
+    }
+    public function changeCanSubmittedStatus($data, $status)
+    {
+        // print_r($data);exit;
+        $this->db->query('update user_pathway_status set can_submit=\''.$status.'\' where pathway='.$data['pathway'].' and user_id='.$data['user_id']);
         return true;
     }
     public function getStepByNumberPathway($step, $pathway)
