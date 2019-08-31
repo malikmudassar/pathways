@@ -466,7 +466,7 @@ class Pw extends REST_Controller {
         curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true);
 
         curl_exec( $ch );
-
+        $this->Admin_model->changeIsSubmittedStatus($params, 'yes');
         if($data)
         {
             // Set the response and exit

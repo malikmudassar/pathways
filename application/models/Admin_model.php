@@ -7084,8 +7084,16 @@ class Admin_model extends CI_Model {
                 $this->db->insert('user_pathway_status', $item);
             }
         }
+        $this->changeIsSubmittedStatus($data, 'no');
         return true;
 
+    }
+
+    public function changeIsSubmittedStatus($data, $status)
+    {
+        // print_r($data);exit;
+        $this->db->query('update user_pathway_status set is_submitted='.$status.' where pathway='.$data['pathway'].' and user_id='.$data['user_id']);
+        return true;
     }
     public function getStepByNumberPathway($step, $pathway)
     {
@@ -7206,7 +7214,9 @@ class Admin_model extends CI_Model {
                                 'answer'    => $d,
                                 'step'      => $path['step'],
                                 'back'      => $path['back'],
-                                'next'      => $path['next']
+                                'next'      => $path['next'],
+                                'can_submit'    =>  $this->getCanSubmit($params),
+                                'is_submitted'  =>  $this->getIsSubmitted($params)
                             );
                     }
                     else
@@ -7219,7 +7229,9 @@ class Admin_model extends CI_Model {
                                 'answer'    => ($this->getAnswerResult($q['id'],$row['value'])),
                                 'step'      => $path['step'],
                                 'back'      => $path['back'],
-                                'next'      => $path['next']
+                                'next'      => $path['next'],
+                                'can_submit'    =>  $this->getCanSubmit($params),
+                                'is_submitted'  =>  $this->getIsSubmitted($params)
                             );
                         }
                         else
@@ -7230,7 +7242,9 @@ class Admin_model extends CI_Model {
                                 'answer'    => array(),
                                 'step'      => $path['step'],
                                 'back'      => $path['back'],
-                                'next'      => $path['next']
+                                'next'      => $path['next'],
+                                'can_submit'    =>  $this->getCanSubmit($params),
+                                'is_submitted'  =>  $this->getIsSubmitted($params)
                             );
                         }                    
                         
@@ -7258,7 +7272,25 @@ class Admin_model extends CI_Model {
 
         return $data;;
     }
+    public function getCanSubmit($params)
+    {
+        $st=$this->db->select('can_submit')->from('user_pathway_status')
+                        ->where('user_id', $params['user_id'])
+                        ->where('pathway', $params['pathway'])
+                        ->get()
+                        ->result_array();
+        return $st[0]['can_submit'];
+    }
 
+    public function getIsSubmitted($params)
+    {
+        $st=$this->db->select('is_submitted')->from('user_pathway_status')
+                        ->where('user_id', $params['user_id'])
+                        ->where('pathway', $params['pathway'])
+                        ->get()
+                        ->result_array();
+        return $st[0]['is_submitted'];
+    }
     public function pathway_review_for_BS($params)
     {
         
