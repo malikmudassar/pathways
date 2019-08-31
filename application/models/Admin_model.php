@@ -7088,9 +7088,17 @@ class Admin_model extends CI_Model {
         {
             $this->changeCanSubmittedStatus($data, 'no');
         }
+        elseif($data['pathway']==2 && $data['score']==1 && $data['step']==198)
+        {
+            $this->changeCanSubmittedStatus($data, 'yes');
+        }
         if($data['pathway']==4 && $data['score']==0 && $data['step']==186)
         {
             $this->changeCanSubmittedStatus($data, 'no');
+        }
+        elseif($data['pathway']==4 && $data['score']==1 && $data['step']==186)
+        {
+            $this->changeCanSubmittedStatus($data, 'yes');
         }
         return true;
 
