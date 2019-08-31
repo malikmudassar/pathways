@@ -7084,21 +7084,28 @@ class Admin_model extends CI_Model {
             }
         }
         $this->changeIsSubmittedStatus($data, 'no');
-        if($data['pathway']==2 && $data['score']==0 && $data['step']==198)
+        if($data['pathway']==2 && $data['step']==198)
         {
-            $this->changeCanSubmittedStatus($data, 'no');
+            if($data['score']==0)
+            {
+                $this->changeCanSubmittedStatus($data, 'no');
+            }
+            else
+            {
+                $this->changeCanSubmittedStatus($data, 'yes');
+            }
         }
-        elseif($data['pathway']==2 && $data['score']==1 && $data['step']==198)
+        
+        if($data['pathway']==4 && $data['step']==186)
         {
-            $this->changeCanSubmittedStatus($data, 'yes');
-        }
-        if($data['pathway']==4 && $data['score']==0 && $data['step']==186)
-        {
-            $this->changeCanSubmittedStatus($data, 'no');
-        }
-        elseif($data['pathway']==4 && $data['score']==1 && $data['step']==186)
-        {
-            $this->changeCanSubmittedStatus($data, 'yes');
+            if($data['score']==0)
+            {
+                $this->changeCanSubmittedStatus($data, 'no');
+            }
+            else
+            {
+                $this->changeCanSubmittedStatus($data, 'yes');
+            }
         }
         return true;
 
