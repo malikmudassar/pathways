@@ -188,7 +188,7 @@ class Pw extends REST_Controller {
             $params['practice_id']=0;
         }       
         $this->Admin_model->saveResult($params);
-        
+        $this->Admin_model->removeAnswers($data);
         if(!$params['age'])
         {
             $params['age']=21;
