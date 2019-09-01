@@ -197,6 +197,10 @@ class Pw extends REST_Controller {
         {
             $params['gender']='male';
         }
+        else
+        {
+            $params['gender']=strtolower($_REQUEST['gender']);
+        }
         //echo '<pre>';print_r($_POST);exit;
         $data=$this->Admin_model->getNextPathwayQuestion($params);
 
