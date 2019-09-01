@@ -6578,7 +6578,7 @@ class Admin_model extends CI_Model {
             if(count($st)>0)
             {
                 $pathways[$i]['percent']=$st[0]['percent'];
-                $pathways[$i]['attempt']=date('d-m-Y h:i:s', strtotime($st[0]['created_at']));
+                $pathways[$i]['attempt']=date('d-m-Y H:i:s', strtotime($st[0]['created_at']));
             }
             else
             {
