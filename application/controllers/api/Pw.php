@@ -510,9 +510,10 @@ class Pw extends REST_Controller {
         $data['platform']='ob';
         $data['user_id']=$params['user_id'];
         $data['organization_id']=$params['practice_id'];
-        $data['condition_id']=$params['pathway'];
-        $data['condition_key']='activity';
+        $data['condition_key']=strtolower($this->Admin_model->getPathwayName($params['pathway']));
         $data['condition_schema']=$this->Admin_model->pathway_review_for_BS($params);
+        $data['status']='200';
+        $data['message']='Pathway submitted successfully';
 
         // $url = 'http://pathways.dr-iq.com/pathways/index.php/api/pw/submit_pwT';
         // $myvars = http_build_query($data, '', '&');
