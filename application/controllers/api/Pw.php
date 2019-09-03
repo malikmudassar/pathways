@@ -451,6 +451,7 @@ class Pw extends REST_Controller {
     public function submit_pw_post()
     {
         $params=$_REQUEST;
+
         $data['source']='obServer';
         $data['platform']='ob';
         $data['user_id']=$params['user_id'];
@@ -460,18 +461,19 @@ class Pw extends REST_Controller {
         $data['status']='200';
         $data['message']='Pathway submitted successfully';
         $endpoint='v3/dr-iq/onboarding/pathway-save';
-        $url = 'https://qa-driq-server.attech-ltd.com/'.$endpoint;
+        // $url = 'https://qa-driq-server.attech-ltd.com/'.$endpoint;
+        $url = 'https://stag-server.attech-ltd.com/'.$endpoint;
         $myvars = http_build_query($data, '', '&');
-
+        $this->Admin_model->changeIsSubmittedStatus($params, 'yes');
         $ch = curl_init( $url );
         curl_setopt( $ch, CURLOPT_POST, 1);
         curl_setopt( $ch, CURLOPT_POSTFIELDS, $myvars);
         curl_setopt( $ch, CURLOPT_FOLLOWLOCATION, 1);
         curl_setopt( $ch, CURLOPT_HEADER, 0);
-        curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 0);
 
         curl_exec( $ch );
-        $this->Admin_model->changeIsSubmittedStatus($params, 'yes');
+        
         if($data)
         {
             // Set the response and exit
