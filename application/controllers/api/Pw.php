@@ -458,8 +458,8 @@ class Pw extends REST_Controller {
         $data['organization_id']=$params['practice_id'];
         $data['condition_key']=strtolower($this->Admin_model->getPathwayName($params['pathway']));
         $data['condition_schema']=$this->Admin_model->pathway_review_for_BS($params);
-        $data['status']='200';
-        $data['message']='Pathway submitted successfully';
+        $data2['status']='200';
+        $data2['message']='Pathway submitted successfully';
         $endpoint='v3/dr-iq/onboarding/pathway-save';
         // $url = 'https://qa-driq-server.attech-ltd.com/'.$endpoint;
         $url = 'https://stag-server.attech-ltd.com/'.$endpoint;
@@ -474,10 +474,10 @@ class Pw extends REST_Controller {
 
         curl_exec( $ch );
         
-        if($data)
+        if($data2)
         {
             // Set the response and exit
-            $this->response($data, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
+            $this->response($data2, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
         }
         else
         {
