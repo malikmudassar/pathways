@@ -7512,7 +7512,7 @@ class Admin_model extends CI_Model {
             $data[0]['question']=$q['statement'];
             $answer='';
             
-            $answer.=$ans[0]['field_name'].': '.$ans[0]['value'].'cm <br>, '.$ans[1]['field_name'].': '.$ans[1]['value'].'kg.<br>BMI is ';
+            $answer.=$ans[0]['field_name'].': '.$ans[0]['value'].'cm. \n '.$ans[1]['field_name'].': '.$ans[1]['value'].'kg.\nBMI is ';
             $ans=$this->db->query('SELECT * FROM step_answers WHERE pathway=3 and step=2 and user_id='.$params['user_id'].' ORDER BY created_at DESC LIMIT 0,2')->result_array();
             $answer=$answer.' '.number_format((float)$ans[0]['value'], 2, '.', '').' and the patient is '.$ans[0]['result_caption'];
             $data[0]['selected_choice']=$answer;  
