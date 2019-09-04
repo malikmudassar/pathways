@@ -472,12 +472,12 @@ class Pw extends REST_Controller {
         curl_setopt( $ch, CURLOPT_HEADER, 0);
         curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true);
 
-        // curl_exec( $ch );
+        curl_exec( $ch );
         
         if($data2)
         {
             // Set the response and exit
-            $this->response($data2, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
+            $this->response($data2); // OK (200) being the HTTP response code
         }
         else
         {
