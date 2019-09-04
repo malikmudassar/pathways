@@ -458,7 +458,7 @@ class Pw extends REST_Controller {
         $data['organization_id']=$params['practice_id'];
         $data['condition_key']=strtolower($this->Admin_model->getPathwayName($params['pathway']));
         $data['condition_schema']=$this->Admin_model->pathway_review_for_BS($params);
-        $data2['status']='200';
+        $data2['code']='200';
         $data2['message']='Pathway submitted successfully';
         $endpoint='v3/dr-iq/onboarding/pathway-save';
         // $url = 'https://qa-driq-server.attech-ltd.com/'.$endpoint;
@@ -470,9 +470,9 @@ class Pw extends REST_Controller {
         curl_setopt( $ch, CURLOPT_POSTFIELDS, $myvars);
         curl_setopt( $ch, CURLOPT_FOLLOWLOCATION, 1);
         curl_setopt( $ch, CURLOPT_HEADER, 0);
-        curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 0);
+        curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true);
 
-        curl_exec( $ch );
+        // curl_exec( $ch );
         
         if($data2)
         {
