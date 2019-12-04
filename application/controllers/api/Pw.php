@@ -258,14 +258,14 @@ class Pw extends REST_Controller {
         // $params['pathway']=$this->uri->segment(3);
         // $params['step']=$this->uri->segment(4);
         // $params['next']=$this->uri->segment(5);
-        //echo '<pre>';print_r($params);exit;
+        // echo '<pre>';print_r($params);exit;
 
-        $step=$this->admin_model->getBackStepByFlow($params);
+        $step=$this->Admin_model->getBackStepByFlow($params);
         // echo '<pre>';print_r($step);exit;
-        $this->admin_model->removeFlowStep($step['number'], $params['pathway'], $params['user_id']);
+        $this->Admin_model->removeFlowStep($step['number'], $params['pathway'], $params['user_id']);
         $params['step']=$step['number'];
         
-        $data=$this->admin_model->getBackPathwayQuestion1($params);
+        $data=$this->Admin_model->getBackPathwayQuestion1($params);
         
         // print_r($data);exit;
         $data['user_id']=$params['user_id'];
