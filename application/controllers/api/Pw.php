@@ -260,25 +260,13 @@ class Pw extends REST_Controller {
         // $params['next']=$this->uri->segment(5);
         //echo '<pre>';print_r($params);exit;
 
-        $step=$this->Admin_model->getStepByNumber($params['step'], $params['pathway']);
+        $step=$this->admin_model->getBackStepByFlow($params);
         // echo '<pre>';print_r($step);exit;
-        if($step['type']!='question' && $step['type']!='info')
-        {
-            do {
-                $path=$this->Admin_model->getPathFlowByStep($step['number'], $params['pathway']);
-                // print_r($path);exit;
-                $step=$this->Admin_model->getStepByNumber($path['back'], $params['pathway']);
-                $path=$this->Admin_model->getPathFlowByStep($step['number'], $params['pathway']);
-                
-            }while($step['type']!='question' && $step['type']!='info');
-            
-            $params['step']=$path['step'];
-            $params['next']=$path['next'];
-            
-        }
-        // print_r($params);
-
-        $data=$this->Admin_model->getBackPathwayQuestion($params);
+        $this->admin_model->removeFlowStep($step['number'], $params['pathway'], $params['user_id']);
+        $params['step']=$step['number'];
+        
+        $data=$this->admin_model->getBackPathwayQuestion1($params);
+        
         // print_r($data);exit;
         $data['user_id']=$params['user_id'];
         $this->Admin_model->removeAnswers($data);

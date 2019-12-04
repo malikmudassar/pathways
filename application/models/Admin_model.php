@@ -1,7 +1,7 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: sun rise
+ * User: Khani
  * Date: 8/2/2016
  * Time: 3:48 PM
  */
@@ -147,7 +147,7 @@ class Admin_model extends CI_Model {
         // echo '<pre>1';print_r($data); print_r($step);exit;
         $result=0;
         
-        if($step['type']=='question' || $step['type']=='info')
+        if($step['type']=='question' || $step['type']=='info' || $step['type']=='alert')
         {
            // echo "<script>console.log('52. next step is question')</script>";
             $st=$this->db->query('select questions.* from questions inner join step_questions on step_questions.question=questions.id where step='.($step['id']))->result_array();
@@ -1463,7 +1463,7 @@ class Admin_model extends CI_Model {
                     } 
                 break;
                 case '==':
-                // echo 'result '.$result['value'];exit;
+                // echo '<pre>result '.$result['value'].' ';print_r ($condition);exit;
                     if(isset($result[0]))
                     {
                         if($result[0]['value'] == $condition['value'])
@@ -1559,13 +1559,13 @@ class Admin_model extends CI_Model {
                 break;
             }
                 
-            
-            $step=$this->getStepByNumber($data['step'], $params['pathway']);
             // echo '<pre>';print_r($step);print_r($data);exit;
+            $step=$this->getStepByNumber($data['step'], $params['pathway']);
+            
 
             if($step['type']=='question' || $step['type']=='info')
             {
-                // echo "<script>console.log('1516. Next Step '".$step['id']." is ".$step['type'].")</script>";
+                // echo "<script>console.log('1516. Next Step ".$step['id']." is ".$step['type'].")</script>";
                 // echo 'next step q';exit;
                 $st=$this->db->query('select questions.* from questions inner join step_questions on step_questions.question=questions.id where step='.$step['id'])->result_array();
                 $data['question']=$st[0];
@@ -6743,7 +6743,29 @@ class Admin_model extends CI_Model {
         $data['percent']=($params['step']/$steps)*100;
 
         return $data;
-    }    
+    }  
+    
+    public function getBackPathwayQuestion1($params)
+    {
+        $step=$this->getStepByNumber($params['step'], $params['pathway']);
+        // echo '<pre>';print_r($step);exit;
+        
+        $st=$this->db->select('*')->from('pathflow')
+                ->where('pathway',$params['pathway'])
+                ->where('step',$params['step'])
+                ->get()->result_array();
+        $this->db->query('delete from step_answers where pathway='.$params['pathway'].' and user_id='.$params['user_id'].' and step > '.$params['step']);
+        // echo $this->db->last_query();exit;
+        $data=$st[0];
+        $st=$this->db->query('select questions.* from questions inner join step_questions on step_questions.question=questions.id where step='.$step['id'])->result_array();
+        $data['question']=$st[0];
+        $steps=count($this->db->select('*')->from('steps')
+                    ->where('pathway',$params['pathway'])
+                    ->get()->result_array());
+        $data['percent']=($params['step']/$steps)*100;
+
+        return $data;
+    } 
     public function checkUser($data)
     {
         $st=$this->db->select('*')->from('users')
@@ -6759,6 +6781,59 @@ class Admin_model extends CI_Model {
             return false;
         }
     }
+
+    public function updateQuestion($data, $q, $user)
+    {
+        $q=$this->getAllById('questions', $q);
+        $user=$this->getAllById('users', $user);
+        $item=array(
+            'statement' => $data['statement']
+        );
+        $this->db->where('id', $q['id'])->update('questions', $item);
+        $feedback=$user['name']." has updated the statement from <b>'".$q['statement']."'</b> to <i>'".$data['statement']."'</i>";
+        $item=array(
+            'feedback'  => $feedback,
+            'pathway'   => $q['pathway'],
+            'given_by'  =>  $user['id']
+        );
+        $this->db->insert('feedbacks', $item);
+    }
+
+    public function updatePassword($data, $id)
+    {
+        $item=array(
+            'password'  => md5(sha1($data['password']))
+        );
+        $this->db->where('id', $id)->update('users', $item);
+        return true;
+    }
+
+    public function submitFeedback($data, $step, $p, $user)
+    {
+        $item=array(
+            'feedback'  => $data['feedback'],
+            'step'      => $step,
+            'pathway'   => $p,
+            'given_by'  =>  $user
+        );
+        $this->db->insert('feedbacks', $item);
+
+    }
+
+    public function updateAnsData($data, $q)
+    {
+        
+        $ans=$this->getAnsForm($q);
+        // echo '<pre>';print_r($ans);exit;
+        for($i=0;$i<count($ans);$i++)
+        {
+            $item=array(
+                'caption'   => $data['ans'][$i]
+            );
+            $this->db->where('id', $ans[$i]['id'])->update('ans_form', $item);
+        }
+    }
+
     ///////////////////////////////////////
     ///                                 ///
     ///     Admin Menu Section Starts   ///
@@ -6894,6 +6969,7 @@ class Admin_model extends CI_Model {
     {
         $item=array(
             'statement' =>  $data['statement'],
+            'tooltip' =>  $data['tooltip'],
             'pathway'   =>  $data['pathway'],
             'type'      =>  $data['type']
         );
@@ -6927,19 +7003,19 @@ class Admin_model extends CI_Model {
     public function addAnsModel($data)
     {
         $item=array(
-            'label' =>  $data['label'],
-            'text' =>  $data['textboxes'],
-            'radio' =>  $data['radioboxes'],
-            'checkbox' =>  $data['checkboxes'],
-            'textarea' =>  $data['textarea'],
-            'selectbox'    => $data['dropdown']
+            'label'         =>  $data['label'],
+            'text'          =>  $data['textboxes'],
+            'radio'         =>  $data['radioboxes'],
+            'checkbox'      =>  $data['checkboxes'],
+            'textarea'      =>  $data['textarea'],
+            'selectbox'     =>  $data['dropdown']
         );
 
         $this->db->insert('answer_models',$item);
         return true;
     }
 
-    public function getAnsForm($qId, $params)
+    public function getAnsForm($qId, $params=null)
     {
         
         if($params['pathway']==4)
@@ -6958,10 +7034,6 @@ class Admin_model extends CI_Model {
                         {
                             unset($data[0][$i]);
                         }
-                        // else
-                        // {
-                        //     $d['form'][$i]=$data[0][$i];                            
-                        // }
                     }
                     // $data[0]=$d['form'];
                     return array_values($data[0]); 
@@ -6970,11 +7042,6 @@ class Admin_model extends CI_Model {
                 {
                     return $data[0];
                 }
-                // 
-                
-
-                //$key = array_search('green', $array);
-                //\unset($array[1]);
             }
             else
             {
@@ -7192,6 +7259,7 @@ class Admin_model extends CI_Model {
 
     public function saveResult($data)
     {
+        // echo '<pre>';print_r($data);exit;
         $step=$this->getStepByNumber($data['step'], $data['pathway']);
         // print_r($step);
         if($step['type']=='question' || $step['type']=='info')
@@ -7201,7 +7269,7 @@ class Admin_model extends CI_Model {
             if($st[0]['ans_model'])
             {
                $am=$this->getAllById('answer_models',$st[0]['ans_model']);
-               // print_r($am);exit;
+            //    print_r($am);
                 if($am['text']>0)
                 {
                     // echo 'it works';
@@ -7210,39 +7278,44 @@ class Admin_model extends CI_Model {
                     // echo '<pre>';print_r($ans_form);print_r($data);exit;
                     for($i=0;$i<count($ans_form);$i++)
                     {
-                        $item=array(
-                            'pathway'   => $data['pathway'],
-                            'step'      => $data['step'],
-                            'value'     => $data[$ans_form[$i]['name']],
-                            'field_name'=>$ans_form[$i]['name'],
-                            'user_id'   =>$data['user_id']
-                        );
-                        
-                        // echo '1050 <pre>';print_r($item);
-                        $st=$this->db->select('*')
-                                    ->from('step_answers')
-                                    ->where('step',$data['step'])
-                                    ->where('user_id',$data['user_id'])
-                                    ->where('pathway', $data['pathway'])
-                                    ->where('field_name',$ans_form[$i]['name'])
-                                    ->get()
-                                    ->result_array();
-                        // echo $this->db->last_query();
-                        // print_r($st);exit;
-                        if(count($st)>0)
+                        if($ans_form[$i]['type']=='text')
                         {
-                            $this->db->where('step',$data['step'])
-                                    ->where('user_id',$data['user_id'])
-                                    ->where('pathway', $data['pathway'])
-                                    ->where('field_name',$ans_form[$i]['name'])
-                                    ->update('step_answers',$item);
-                        }
-                        else
-                        {
+                            $item=array(
+                                'pathway'   => $data['pathway'],
+                                'step'      => $data['step'],
+                                'value'     => $data[$ans_form[$i]['name']],
+                                'field_name'=>$ans_form[$i]['name'],
+                                'user_id'   =>$data['user_id']
+                            );
                             
-                            $this->db->insert('step_answers',$item);
+                            // echo '1050 <pre>';print_r($item);exit;
+                            $st=$this->db->select('*')
+                                        ->from('step_answers')
+                                        ->where('step',$data['step'])
+                                        ->where('user_id',$data['user_id'])
+                                        ->where('pathway', $data['pathway'])
+                                        ->where('field_name',$ans_form[$i]['name'])
+                                        ->get()
+                                        ->result_array();
                             // echo $this->db->last_query();
+                            // print_r($st);exit;
+                            if(count($st)>0)
+                            {
+                                $this->db->where('step',$data['step'])
+                                        ->where('user_id',$data['user_id'])
+                                        ->where('pathway', $data['pathway'])
+                                        ->where('field_name',$ans_form[$i]['name'])
+                                        ->update('step_answers',$item);
+                                        // echo $this->db->last_query();exit;
+                            }
+                            else
+                            {
+                                
+                                $this->db->insert('step_answers',$item);
+                                // echo $this->db->last_query();exit;
+                            }
                         }
+                        
                         
                     }
                     //echo 'answer inserted';exit;
@@ -7297,7 +7370,8 @@ class Admin_model extends CI_Model {
                         'pathway'   => $data['pathway'],
                         'step'      => $data['step'],
                         'value'     => $data['score'],
-                        'user_id'   => $data['user_id']
+                        'user_id'   => $data['user_id'],
+                        'field_name'=> 'score'
                     );
                     
                     // echo '<pre> path';print_r($pth);exit;
@@ -7305,6 +7379,7 @@ class Admin_model extends CI_Model {
                                 ->from('step_answers')                                
                                 ->where('user_id',$data['user_id'])
                                 ->where('pathway', $data['pathway'])
+                                ->where('field_name', 'score')
                                 ->where('step',$data['step'])
                                 ->get()
                                 ->result_array();
@@ -7317,13 +7392,14 @@ class Admin_model extends CI_Model {
                         $this->db->where('step',$data['step'])
                                 ->where('user_id',$data['user_id'])
                                 ->where('pathway', $data['pathway'])
+                                ->where('field_name', 'score')
                                 ->update('step_answers',$item);
-                        // echo $this->db->last_query();
+                        // echo $this->db->last_query();exit;
                     }
                     else
                     {                        
                         $this->db->insert('step_answers',$item);
-                        // echo $this->db->last_query();
+                        // echo $this->db->last_query();exit;
                     }
                 }
                 if($am['checkbox']>0)
@@ -7334,6 +7410,7 @@ class Admin_model extends CI_Model {
                         'pathway'   => $data['pathway'],
                         'step'      => $data['step'],
                         'user_id'   =>$data['user_id'],
+                        'field_name'=>'score[]',
                         'value'     => implode(',', $data['score'])
                     );
                     // print_r($item);exit;
@@ -7341,6 +7418,7 @@ class Admin_model extends CI_Model {
                                 ->from('step_answers')
                                 ->where('step',$data['step'])
                                 ->where('user_id',$data['user_id'])
+                                ->where('field_name','score[]')
                                 ->where('pathway', $data['pathway'])
                                 ->get()
                                 ->result_array();
@@ -7350,6 +7428,7 @@ class Admin_model extends CI_Model {
                         $this->db->where('step',$data['step'])
                                 ->where('user_id',$data['user_id'])
                                 ->where('pathway', $data['pathway'])
+                                ->where('field_name','score[]')
                                 ->update('step_answers',$item);
                     }
                     else
@@ -7358,6 +7437,15 @@ class Admin_model extends CI_Model {
                         $this->db->insert('step_answers',$item);
                     }
                 } 
+            }
+            else
+            {
+                $item=array(
+                    'pathway'   => $data['pathway'],
+                    'step'      => $data['step'],
+                    'user_id'   => $data['user_id']
+                );
+                $this->db->insert('step_answers',$item);
             }
             $d=count($this->db->select('*')->from('steps')->where('pathway',$data['pathway'])
                         ->get()->result_array());
@@ -7422,6 +7510,14 @@ class Admin_model extends CI_Model {
                 }
             }
         }
+
+        $item=array(
+            'pathway'   =>  $data['pathway'],
+            'user_id'   =>  $data['user_id'],
+            'step'      =>  $data['step']
+        );
+
+        $this->db->insert('pathway_steps', $item);
         return true;
 
     }
@@ -7927,6 +8023,84 @@ class Admin_model extends CI_Model {
     {
         $st=$this->db->select('name')->from('pathways')->where('id', $id)->get()->result_array();
         return $st[0]['name'];
+    }
+
+    public function updateProfile($data, $id)
+    {
+        $this->db->where('id', $id)->update('users', $data);
+        return true;
+    }
+
+    public function getFeedbacksById($id)
+    {
+        return $this->db->query('select feedbacks.*, pathways.name as pathway, users.name as user from feedbacks
+        inner join pathways on pathways.id=feedbacks.pathway
+        inner join users on users.id=feedbacks.given_by
+        where feedbacks.pathway='.$id.'
+        order by feedbacks.id desc')->result_array();
+    }
+
+    public function getFeedbackByStep($step, $pw)
+    {
+        return $this->db->select('*')->from('feedbacks')
+        ->where('pathway', $pw)
+        ->where('step', $step)
+        ->get()->result_array();
+    }
+
+    public function getFeedbackByType($id, $pw)
+    {
+        if($id==0)
+        {
+            return $this->db->query('select feedbacks.*, pathways.name as pathway, users.name as user from feedbacks
+            inner join pathways on pathways.id=feedbacks.pathway
+            inner join users on users.id=feedbacks.given_by
+            where feedbacks.pathway='.$pw.'
+            order by feedbacks.id desc')->result_array();
+        }
+        elseif($id==1)
+        {
+            return $this->db->query('select feedbacks.*, pathways.name as pathway, users.name as user from feedbacks
+            inner join pathways on pathways.id=feedbacks.pathway
+            inner join users on users.id=feedbacks.given_by
+            where feedbacks.pathway='.$pw.' and feedbacks.step IS NULL
+            order by feedbacks.id desc')->result_array();
+        }
+        elseif($id==2)
+        {
+            return $this->db->query('select feedbacks.*, pathways.name as pathway, users.name as user from feedbacks
+            inner join pathways on pathways.id=feedbacks.pathway
+            inner join users on users.id=feedbacks.given_by
+            where feedbacks.pathway='.$pw.' and feedbacks.step IS NOT NULL
+            order by feedbacks.id desc')->result_array();
+        }
+    }
+
+    public function getBackStepByFlow($data)
+    {
+        $st=$this->db->select('step')
+        ->from('pathway_steps')
+        ->where('pathway', $data['pathway'])
+        ->where('user_id',$data['user_id'])
+        ->order_by('step', 'desc')
+        ->get()
+        ->result_array();
+        // echo $this->db->last_query();exit;
+        // echo '<pre>';print_r($st[0]['step']);exit;
+        $step=$this->getStepByNumber($st[0]['step'],$data['pathway']);
+        
+        return $step;
+    }
+
+    public function removeFlowStep($step, $pathway, $user_id)
+    {
+        $this->db->query('delete from pathway_steps where step='.$step.' and pathway='.$pathway.' and user_id='.$user_id);
+    }
+
+    public function finish_pw($pw, $user_id)
+    {
+        $this->db->query('delete from pathway_steps where pathway='.$pw.' and user_id='.$user_id);
+        $this->db->query('delete from user_pathway_status where pathway='.$pw.' and user_id='.$user_id);
     }
 
 }
