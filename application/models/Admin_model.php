@@ -8078,11 +8078,11 @@ class Admin_model extends CI_Model {
 
     public function getBackStepByFlow($data)
     {
-        $st=$this->db->select('step')
+        $st=$this->db->select('id, step')
         ->from('pathway_steps')
         ->where('pathway', $data['pathway'])
         ->where('user_id',$data['user_id'])
-        ->order_by('step', 'desc')
+        ->order_by('id', 'desc')
         ->get()
         ->result_array();
         // echo $this->db->last_query();exit;
@@ -8094,7 +8094,11 @@ class Admin_model extends CI_Model {
 
     public function removeFlowStep($step, $pathway, $user_id)
     {
-        $this->db->query('delete from pathway_steps where step='.$step.' and pathway='.$pathway.' and user_id='.$user_id);
+        if($step)
+        {
+            $this->db->query('delete from pathway_steps where step='.$step.' and pathway='.$pathway.' and user_id='.$user_id);
+        }
+        
     }
 
     public function finish_pw($pw, $user_id)
