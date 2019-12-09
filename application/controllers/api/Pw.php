@@ -162,7 +162,7 @@ class Pw extends REST_Controller {
         {            
             $data['percent']=0;
         }
-        print_r($data);exit;
+        // print_r($data);exit;
         if ($data['question'])
         {
             // Set the response and exit
