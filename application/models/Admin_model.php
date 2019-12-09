@@ -7542,12 +7542,6 @@ class Admin_model extends CI_Model {
     // Modified
     public function getStepAnswer($data)
     {
-        if($data['pathway']==3)
-        {
-            $ans=$this->db->query('SELECT * FROM step_answers WHERE pathway=3 and step=1 and user_id='.$data['user_id'].' ORDER BY created_at DESC LIMIT 0,2')->result_array();
-            $data=$ans;
-            return array_reverse($data);
-        }
         $st=$this->db->select('*')
                 ->from('step_answers')
                 ->where('step',$data['step'])
@@ -7559,15 +7553,15 @@ class Admin_model extends CI_Model {
         // echo $this->db->last_query();
         if(count($st)>0)
         {
-            // return $st;
-            if(count($st)>1)
-            {
-                return $st;
-            }
-            else
-            {
-                return $st[0];
-            }              
+            return $st;
+            // if(count($st)>1)
+            // {
+            //     return $st;
+            // }
+            // else
+            // {
+            //     return $st[0];
+            // }              
         }
         else
         {

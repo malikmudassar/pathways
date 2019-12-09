@@ -266,32 +266,7 @@ class Pw extends REST_Controller {
         // print_r($data);exit;
         $data['user_id']=$params['user_id'];
         $this->Admin_model->removeAnswers($data);
-        // if($step['number']==3 && $params['pathway']==3)
-        // {
-        //     $item=array(
-        //         'pathway'   => 3,
-        //         'step'      => 2,
-        //         'user_id'   => $params['user_id']
-        //     );
-        //     $ans=$this->Admin_model->getStepAnswerforBMI($item);
-        //     // print_r($ans);exit;
-        //     $data['question']['statement']='Your BMI is '.number_format((float)$ans['value'], 2, '.', '').'. Your result suggests you are '.$ans['result_caption'];
-        //     // print_r($data);exit;
-        // }
         $data['answer']=$this->Admin_model->getStepAnswer($params);
-        // if($params['pathway']==3)
-        // {
-        //     $data['answer']=$this->Admin_model->getStepAnswer($params);
-        // }
-        // else
-        // {
-        //     $data['answer']=$this->Admin_model->getStepAnswer($params);
-        //     // echo '<pre>';print_r($data['answer']);exit;
-        // }
-        // if(!$data['answer'][0])
-        // {
-        //     $data['answer'][0]=(object)array();
-        // }
          
         // print_r($data['answer']);exit;
         $data['form']=array();
@@ -323,14 +298,6 @@ class Pw extends REST_Controller {
         $st=$this->Admin_model->getStats($data);
       
         $data['percent']=(int)$st['percent'];
-        // // BMI Pathway, If step =1 , the step type should be dropdown
-        // if($params['pathway']==3 && $params['step']==1)
-        // {
-        //     $data['step_type']='dropdown';
-        //     $data['step']='1';
-        //     $data['back']='0';
-        //     $data['next']='2';
-        // } 
         ///////////////////////////////////////////////////////////////
         if ($data)
         {
