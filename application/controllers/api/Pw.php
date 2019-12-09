@@ -162,7 +162,7 @@ class Pw extends REST_Controller {
         {            
             $data['percent']=0;
         }
-        // print_r($data);exit;
+        print_r($data);exit;
         if ($data['question'])
         {
             // Set the response and exit
@@ -255,10 +255,6 @@ class Pw extends REST_Controller {
     {
 
         $params=$_REQUEST;
-        // $params['pathway']=$this->uri->segment(3);
-        // $params['step']=$this->uri->segment(4);
-        // $params['next']=$this->uri->segment(5);
-        // echo '<pre>';print_r($params);exit;
 
         $step=$this->Admin_model->getBackStepByFlow($params);
         // echo '<pre>';print_r($step);exit;
@@ -270,31 +266,32 @@ class Pw extends REST_Controller {
         // print_r($data);exit;
         $data['user_id']=$params['user_id'];
         $this->Admin_model->removeAnswers($data);
-        if($step['number']==3 && $params['pathway']==3)
-        {
-            $item=array(
-                'pathway'   => 3,
-                'step'      => 2,
-                'user_id'   => $params['user_id']
-            );
-            $ans=$this->Admin_model->getStepAnswerforBMI($item);
-            // print_r($ans);exit;
-            $data['question']['statement']='Your BMI is '.number_format((float)$ans['value'], 2, '.', '').'. Your result suggests you are '.$ans['result_caption'];
-            // print_r($data);exit;
-        }
-        if($params['pathway']==3)
-        {
-            $data['answer']=$this->Admin_model->getStepAnswer($params);
-        }
-        else
-        {
-            $data['answer'][0]=$this->Admin_model->getStepAnswer($params);
-            
-        }
-        if(!$data['answer'][0])
-        {
-            $data['answer'][0]=(object)array();
-        }
+        // if($step['number']==3 && $params['pathway']==3)
+        // {
+        //     $item=array(
+        //         'pathway'   => 3,
+        //         'step'      => 2,
+        //         'user_id'   => $params['user_id']
+        //     );
+        //     $ans=$this->Admin_model->getStepAnswerforBMI($item);
+        //     // print_r($ans);exit;
+        //     $data['question']['statement']='Your BMI is '.number_format((float)$ans['value'], 2, '.', '').'. Your result suggests you are '.$ans['result_caption'];
+        //     // print_r($data);exit;
+        // }
+        $data['answer']=$this->Admin_model->getStepAnswer($params);
+        // if($params['pathway']==3)
+        // {
+        //     $data['answer']=$this->Admin_model->getStepAnswer($params);
+        // }
+        // else
+        // {
+        //     $data['answer']=$this->Admin_model->getStepAnswer($params);
+        //     // echo '<pre>';print_r($data['answer']);exit;
+        // }
+        // if(!$data['answer'][0])
+        // {
+        //     $data['answer'][0]=(object)array();
+        // }
          
         // print_r($data['answer']);exit;
         $data['form']=array();
@@ -326,14 +323,14 @@ class Pw extends REST_Controller {
         $st=$this->Admin_model->getStats($data);
       
         $data['percent']=(int)$st['percent'];
-        // BMI Pathway, If step =1 , the step type should be dropdown
-        if($params['pathway']==3 && $params['step']==1)
-        {
-            $data['step_type']='dropdown';
-            $data['step']='1';
-            $data['back']='0';
-            $data['next']='2';
-        } 
+        // // BMI Pathway, If step =1 , the step type should be dropdown
+        // if($params['pathway']==3 && $params['step']==1)
+        // {
+        //     $data['step_type']='dropdown';
+        //     $data['step']='1';
+        //     $data['back']='0';
+        //     $data['next']='2';
+        // } 
         ///////////////////////////////////////////////////////////////
         if ($data)
         {
@@ -509,17 +506,6 @@ class Pw extends REST_Controller {
         $data['status']='200';
         $data['message']='Pathway submitted successfully';
 
-        // $url = 'http://pathways.dr-iq.com/pathways/index.php/api/pw/submit_pwT';
-        // $myvars = http_build_query($data, '', '&');
-
-        // $ch = curl_init( $url );
-        // curl_setopt( $ch, CURLOPT_POST, 1);
-        // curl_setopt( $ch, CURLOPT_POSTFIELDS, $myvars);
-        // curl_setopt( $ch, CURLOPT_FOLLOWLOCATION, 1);
-        // curl_setopt( $ch, CURLOPT_HEADER, 0);
-        // curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true);
-
-        // curl_exec( $ch );
 
         if($data)
         {
