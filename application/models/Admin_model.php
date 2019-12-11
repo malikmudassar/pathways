@@ -7262,19 +7262,19 @@ class Admin_model extends CI_Model {
         // echo '<pre>';print_r($data);exit;
         $step=$this->getStepByNumber($data['step'], $data['pathway']);
         // print_r($step);
-        if($step['type']=='question' || $step['type']=='info')
+        if($step['type']=='question' || $step['type']=='info' || $step['type']=='alert')
         {
             $st=$this->db->query('Select questions.* from questions inner join step_questions on step_questions.question=questions.id where step_questions.step='.$step['id'])->result_array();
-            
+            $globalSt=$st;
             if($st[0]['ans_model'])
             {
-               $am=$this->getAllById('answer_models',$st[0]['ans_model']);
-            //    print_r($am);
+               $am=$this->getAllById('answer_models',$globalSt[0]['ans_model']);
+                // echo '<pre>';print_r($am);exit;
                 if($am['text']>0)
                 {
                     // echo 'it works';
                     //echo $am['text'].' textboxes <br>';
-                    $ans_form=$this->getAnsForm($st[0]['id'], $data);
+                    $ans_form=$this->getAnsForm($globalSt[0]['id'], $data);
                     // echo '<pre>';print_r($ans_form);print_r($data);exit;
                     for($i=0;$i<count($ans_form);$i++)
                     {
@@ -7321,15 +7321,54 @@ class Admin_model extends CI_Model {
                         }
                         
                         
-                    }   
-                    //echo 'answer inserted';exit;
+                    }
+                    echo 'text answer inserted';
                     
+                }
+                if($am['radio']>0)
+                {
+                    echo "<script>console.log('7330 saving radio data for step ".$data['step']." and value is ".$data['score']."')</script>";
+                    $item=array(
+                        'pathway'   => $data['pathway'],
+                        'step'      => $data['step'],
+                        'value'     => $data['score'],
+                        'user_id'   => $data['user_id'],
+                        'field_name'=> 'score'
+                    );
+                    
+                    // echo '<pre> path';print_r($pth);exit;
+                    $st=$this->db->select('*')
+                                ->from('step_answers')                                
+                                ->where('user_id',$data['user_id'])
+                                ->where('pathway', $data['pathway'])
+                                ->where('field_name', 'score')
+                                ->where('step',$data['step'])
+                                ->get()
+                                ->result_array();
+
+                    // echo '<pre>';print_r($st);
+                    // $st=$this->db->query('select * from step_answers where step='.$data['step'])->result_array();
+                    if(count($st)>0)
+                    {
+                        
+                        $this->db->where('step',$data['step'])
+                                ->where('user_id',$data['user_id'])
+                                ->where('pathway', $data['pathway'])
+                                ->where('field_name', 'score')
+                                ->update('step_answers',$item);
+                        // echo $this->db->last_query();exit;
+                    }
+                    else
+                    {                        
+                        $this->db->insert('step_answers',$item);
+                        // echo $this->db->last_query();exit;
+                    }
                 }
                 if($am['number']>0)
                 {
                     // echo 'it works';
-                    //echo $am['text'].' textboxes <br>';
-                    $ans_form=$this->getAnsForm($st[0]['id'], $data);
+                    //echo $am['number'].' fields <br>';
+                    $ans_form=$this->getAnsForm($globalSt[0]['id'], $data);
                     // echo '<pre>';print_r($ans_form);print_r($data);exit;
                     for($i=0;$i<count($ans_form);$i++)
                     {
@@ -7373,14 +7412,14 @@ class Admin_model extends CI_Model {
                         
                         
                     }
-                    //echo 'answer inserted';exit;
+                    // echo 'number answer inserted';
                     
                 }
                 if($am['date']>0)
                 {
                     // echo 'it works';
                     //echo $am['text'].' textboxes <br>';
-                    $ans_form=$this->getAnsForm($st[0]['id'], $data);
+                    $ans_form=$this->getAnsForm($globalSt[0]['id'], $data);
                     // echo '<pre>';print_r($ans_form);print_r($data);exit;
                     for($i=0;$i<count($ans_form);$i++)
                     {
@@ -7424,12 +7463,12 @@ class Admin_model extends CI_Model {
                         
                         
                     }
-                    //echo 'answer inserted';exit;
+                    // echo 'date answer inserted';exit;
                     
                 }
                 if($am['datepicker']>0)
                 {
-                    //echo $am['text'].' textboxes <br>';
+                    //echo $am['date'].' fields <br>';
                     $ans_form=$this->getAnsForm($st[0]['id'], $data);
                     //echo '<pre>';print_r($ans_form);exit;
                     
@@ -7469,45 +7508,7 @@ class Admin_model extends CI_Model {
                     //echo 'answer inserted';exit;
                     
                 }
-                if($am['radio']>0)
-                {
-                    // echo "<script>console.log('2196 saving radio data for step ".$data['step']." and value is ".$data['score']."')</script>";
-                    $item=array(
-                        'pathway'   => $data['pathway'],
-                        'step'      => $data['step'],
-                        'value'     => $data['score'],
-                        'user_id'   => $data['user_id'],
-                        'field_name'=> 'score'
-                    );
-                    
-                    // echo '<pre> path';print_r($pth);exit;
-                    $st=$this->db->select('*')
-                                ->from('step_answers')                                
-                                ->where('user_id',$data['user_id'])
-                                ->where('pathway', $data['pathway'])
-                                ->where('field_name', 'score')
-                                ->where('step',$data['step'])
-                                ->get()
-                                ->result_array();
-
-                    // echo '<pre>';print_r($st);
-                    // $st=$this->db->query('select * from step_answers where step='.$data['step'])->result_array();
-                    if(count($st)>0)
-                    {
-                        
-                        $this->db->where('step',$data['step'])
-                                ->where('user_id',$data['user_id'])
-                                ->where('pathway', $data['pathway'])
-                                ->where('field_name', 'score')
-                                ->update('step_answers',$item);
-                        // echo $this->db->last_query();exit;
-                    }
-                    else
-                    {                        
-                        $this->db->insert('step_answers',$item);
-                        // echo $this->db->last_query();exit;
-                    }
-                }
+                
                 if($am['checkbox']>0)
                 {
                     // echo "<script>console.log('2205 saving checkbox data for step ".$data['step']."')</script>";
