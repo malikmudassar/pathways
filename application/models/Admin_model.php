@@ -7328,41 +7328,45 @@ class Admin_model extends CI_Model {
                 if($am['radio']>0)
                 {
                     //echo "<script>console.log('7330 saving radio data for step ".$data['step']." and value is ".$data['score']."')</script>";
-                    $item=array(
-                        'pathway'   => $data['pathway'],
-                        'step'      => $data['step'],
-                        'value'     => $data['score'],
-                        'user_id'   => $data['user_id'],
-                        'field_name'=> 'score'
-                    );
-                    
-                    // echo '<pre> path';print_r($pth);exit;
-                    $st=$this->db->select('*')
-                                ->from('step_answers')                                
-                                ->where('user_id',$data['user_id'])
-                                ->where('pathway', $data['pathway'])
-                                ->where('field_name', 'score')
-                                ->where('step',$data['step'])
-                                ->get()
-                                ->result_array();
-
-                    // echo '<pre>';print_r($st);
-                    // $st=$this->db->query('select * from step_answers where step='.$data['step'])->result_array();
-                    if(count($st)>0)
+                    if(!empty($data['score']))
                     {
+                        $item=array(
+                            'pathway'   => $data['pathway'],
+                            'step'      => $data['step'],
+                            'value'     => $data['score'],
+                            'user_id'   => $data['user_id'],
+                            'field_name'=> 'score'
+                        );
                         
-                        $this->db->where('step',$data['step'])
-                                ->where('user_id',$data['user_id'])
-                                ->where('pathway', $data['pathway'])
-                                ->where('field_name', 'score')
-                                ->update('step_answers',$item);
-                        // echo $this->db->last_query();exit;
+                        // echo '<pre> path';print_r($pth);exit;
+                        $st=$this->db->select('*')
+                                    ->from('step_answers')                                
+                                    ->where('user_id',$data['user_id'])
+                                    ->where('pathway', $data['pathway'])
+                                    ->where('field_name', 'score')
+                                    ->where('step',$data['step'])
+                                    ->get()
+                                    ->result_array();
+    
+                        // echo '<pre>';print_r($st);
+                        // $st=$this->db->query('select * from step_answers where step='.$data['step'])->result_array();
+                        if(count($st)>0)
+                        {
+                            
+                            $this->db->where('step',$data['step'])
+                                    ->where('user_id',$data['user_id'])
+                                    ->where('pathway', $data['pathway'])
+                                    ->where('field_name', 'score')
+                                    ->update('step_answers',$item);
+                            // echo $this->db->last_query();exit;
+                        }
+                        else
+                        {                        
+                            $this->db->insert('step_answers',$item);
+                            // echo $this->db->last_query();exit;
+                        }
                     }
-                    else
-                    {                        
-                        $this->db->insert('step_answers',$item);
-                        // echo $this->db->last_query();exit;
-                    }
+                    
                 }
                 if($am['number']>0)
                 {
@@ -7513,36 +7517,40 @@ class Admin_model extends CI_Model {
                 {
                     // echo "<script>console.log('2205 saving checkbox data for step ".$data['step']."')</script>";
                     // echo '2129<pre>';print_r($data);exit;
-                    $item=array(
-                        'pathway'   => $data['pathway'],
-                        'step'      => $data['step'],
-                        'user_id'   =>$data['user_id'],
-                        'field_name'=>'score[]',
-                        'value'     => implode(',', $data['score'])
-                    );
-                    // print_r($item);exit;
-                    $st=$this->db->select('*')
-                                ->from('step_answers')
-                                ->where('step',$data['step'])
-                                ->where('user_id',$data['user_id'])
-                                ->where('field_name','score[]')
-                                ->where('pathway', $data['pathway'])
-                                ->get()
-                                ->result_array();
-                    if(count($st)>0)
+                    if(!empty($data['score']))
                     {
-                        
-                        $this->db->where('step',$data['step'])
-                                ->where('user_id',$data['user_id'])
-                                ->where('pathway', $data['pathway'])
-                                ->where('field_name','score[]')
-                                ->update('step_answers',$item);
+                        $item=array(
+                            'pathway'   => $data['pathway'],
+                            'step'      => $data['step'],
+                            'user_id'   =>$data['user_id'],
+                            'field_name'=>'score[]',
+                            'value'     => implode(',', $data['score'])
+                        );
+                        // print_r($item);exit;
+                        $st=$this->db->select('*')
+                                    ->from('step_answers')
+                                    ->where('step',$data['step'])
+                                    ->where('user_id',$data['user_id'])
+                                    ->where('field_name','score[]')
+                                    ->where('pathway', $data['pathway'])
+                                    ->get()
+                                    ->result_array();
+                        if(count($st)>0)
+                        {
+                            
+                            $this->db->where('step',$data['step'])
+                                    ->where('user_id',$data['user_id'])
+                                    ->where('pathway', $data['pathway'])
+                                    ->where('field_name','score[]')
+                                    ->update('step_answers',$item);
+                        }
+                        else
+                        {
+                            
+                            $this->db->insert('step_answers',$item);
+                        }
                     }
-                    else
-                    {
-                        
-                        $this->db->insert('step_answers',$item);
-                    }
+                    
                 } 
             }
             else
