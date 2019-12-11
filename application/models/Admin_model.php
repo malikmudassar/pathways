@@ -7327,7 +7327,7 @@ class Admin_model extends CI_Model {
                 }
                 if($am['radio']>0)
                 {
-                    echo "<script>console.log('7330 saving radio data for step ".$data['step']." and value is ".$data['score']."')</script>";
+                    //echo "<script>console.log('7330 saving radio data for step ".$data['step']." and value is ".$data['score']."')</script>";
                     $item=array(
                         'pathway'   => $data['pathway'],
                         'step'      => $data['step'],
