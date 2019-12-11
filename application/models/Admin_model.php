@@ -7280,6 +7280,112 @@ class Admin_model extends CI_Model {
                     {
                         if($ans_form[$i]['type']=='text')
                         {
+                            if(!empty($data[$ans_form[$i]['name']]))
+                            {
+                                $item=array(
+                                    'pathway'   => $data['pathway'],
+                                    'step'      => $data['step'],
+                                    'value'     => $data[$ans_form[$i]['name']],
+                                    'field_name'=>$ans_form[$i]['name'],
+                                    'user_id'   =>$data['user_id']
+                                );
+                                
+                                // echo '1050 <pre>';print_r($item);exit;
+                                $st=$this->db->select('*')
+                                            ->from('step_answers')
+                                            ->where('step',$data['step'])
+                                            ->where('user_id',$data['user_id'])
+                                            ->where('pathway', $data['pathway'])
+                                            ->where('field_name',$ans_form[$i]['name'])
+                                            ->get()
+                                            ->result_array();
+                                // echo $this->db->last_query();
+                                // print_r($st);exit;
+                                if(count($st)>0)
+                                {
+                                    $this->db->where('step',$data['step'])
+                                            ->where('user_id',$data['user_id'])
+                                            ->where('pathway', $data['pathway'])
+                                            ->where('field_name',$ans_form[$i]['name'])
+                                            ->update('step_answers',$item);
+                                            // echo $this->db->last_query();exit;
+                                }
+                                else
+                                {
+                                    
+                                    $this->db->insert('step_answers',$item);
+                                    // echo $this->db->last_query();exit;
+                                }
+                            }
+                            
+                        }
+                        
+                        
+                    }   
+                    //echo 'answer inserted';exit;
+                    
+                }
+                if($am['number']>0)
+                {
+                    // echo 'it works';
+                    //echo $am['text'].' textboxes <br>';
+                    $ans_form=$this->getAnsForm($st[0]['id'], $data);
+                    // echo '<pre>';print_r($ans_form);print_r($data);exit;
+                    for($i=0;$i<count($ans_form);$i++)
+                    {
+                        if($ans_form[$i]['type']=='number')
+                        {
+                            $item=array(
+                                'pathway'   => $data['pathway'],
+                                'step'      => $data['step'],
+                                'value'     => $data[$ans_form[$i]['name']],
+                                'field_name'=>$ans_form[$i]['name'],
+                                'user_id'   =>$data['user_id']
+                            );
+                            
+                            // echo '1050 <pre>';print_r($item);exit;
+                            $st=$this->db->select('*')
+                                        ->from('step_answers')
+                                        ->where('step',$data['step'])
+                                        ->where('user_id',$data['user_id'])
+                                        ->where('pathway', $data['pathway'])
+                                        ->where('field_name',$ans_form[$i]['name'])
+                                        ->get()
+                                        ->result_array();
+                            // echo $this->db->last_query();
+                            // print_r($st);exit;
+                            if(count($st)>0)
+                            {
+                                $this->db->where('step',$data['step'])
+                                        ->where('user_id',$data['user_id'])
+                                        ->where('pathway', $data['pathway'])
+                                        ->where('field_name',$ans_form[$i]['name'])
+                                        ->update('step_answers',$item);
+                                        // echo $this->db->last_query();exit;
+                            }
+                            else
+                            {
+                                
+                                $this->db->insert('step_answers',$item);
+                                // echo $this->db->last_query();exit;
+                            }
+                        }
+                        
+                        
+                    }
+                    //echo 'answer inserted';exit;
+                    
+                }
+                if($am['date']>0)
+                {
+                    // echo 'it works';
+                    //echo $am['text'].' textboxes <br>';
+                    $ans_form=$this->getAnsForm($st[0]['id'], $data);
+                    // echo '<pre>';print_r($ans_form);print_r($data);exit;
+                    for($i=0;$i<count($ans_form);$i++)
+                    {
+                        if($ans_form[$i]['type']=='date')
+                        {
                             $item=array(
                                 'pathway'   => $data['pathway'],
                                 'step'      => $data['step'],
