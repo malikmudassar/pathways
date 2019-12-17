@@ -188,6 +188,11 @@ class Pw extends REST_Controller {
             $params['practice_id']=0;
         }       
         $this->Admin_model->saveResult($params);
+        $name=$this->Admin_model->getPathwayName($params['pathway']);
+        if($name=='Rash')
+        {
+
+        }
         $this->Admin_model->removeAnswers($params);
         if(!$params['age'])
         {
@@ -227,10 +232,12 @@ class Pw extends REST_Controller {
             );
             $this->Admin_model->savePercent($p);
         }
-
+        if($data['pathway']==24 && $data['step']==4)
+        {
+            $data['step_type']='redirect';
+        }
         if ($data)
         {
-            // Set the response and exit
             $this->response($data, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
         }
         elseif(!$params['user_id'])
