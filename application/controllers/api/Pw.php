@@ -232,7 +232,7 @@ class Pw extends REST_Controller {
             );
             $this->Admin_model->savePercent($p);
         }
-        if($data['pathway']==24 && $data['step']==4)
+        if($data['pathway']==24 && $data['step']==16)
         {
             $data['step_type']='redirect';
         }
