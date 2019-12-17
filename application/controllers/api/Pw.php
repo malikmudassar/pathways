@@ -235,6 +235,7 @@ class Pw extends REST_Controller {
         if($data['pathway']==24 && $data['step']==16)
         {
             $data['step_type']='redirect';
+            $this->Admin_model->flushPw($params);
         }
         if ($data)
         {
