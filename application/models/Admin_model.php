@@ -7552,6 +7552,63 @@ class Admin_model extends CI_Model {
                     }
                     
                 } 
+                if($am['file']>0)
+                {
+                    // echo 'it works';
+                    //echo $am['text'].' textboxes <br>';
+                    $ans_form=$this->getAnsForm($globalSt[0]['id'], $data);
+                    // echo '<pre>';print_r($ans_form);print_r($data);exit;
+                    for($i=0;$i<count($ans_form);$i++)
+                    {
+                        if($ans_form[$i]['type']=='file')
+                        {
+                            if(!empty($data[$ans_form[$i]['name']]))
+                            {
+                                // Upload file 
+                                $file=base64_decode($data[$ans_form[$i]['name']]);
+                                $file_name=md5(uniqid(rand(), true)). '.' . 'png';
+                                $path='http://qa-pathways.com/pathways/img/'.$file_name;
+                                file_put_contents($path, $file_name, $file);
+                                $item=array(
+                                    'pathway'   => $data['pathway'],
+                                    'step'      => $data['step'],
+                                    'value'     => $file_name,
+                                    'field_name'=>$ans_form[$i]['name'],
+                                    'user_id'   =>$data['user_id']
+                                );
+                                
+                                $st=$this->db->select('*')
+                                            ->from('step_answers')
+                                            ->where('step',$data['step'])
+                                            ->where('user_id',$data['user_id'])
+                                            ->where('pathway', $data['pathway'])
+                                            ->where('field_name',$ans_form[$i]['name'])
+                                            ->get()
+                                            ->result_array();
+                                if(count($st)>0)
+                                {
+                                    $this->db->where('step',$data['step'])
+                                            ->where('user_id',$data['user_id'])
+                                            ->where('pathway', $data['pathway'])
+                                            ->where('field_name',$ans_form[$i]['name'])
+                                            ->update('step_answers',$item);
+                                            // echo $this->db->last_query();exit;
+                                }
+                                else
+                                {
+                                    
+                                    $this->db->insert('step_answers',$item);
+                                    // echo $this->db->last_query();exit;
+                                }
+                            }
+                            
+                        }
+                        
+                        
+                    }
+                    // echo 'text answer inserted';
+                    
+                }
             }
             else
             {
