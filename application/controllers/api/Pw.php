@@ -188,11 +188,8 @@ class Pw extends REST_Controller {
             $params['practice_id']=0;
         }       
         $this->Admin_model->saveResult($params);
-        $name=$this->Admin_model->getPathwayName($params['pathway']);
-        if($name=='Rash')
-        {
-
-        }
+        //$name=$this->Admin_model->getPathwayName($params['pathway']);
+        
         $this->Admin_model->removeAnswers($params);
         if(!$params['age'])
         {
@@ -346,21 +343,14 @@ class Pw extends REST_Controller {
         }
 
     }
-
+    // Edit question from summary 
     public function edit_q_post()
     {
         $params=$_REQUEST;
         $data=$this->Admin_model->getEditedQuestion($params);
         $data['form']=$this->Admin_model->getAnsForm($data['question']['id'],$params);
         $data['answer']=array();
-        if($params['pathway']==3)
-        {
-            $data['answer']=$this->Admin_model->getStepAnswer($params);
-        }
-        else
-        {
-            $data['answer'][0]=$this->Admin_model->getStepAnswer($params);
-        }
+        $data['answer']=$this->Admin_model->getStepAnswer($params);
         
         $path=$this->Admin_model->getPathFlowByStep($params['step'],$params['pathway']);
         $data['step']=$path['step'];
@@ -369,13 +359,13 @@ class Pw extends REST_Controller {
         if(!empty($data['form']))
         {
             $data['step_type']=$data['form'][0]['type'];
-            if($params['pathway']==3 && $params['step']==1)
-            {
-                for($i=0;$i<count($data['form']);$i++)
-                {
-                    $data['form'][$i]['type']='dropdown';
-                }
-            } 
+            // if($params['pathway']==3 && $params['step']==1)
+            // {
+            //     for($i=0;$i<count($data['form']);$i++)
+            //     {
+            //         $data['form'][$i]['type']='dropdown';
+            //     }
+            // } 
         }
         else
         {
@@ -391,10 +381,10 @@ class Pw extends REST_Controller {
         $st=$this->Admin_model->getStats($data);
         $this->Admin_model->removeAnswers($data);
         // BMI Pathway, If step =1 , the step type should be dropdown
-        if($params['pathway']==3 && $params['step']==1)
-        {
-            $data['step_type']='dropdown';
-        } 
+        // if($params['pathway']==3 && $params['step']==1)
+        // {
+        //     $data['step_type']='dropdown';
+        // } 
         ///////////////////////////////////////////////////////////////
         
         if($data)
