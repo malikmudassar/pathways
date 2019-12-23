@@ -424,13 +424,17 @@ class Pw extends REST_Controller {
         {
             $data['condition_key']='bloodTestMale';
         }
-        else
+        if($params['pathway']==25 && strtolower($params['gender'])=='female' )
         {
             $data['condition_key']='bloodTestFemale';
         }
-        if($params['pathway']==20)
+        if($params['pathway']==20 && strtolower($params['gender'])=='male')
         {
             $data['condition_key']='sti-male';
+        }
+        if($params['pathway']==20 && strtolower($params['gender'])=='female')
+        {
+            $data['condition_key']='sti-female';
         }
         if($params['pathway']==22)
         {
