@@ -428,6 +428,26 @@ class Pw extends REST_Controller {
         {
             $data['condition_key']='bloodTestFemale';
         }
+        if($params['pathway']==20 && strtolower($params['gender'])=='male' )
+        {
+            $data['condition_key']='sti-male';
+        }
+        else
+        {
+            $data['condition_key']='sti-female';
+        }
+        if($params['pathway']==22)
+        {
+            $data['condition_key']='chase-referrer';
+        }
+        if($params['pathway']==21)
+        {
+            $data['condition_key']='sick-note';
+        }
+        if($params['pathway']==24)
+        {
+            $data['condition_key']='order-medication';
+        }
         $data['condition_schema']=$this->Admin_model->pathway_review_for_BS($params);
         $data2['code']='200';
         $data2['message']='Pathway submitted successfully';
@@ -444,7 +464,6 @@ class Pw extends REST_Controller {
         curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true);
 
         curl_exec( $ch );
-        $this->Admin_model->finish_pw($params['pathway'], $params['user_id']);
         if($data2)
         {
             // Set the response and exit
