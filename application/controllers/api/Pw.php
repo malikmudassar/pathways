@@ -116,6 +116,7 @@ class Pw extends REST_Controller {
         $Id=$_REQUEST['pw'];
         $user_id=$_REQUEST['user_id'];
         $age=$_REQUEST['age'];
+        
         $data=$this->Admin_model->getFirstPathwayQuestion($Id, $user_id, $age);
         $params['pathway']=$Id;
         $params['gender']=strtolower($_REQUEST['gender']);
@@ -161,6 +162,10 @@ class Pw extends REST_Controller {
         if(!$data['percent'])
         {            
             $data['percent']=0;
+        }
+        if($data['step']==1)
+        {
+            $this->Admin_model->finish_pw($Id, $user_id);
         }
         // print_r($data);exit;
         if ($data['question'])
@@ -260,7 +265,7 @@ class Pw extends REST_Controller {
     {
 
         $params=$_REQUEST;
-
+        
         $step=$this->Admin_model->getBackStepByFlow($params);
         // echo '<pre>';print_r($step);exit;
         $this->Admin_model->removeFlowStep($step['number'], $params['pathway'], $params['user_id']);
@@ -307,6 +312,10 @@ class Pw extends REST_Controller {
         $st=$this->Admin_model->getStats($data);
       
         $data['percent']=(int)$st['percent'];
+        if($data['step']==1)
+        {
+            $this->Admin_model->finish_pw($params['pathway'], $params['user_id']);
+        }
         ///////////////////////////////////////////////////////////////
         if ($data)
         {
@@ -435,7 +444,7 @@ class Pw extends REST_Controller {
         curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true);
 
         curl_exec( $ch );
-        
+        $this->Admin_model->finish_pw($params['pathway'], $params['user_id']);
         if($data2)
         {
             // Set the response and exit
