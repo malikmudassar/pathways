@@ -7578,27 +7578,24 @@ class Admin_model extends CI_Model {
                                 );
                                 
                                 $st=$this->db->select('*')
-                                            ->from('step_answers')
-                                            ->where('step',$data['step'])
-                                            ->where('user_id',$data['user_id'])
-                                            ->where('pathway', $data['pathway'])
-                                            ->where('field_name',$ans_form[$i]['name'])
-                                            ->get()
-                                            ->result_array();
+                                    ->from('step_answers')
+                                    ->where('step',$data['step'])
+                                    ->where('user_id',$data['user_id'])
+                                    ->where('pathway', $data['pathway'])
+                                    ->where('field_name',$ans_form[$i]['name'])
+                                    ->get()
+                                    ->result_array();
                                 if(count($st)>0)
                                 {
                                     $this->db->where('step',$data['step'])
-                                            ->where('user_id',$data['user_id'])
-                                            ->where('pathway', $data['pathway'])
-                                            ->where('field_name',$ans_form[$i]['name'])
-                                            ->update('step_answers',$item);
-                                            // echo $this->db->last_query();exit;
+                                        ->where('user_id',$data['user_id'])
+                                        ->where('pathway', $data['pathway'])
+                                        ->where('field_name',$ans_form[$i]['name'])
+                                        ->update('step_answers',$item);
                                 }
                                 else
                                 {
-                                    
                                     $this->db->insert('step_answers',$item);
-                                    // echo $this->db->last_query();exit;
                                 }
                             }
                             
@@ -8193,6 +8190,8 @@ class Admin_model extends CI_Model {
         user_id='.$params['user_id']);
     }
 
+    
+
     public function getPathwayName($id)
     {
         $st=$this->db->select('name')->from('pathways')->where('id', $id)->get()->result_array();
@@ -8271,6 +8270,7 @@ class Admin_model extends CI_Model {
         if($step)
         {
             $this->db->query('delete from pathway_steps where step='.$step.' and pathway='.$pathway.' and user_id='.$user_id);
+            $this->db->query('delete from step_answers where step='.$step.' and pathway='.$pathway.' and user_id='.$user_id);
         }
         
     }
