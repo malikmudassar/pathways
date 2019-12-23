@@ -411,6 +411,14 @@ class Pw extends REST_Controller {
         $data['user_id']=$params['user_id'];
         $data['organization_id']=$params['practice_id'];
         $data['condition_key']=strtolower($this->Admin_model->getPathwayName($params['pathway']));
+        if($params['pathway']==25 && strtolower($params['gender'])=='male' )
+        {
+            $data['condition_key']='bloodTestMale';
+        }
+        else
+        {
+            $data['condition_key']='bloodTestFemale';
+        }
         $data['condition_schema']=$this->Admin_model->pathway_review_for_BS($params);
         $data2['code']='200';
         $data2['message']='Pathway submitted successfully';
