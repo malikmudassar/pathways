@@ -415,8 +415,8 @@ class Pw extends REST_Controller {
         $data2['code']='200';
         $data2['message']='Pathway submitted successfully';
         $endpoint='v3/dr-iq/onboarding/pathway-save';
-        // $url = 'https://qa-driq-server.attech-ltd.com/'.$endpoint;
-        $url = 'https://stag-server.attech-ltd.com/'.$endpoint;
+        $url = 'https://qa-driq-server.attech-ltd.com/'.$endpoint;
+        //$url = 'https://stag-server.attech-ltd.com/'.$endpoint;
         $myvars = http_build_query($data, '', '&');
         $this->Admin_model->changeIsSubmittedStatus($params, 'yes');
         $ch = curl_init( $url );
