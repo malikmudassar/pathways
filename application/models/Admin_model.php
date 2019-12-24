@@ -7567,7 +7567,7 @@ class Admin_model extends CI_Model {
                                 // Upload file 
                                 $file=base64_decode($data[$ans_form[$i]['name']]);
                                 $file_name=md5(uniqid(rand(), true)). '.' . 'png';
-                                $path=$_SERVER['DOCUMENT_ROOT'].'/pathways/img/'.$file_name;
+                                $path='/var/www/html/pathways/img/'.$file_name;
                                 file_put_contents($path,$file);
                                 $item=array(
                                     'pathway'   => $data['pathway'],
