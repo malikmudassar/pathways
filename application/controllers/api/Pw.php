@@ -327,6 +327,16 @@ class Pw extends REST_Controller {
         {
             $this->Admin_model->finish_pw($params['pathway'], $params['user_id']);
         }
+        if($data['pathway']==24 && $data['step']==11)
+        {
+            $data['step_type']='link';
+            // $this->Admin_model->flushPw($params);
+        }
+        if($data['pathway']==23 && $data['step']==29)
+        {
+            $data['step_type']='link';
+            // $this->Admin_model->flushPw($params);
+        }
         ///////////////////////////////////////////////////////////////
         if ($data)
         {
