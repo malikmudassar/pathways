@@ -7348,7 +7348,7 @@ class Admin_model extends CI_Model {
                                     ->get()
                                     ->result_array();
     
-                        // echo '<pre>';print_r($st);
+                        // echo '<pre>';print_r($st);exit;
                         // $st=$this->db->query('select * from step_answers where step='.$data['step'])->result_array();
                         if(count($st)>0)
                         {
@@ -7614,7 +7614,32 @@ class Admin_model extends CI_Model {
                     'step'      => $data['step'],
                     'user_id'   => $data['user_id']
                 );
-                $this->db->insert('step_answers',$item);
+
+                $st=$this->db->select('*')
+                ->from('step_answers')                                
+                ->where('user_id',$data['user_id'])
+                ->where('pathway', $data['pathway'])
+                ->where('step',$data['step'])
+                ->get()
+                ->result_array();
+
+                // echo '<pre>';print_r($st);exit;
+                // $st=$this->db->query('select * from step_answers where step='.$data['step'])->result_array();
+                if(count($st)>0)
+                {
+                    
+                    $this->db->where('step',$data['step'])
+                            ->where('user_id',$data['user_id'])
+                            ->where('pathway', $data['pathway'])
+                            ->update('step_answers',$item);
+                    // echo $this->db->last_query();exit;
+                }
+                else
+                {                        
+                    $this->db->insert('step_answers',$item);
+                    // echo $this->db->last_query();exit;
+                }
+               
             }
             $d=count($this->db->select('*')->from('steps')->where('pathway',$data['pathway'])
                         ->get()->result_array());
