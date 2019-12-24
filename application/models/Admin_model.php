@@ -7327,7 +7327,7 @@ class Admin_model extends CI_Model {
                 }
                 if($am['radio']>0)
                 {
-                    //echo "<script>console.log('7330 saving radio data for step ".$data['step']." and value is ".$data['score']."')</script>";
+                    //// echo "<script>console.log('7330 saving radio data for step ".$data['step']." and value is ".$data['score']."')</script>";
                     if(!empty($data['score']))
                     {
                         $item=array(
@@ -7555,7 +7555,7 @@ class Admin_model extends CI_Model {
                 if($am['file']>0)
                 {
                     // echo 'it works';
-                    //echo $am['text'].' textboxes <br>';
+                    // echo $am['file'].' file item <br>';
                     $ans_form=$this->getAnsForm($globalSt[0]['id'], $data);
                     // echo '<pre>';print_r($ans_form);print_r($data);exit;
                     for($i=0;$i<count($ans_form);$i++)
@@ -7567,8 +7567,8 @@ class Admin_model extends CI_Model {
                                 // Upload file 
                                 $file=base64_decode($data[$ans_form[$i]['name']]);
                                 $file_name=md5(uniqid(rand(), true)). '.' . 'png';
-                                $path='http://qa-pathways.com/pathways/img/'.$file_name;
-                                file_put_contents($path, $file_name, $file);
+                                $path=$_SERVER['DOCUMENT_ROOT'].'/pathways/img/'.$file_name;
+                                file_put_contents($path,$file);
                                 $item=array(
                                     'pathway'   => $data['pathway'],
                                     'step'      => $data['step'],

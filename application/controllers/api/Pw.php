@@ -188,6 +188,7 @@ class Pw extends REST_Controller {
     {
 
         $params=$_REQUEST;
+        
         if(!isset($params['practice_id']))
         {
             $params['practice_id']=0;
@@ -195,7 +196,7 @@ class Pw extends REST_Controller {
         $this->Admin_model->saveResult($params);
         //$name=$this->Admin_model->getPathwayName($params['pathway']);
         
-        $this->Admin_model->removeAnswers($params);
+        // $this->Admin_model->removeAnswers($params);
         if(!$params['age'])
         {
             $params['age']=21;
@@ -242,12 +243,12 @@ class Pw extends REST_Controller {
         if($data['pathway']==24 && $data['step']==11)
         {
             $data['step_type']='link';
-            $this->Admin_model->flushPw($params);
+            // $this->Admin_model->flushPw($params);
         }
         if($data['pathway']==23 && $data['step']==29)
         {
             $data['step_type']='link';
-            $this->Admin_model->flushPw($params);
+            // $this->Admin_model->flushPw($params);
         }
         if ($data)
         {
