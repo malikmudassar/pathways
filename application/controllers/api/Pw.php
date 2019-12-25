@@ -279,7 +279,7 @@ class Pw extends REST_Controller {
         
         $step=$this->Admin_model->getBackStepByFlow($params);
         // echo '<pre>';print_r($step);exit;
-        $this->Admin_model->removeFlowStep($step['number'], $params['pathway'], $params['user_id']);
+        
         $params['step']=$step['number'];
         
         $data=$this->Admin_model->getBackPathwayQuestion1($params);
@@ -337,6 +337,7 @@ class Pw extends REST_Controller {
             $data['step_type']='link';
             // $this->Admin_model->flushPw($params);
         }
+        $this->Admin_model->removeFlowStep($step['number'], $params['pathway'], $params['user_id']);
         ///////////////////////////////////////////////////////////////
         if ($data)
         {
