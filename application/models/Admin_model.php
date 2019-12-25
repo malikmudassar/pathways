@@ -7813,92 +7813,75 @@ class Admin_model extends CI_Model {
         $count=count($st);
         $i=0;
         
-        if($params['pathway']!=3)
+        foreach($st as $row)
         {
-            foreach($st as $row)
-            {
-                $step=$this->getStepByNumber($row['step'], $params['pathway']);
-
-                if($step['type']=='question' || $step['type']=='info' || $step['type']=='datepicker'){
-                    $d=$this->db->query('select * from steps where pathway='.$params['pathway'].' and number='.$row['step'])->result_array();
-
-                    $q=$this->getQuestionByStep($d[0]['id']);
-                    $path=$this->getPathFlowByStep($row['step'], $params['pathway']);
-                    if($q['ans_model']==16)
-                    {
-                        $st=$this->db->select('*')
-                                ->from('step_answers')
-                                ->where('pathway',$params['pathway'])
-                                ->where('step',$step['number'])
-                                ->where('user_id',$params['user_id'])
-                                ->get()
-                                ->result_array();
-                        $d=array();
-                        $d[0]['value']=$st[0]['value'];
-                        $dr=array(
-                                'type'      => $step['type'],
-                                'question'  => $q['statement'],
-                                'answer'    => $d,
-                                'step'      => $path['step'],
-                                'back'      => $path['back'],
-                                'next'      => $path['next'],
-                                'can_submit'    =>  $this->getCanSubmit($params),
-                                'is_submitted'  =>  $this->getIsSubmitted($params)
-                            );
-                    }
-                    else
-                    {
-                        if($q)
-                        {
-                            $dr=array(
-                                'type'      => $step['type'],
-                                'question'  => $q['statement'],
-                                'answer'    => ($this->getAnswerResult($q['id'],$row['value'])),
-                                'step'      => $path['step'],
-                                'back'      => $path['back'],
-                                'next'      => $path['next'],
-                                'can_submit'    =>  $this->getCanSubmit($params),
-                                'is_submitted'  =>  $this->getIsSubmitted($params)
-                            );
-                        }
-                        else
-                        {
-                            $dr=array(
-                                'type'      => $step['type'],
-                                'question'  => array(),
-                                'answer'    => array(),
-                                'step'      => $path['step'],
-                                'back'      => $path['back'],
-                                'next'      => $path['next'],
-                                'can_submit'    =>  $this->getCanSubmit($params),
-                                'is_submitted'  =>  $this->getIsSubmitted($params)
-                            );
-                        }                    
-                        
-                    }
-                    array_push($data, $dr);
-                        
+            // find the step number and step data
+            $step=$this->getStepByNumber($row['step'], $params['pathway']);
+            // if the step type isn't condition or calculation
+            if($step['type']=='question' || $step['type']=='info' || $step['type']=='datepicker' || $step['type']=='alert'){
+                
+                $d=$this->db->query('select * from steps where pathway='.$params['pathway'].' and number='.$row['step'])->result_array();
+                // find the question of the step
+                $q=$this->getQuestionByStep($d[0]['id']);
+                // find the pathflow
+                $path=$this->getPathFlowByStep($row['step'], $params['pathway']);
+                // check if the answer model has a date picker
+                // i have no idea why I did that
+                if($q['ans_model']==16)
+                {
+                    $st=$this->db->select('*')
+                            ->from('step_answers')
+                            ->where('pathway',$params['pathway'])
+                            ->where('step',$step['number'])
+                            ->where('user_id',$params['user_id'])
+                            ->get()
+                            ->result_array();
+                    $d=array();
+                    $d[0]['value']=$st[0]['value'];
+                    $dr=array(
+                            'type'      => $step['type'],
+                            'question'  => $q['statement'],
+                            'answer'    => $d,
+                            'step'      => $path['step'],
+                            'back'      => $path['back'],
+                            'next'      => $path['next'],
+                            'can_submit'    =>  $this->getCanSubmit($params),
+                            'is_submitted'  =>  $this->getIsSubmitted($params)
+                        );
                 }
+                else
+                {
+                    if($q)
+                    {
+                        $dr=array(
+                            'type'      => $step['type'],
+                            'question'  => $q['statement'],
+                            'answer'    => ($this->getAnswerResult($q['id'],$row)),
+                            'step'      => $path['step'],
+                            'back'      => $path['back'],
+                            'next'      => $path['next'],
+                            'can_submit'    =>  $this->getCanSubmit($params),
+                            'is_submitted'  =>  $this->getIsSubmitted($params)
+                        );
+                    }
+                    // else
+                    // {
+                    //     $dr=array(
+                    //         'type'      => $step['type'],
+                    //         'question'  => array(),
+                    //         'answer'    => array(),
+                    //         'step'      => $path['step'],
+                    //         'back'      => $path['back'],
+                    //         'next'      => $path['next'],
+                    //         'can_submit'    =>  $this->getCanSubmit($params),
+                    //         'is_submitted'  =>  $this->getIsSubmitted($params)
+                    //     );
+                    // }                    
+                    
+                }
+                array_push($data, $dr);
+                    
             }
-        }
-        else
-        {
-            $data=array();
-            $d=$this->db->query('select * from steps where pathway=3 and number=1')->result_array();
-            $q=$this->getQuestionByStep($d[0]['id']);
-            $path=$this->getPathFlowByStep(1, 3);
-            $ans=$this->db->query('SELECT * FROM step_answers WHERE pathway=3 and step=1 and user_id='.$params['user_id'].' ORDER BY created_at DESC LIMIT 0,2')->result_array();
-            // print_r(array_reverse($ans));exit;
-            $data[0]['type']='question';
-            $data[0]['question']=$q['statement'];
-            $data[0]['answer']=array_reverse($ans);  
-            $data[0]['step']=$path['step'];
-            $data[0]['back']=$path['back'];
-            $data[0]['next']=$path['next'];
-
-            $data[0]['can_submit']=$this->getCanSubmit($params);
-            $data[0]['is_submitted']=$this->getIsSubmitted($params);
-
         }
 
         return $data;;
@@ -7937,73 +7920,54 @@ class Admin_model extends CI_Model {
         $count=count($st);
         $i=0;
         
-        if($params['pathway']!=3)
+        foreach($st as $row)
         {
-            foreach($st as $row)
+            $step=$this->getStepByNumber($row['step'], $params['pathway']);
+
+            if($step['type']=='question' || $step['type']=='info' || $step['type']=='datepicker' || $step['type']=='alert'  )
             {
-                $step=$this->getStepByNumber($row['step'], $params['pathway']);
+                $d=$this->db->query('select * from steps where pathway='.$params['pathway'].' and number='.$row['step'])->result_array();
 
-                if($step['type']=='question' || $step['type']=='info' || $step['type']=='datepicker')
+                $q=$this->getQuestionByStep($d[0]['id']);
+                $path=$this->getPathFlowByStep($row['step'], $params['pathway']);
+                if($q['ans_model']==16)
                 {
-                    $d=$this->db->query('select * from steps where pathway='.$params['pathway'].' and number='.$row['step'])->result_array();
-
-                    $q=$this->getQuestionByStep($d[0]['id']);
-                    $path=$this->getPathFlowByStep($row['step'], $params['pathway']);
-                    if($q['ans_model']==16)
+                    $st=$this->db->select('*')
+                            ->from('step_answers')
+                            ->where('pathway',$params['pathway'])
+                            ->where('step',$step['number'])
+                            ->where('user_id',$params['user_id'])
+                            ->get()
+                            ->result_array();
+                    $d=array();
+                    $d[0]['value']=$st[0]['value'];
+                    $dr=array(
+                            'question'  => $q['statement'],
+                            'selected_choice'    => $d[0]['value']
+                        );
+                }
+                else
+                {
+                    if($q)
                     {
-                        $st=$this->db->select('*')
-                                ->from('step_answers')
-                                ->where('pathway',$params['pathway'])
-                                ->where('step',$step['number'])
-                                ->where('user_id',$params['user_id'])
-                                ->get()
-                                ->result_array();
-                        $d=array();
-                        $d[0]['value']=$st[0]['value'];
                         $dr=array(
-                                'question'  => $q['statement'],
-                                'selected_choice'    => $d[0]['value']
-                            );
+                            'question'  => $q['statement'],
+                            'selected_choice'    => ($this->getAnswerResult_for_BS($q['id'],$row['value']))
+                        );
                     }
                     else
                     {
-                        if($q)
-                        {
-                            $dr=array(
-                                'question'  => $q['statement'],
-                                'selected_choice'    => ($this->getAnswerResult_for_BS($q['id'],$row['value']))
-                            );
-                        }
-                        else
-                        {
-                            $dr=array(
-                                'type'      => $step['type'],
-                                'question'  => array(),
-                                'selected_choice'    => array()
-                            );
-                        }                    
-                        
-                    }
-                    array_push($data, $dr);
-                        
+                        $dr=array(
+                            'type'      => $step['type'],
+                            'question'  => array(),
+                            'selected_choice'    => array()
+                        );
+                    }                    
+                    
                 }
+                array_push($data, $dr);
+                    
             }
-        }
-        else
-        {
-            $data=array();
-            $d=$this->db->query('select * from steps where pathway=3 and number=1')->result_array();
-            $q=$this->getQuestionByStep($d[0]['id']);
-            $path=$this->getPathFlowByStep(1, 3);
-            $ans=$this->db->query('SELECT * FROM step_answers WHERE pathway=3 and step=1 and user_id='.$params['user_id'].' ORDER BY created_at DESC LIMIT 0,2')->result_array();
-            // print_r(array_reverse($ans));exit;
-            $data[0]['question']=$q['statement'];
-            $answer='';
-            
-            $answer.=$ans[0]['field_name'].': '.$ans[0]['value'].'cm.<br>'.$ans[1]['field_name'].': '.$ans[1]['value'].'kg.<br>BMI is ';
-            $ans=$this->db->query('SELECT * FROM step_answers WHERE pathway=3 and step=2 and user_id='.$params['user_id'].' ORDER BY created_at DESC LIMIT 0,2')->result_array();
-            $answer=$answer.' '.number_format((float)$ans[0]['value'], 2, '.', '').' and the patient is '.$ans[0]['result_caption'];
-            $data[0]['selected_choice']=$answer;  
         }
 
         return $data;;
@@ -8018,16 +7982,27 @@ class Admin_model extends CI_Model {
         return $data;
     }
 
-    public function getAnswerResult($q, $v)
+    public function getAnswerResult($q, $row)
     {
         $d=$this->db->query('select * from answer_models inner join questions on questions.ans_model=answer_models.id 
             where questions.id='.$q.'
             ')->result_array();
+        // print_r($d);
         // echo 'Q=:';print_r($d[0]);echo'<br>';
-        $arr=array();
-        if(strpos($v, ','))
+        // if answer model only has one text field
+        // return the value sent in the row
+        if($d[0]['ans_model']==27)
         {
-            $arr=explode(',', $v);            
+            // print_r($row);
+            $caption=array();
+            $caption[0]['value']=$row['value'];
+            return $caption;
+        }
+        $arr=array();
+        
+        if(strpos($row['value'], ','))
+        {
+            $arr=explode(',', $row['value']);            
         }
         if(count($arr)>0)
         {
@@ -8057,7 +8032,7 @@ class Admin_model extends CI_Model {
             $st=$this->db->select('caption')
                     ->from('ans_form')
                     ->where('question', $q)
-                    ->where('value',$v)
+                    ->where('value',$row['value'])
                     ->get()
                     ->result_array();
             // echo $this->db->last_query();
@@ -8071,9 +8046,7 @@ class Admin_model extends CI_Model {
                 return array();
             }
         }
-
-
-
+        
     }
 
     public function getAnswerResult_for_BS($q, $v)
