@@ -7916,7 +7916,7 @@ class Admin_model extends CI_Model {
                         ->result_array();
         
         $data=array();
-        // print_r($st);
+        // print_r($params);exit;
         $count=count($st);
         $i=0;
         
@@ -7970,7 +7970,7 @@ class Admin_model extends CI_Model {
             }
         }
 
-        return $data;;
+        return $data;
     }
 
     public function getEditedQuestion($params)
@@ -8277,6 +8277,20 @@ class Admin_model extends CI_Model {
     {
         $this->db->query('delete from pathway_steps where pathway='.$pw.' and user_id='.$user_id);
         $this->db->query('delete from user_pathway_status where pathway='.$pw.' and user_id='.$user_id);
+    }
+
+    public function getPathwayStatusId($params)
+    {
+        $st=$this->db->select('id')
+                    ->from('user_pathway_status')
+                    ->where('pathway', $params['pathway'])
+                    ->where('user_id', $params['user_id'])
+                    ->where('practice_id', $params['practice_id'])
+                    ->where('is_submitted', 'no')
+                    ->order_by('id', 'desc')
+                    ->get()
+                    ->result_array();
+        return $st[0]['id'];
     }
 
 }
