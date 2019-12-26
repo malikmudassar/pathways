@@ -323,6 +323,11 @@ class Pw extends REST_Controller {
         $st=$this->Admin_model->getStats($data);
       
         $data['percent']=(int)$st['percent'];
+        if($data['pathway']==24 && $data['step']==16)
+        {
+            $data['step_type']='redirect';
+            $this->Admin_model->flushPw($params);
+        }
         if($data['step']==1)
         {
             $this->Admin_model->finish_pw($params['pathway'], $params['user_id']);
@@ -330,12 +335,10 @@ class Pw extends REST_Controller {
         if($data['pathway']==24 && $data['step']==11)
         {
             $data['step_type']='link';
-            // $this->Admin_model->flushPw($params);
         }
         if($data['pathway']==23 && $data['step']==29)
         {
             $data['step_type']='link';
-            // $this->Admin_model->flushPw($params);
         }
         $this->Admin_model->removeFlowStep($step['number'], $params['pathway'], $params['user_id']);
         ///////////////////////////////////////////////////////////////
@@ -469,6 +472,10 @@ class Pw extends REST_Controller {
         if($params['pathway']==24)
         {
             $data['condition_key']='order-medication';
+        }
+        if($params['pathway']==26)
+        {
+            $data['condition_key']='general-advice';
         }
         $data['condition_schema']=$this->Admin_model->pathway_review_for_BS($params);
         $data2['code']='200';
