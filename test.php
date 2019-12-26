@@ -130,7 +130,7 @@ function getAnswerResult($q, $row)
         // echo 'Q=:';print_r($d[0]);echo'<br>';
         // if answer model only has one text field
         // return the value sent in the row
-        if($d[0]['ans_model']==27)
+        if($d[0]['ans_model']==27 || $row['field_name']=='other')
         {
             // print_r($row);
             $caption=array();
@@ -175,12 +175,7 @@ function getAnswerResult($q, $row)
                 return array();
             }
         }
-        if($row['field_name']=='other')
-        {
-            $caption=array();
-            $caption[0]['value']=$row['value'];
-            return $caption;
-        }
+        
     }
     
     
