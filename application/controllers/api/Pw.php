@@ -440,7 +440,8 @@ class Pw extends REST_Controller {
         // $id=$this->Admin_model->getPathwayStatusId($params);
         // echo $id;exit;
         // $path=$_SERVER['DOCUMENT_ROOT'];
-        shell_exec('wget '.base_url().'/api/pw/testPathwaySubmit/'.$$params['user_id'].'/'.$params['practice_id'].'/'.$params['pathway'].' &');
+        $path='http://'.$_SERVER['SERVER_NAME'].'/pathways/index.php/';
+        shell_exec('wget '.$path.'/api/pw/testPathwaySubmit/'.$params['user_id'].'/'.$params['practice_id'].'/'.$params['pathway'].' &');
         // $data['condition_key']=strtolower($this->Admin_model->getPathwayName($params['pathway']));
         // if($params['pathway']==25 && strtolower($params['gender'])=='male' )
         // {
