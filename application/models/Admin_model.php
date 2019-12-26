@@ -8046,6 +8046,12 @@ class Admin_model extends CI_Model {
                 return array();
             }
         }
+        if($row['field_name']=='other')
+        {
+            $caption=array();
+            $caption[0]['value']=$row['value'];
+            return $caption;
+        }
         
     }
 
