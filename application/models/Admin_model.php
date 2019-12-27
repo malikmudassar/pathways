@@ -8019,7 +8019,7 @@ class Admin_model extends CI_Model {
                 // print_r($st[0]);
                 if(count($st)>0)
                 {
-                    $caption[0]['value'].=($i+1).': '.$st[0]['caption'].' <br>';
+                    $caption[0]['value'].=($i+1).': '.$st[0]['caption'].'. ';
                 }
                 
             }
