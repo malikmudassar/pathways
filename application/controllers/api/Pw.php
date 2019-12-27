@@ -191,8 +191,12 @@ class Pw extends REST_Controller {
         
         if(!isset($params['practice_id']))
         {
-            $params['practice_id']=0;
+            $params['practice_id']=2;
         }       
+        if($params['step']==1)
+        {
+            $this->Admin_model->flushPw($params);
+        }
         $this->Admin_model->saveResult($params);
         //$name=$this->Admin_model->getPathwayName($params['pathway']);
         
