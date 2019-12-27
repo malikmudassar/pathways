@@ -6748,7 +6748,7 @@ class Admin_model extends CI_Model {
     public function getBackPathwayQuestion1($params)
     {
         $step=$this->getStepByNumber($params['step'], $params['pathway']);
-        // echo '<pre>';print_r($step);exit;
+        // echo '<pre>';print_r($params);exit;
         
         $st=$this->db->select('*')->from('pathflow')
                 ->where('pathway',$params['pathway'])
@@ -8019,7 +8019,7 @@ class Admin_model extends CI_Model {
                 // print_r($st[0]);
                 if(count($st)>0)
                 {
-                    $caption[0]['value'].=($i+1).': '.$st[0]['caption'].' ';
+                    $caption[0]['value'].=($i+1).': '.$st[0]['caption'].' <br>';
                 }
                 
             }
@@ -8257,6 +8257,7 @@ class Admin_model extends CI_Model {
         ->order_by('id', 'desc')
         ->get()
         ->result_array();
+        // print_r($st);exit;
         // echo $this->db->last_query();exit;
         // echo '<pre>';print_r($st[0]['step']);exit;
         $step=$this->getStepByNumber($st[0]['step'],$data['pathway']);
@@ -8291,6 +8292,8 @@ class Admin_model extends CI_Model {
                     ->order_by('id', 'desc')
                     ->get()
                     ->result_array();
+        // echo $this->db->last_query();exit;
+        // print_r($st);exit;
         return $st[0]['id'];
     }
 
