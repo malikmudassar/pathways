@@ -247,7 +247,10 @@ class Pw extends REST_Controller {
         if($data['pathway']==24 && $data['step']==11)
         {
             $data['step_type']='link';
-            // $this->Admin_model->flushPw($params);
+        }
+        if($data['pathway']==24 && $data['step']==13)
+        {
+            $data['step_type']='add_medication';
         }
         if($data['pathway']==23 && $data['step']==29)
         {
@@ -339,6 +342,10 @@ class Pw extends REST_Controller {
         if($data['pathway']==24 && $data['step']==11)
         {
             $data['step_type']='link';
+        }
+        if($data['pathway']==24 && $data['step']==13)
+        {
+            $data['step_type']='add_medication';
         }
         if($data['pathway']==23 && $data['step']==29)
         {
