@@ -167,6 +167,10 @@ class Pw extends REST_Controller {
         {
             $this->Admin_model->finish_pw($Id, $user_id);
         }
+        if($data['pathway']==24 && $data['step']==13)
+        {
+            $data['step_type']='add_medication';
+        }
         // print_r($data);exit;
         if ($data['question'])
         {
