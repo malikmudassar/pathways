@@ -182,7 +182,7 @@ class Admin_model extends CI_Model {
             // echo '125 go';
             $data['percent']=($data['step']/$steps)*100;
 
-            if($data['step']==$steps)
+            if($data['step']==$steps && $data['pathway']!=25)
             {
                 // echo '128 go';
                 $data['next']="0";
