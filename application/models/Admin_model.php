@@ -7876,6 +7876,11 @@ class Admin_model extends CI_Model {
             else
             {
                 $caption=array();
+                if($row['field_name']=='other')
+                {
+                    $caption[0]['value']=$row['value'];
+                    return $caption;
+                }
                 $st=$this->db->select('caption')
                         ->from('ans_form')
                         ->where('question', $q)
