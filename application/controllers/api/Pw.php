@@ -92,6 +92,10 @@ class Pw extends REST_Controller {
             $data['step_type']='info';
             $data['form']="";
         }
+        if($data['step_type']=='textarea')
+        {
+            $data['step_type']='text';
+        }
 
         $data['percent']=number_format(0,2);
         if ($data['question'])
@@ -170,6 +174,10 @@ class Pw extends REST_Controller {
         if($data['pathway']==24 && $data['step']==13)
         {
             $data['step_type']='add_medication';
+        }
+        if($data['step_type']=='textarea')
+        {
+            $data['step_type']='text';
         }
         // print_r($data);exit;
         if ($data['question'])
@@ -260,6 +268,10 @@ class Pw extends REST_Controller {
         {
             $data['step_type']='link';
             // $this->Admin_model->flushPw($params);
+        }
+        if($data['step_type']=='textarea')
+        {
+            $data['step_type']='text';
         }
         if ($data)
         {
@@ -355,6 +367,10 @@ class Pw extends REST_Controller {
         {
             $data['step_type']='link';
         }
+        if($data['step_type']=='textarea')
+        {
+            $data['step_type']='text';
+        }
         $this->Admin_model->removeFlowStep($step['number'], $params['pathway'], $params['user_id']);
         ///////////////////////////////////////////////////////////////
         if ($data)
@@ -428,7 +444,10 @@ class Pw extends REST_Controller {
         //     $data['step_type']='dropdown';
         // } 
         ///////////////////////////////////////////////////////////////
-        
+        if($data['step_type']=='textarea')
+        {
+            $data['step_type']='text';
+        }
         if($data)
         {
             // Set the response and exit
