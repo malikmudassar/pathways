@@ -7814,16 +7814,33 @@ class Admin_model extends CI_Model {
             $q=$this->getQuestionByStep($step['id']);
             $path=$this->getPathFlowByStep($step['number'], $params['pathway']);
             // print_r($q);
-            $dr=array(
-                'type'      => $step['type'],
-                'question'  => $q['statement'],
-                'answer'    => $this->getAnsResult($step['number'], $q['id'],$params),
-                'step'      => $path['step'],
-                'back'      => $path['back'],
-                'next'      => $path['next'],
-                'can_submit'    =>  $this->getCanSubmit($params),
-                'is_submitted'  =>  $this->getIsSubmitted($params)
-            );
+            if($q['type']=='Question')
+            {
+                $dr=array(
+                    'type'      => $step['type'],
+                    'question'  => $q['statement'],
+                    'answer'    => $this->getAnsResult($step['number'], $q['id'],$params),
+                    'step'      => $path['step'],
+                    'back'      => $path['back'],
+                    'next'      => $path['next'],
+                    'can_submit'    =>  $this->getCanSubmit($params),
+                    'is_submitted'  =>  $this->getIsSubmitted($params)
+                );
+            }
+            else
+            {
+                $dr=array(
+                    'type'      => $step['type'],
+                    'question'  => $q['statement'],
+                    'answer'    => array(),
+                    'step'      => $path['step'],
+                    'back'      => $path['back'],
+                    'next'      => $path['next'],
+                    'can_submit'    =>  $this->getCanSubmit($params),
+                    'is_submitted'  =>  $this->getIsSubmitted($params)
+                );
+            }
+            
             array_push($data, $dr);
         }
         return $data;
@@ -7948,7 +7965,7 @@ class Admin_model extends CI_Model {
             else
             {
                 $caption='';
-                if($row['field_name']!='score' || $row['field_name']!='score[]')
+                if($row['field_name']=='other')
                 {
                     $caption.=$row['value'];
                     return $caption;
@@ -8010,10 +8027,21 @@ class Admin_model extends CI_Model {
             $q=$this->getQuestionByStep($step['id']);
             $path=$this->getPathFlowByStep($step['number'], $params['pathway']);
             // print_r($q);
-            $dr=array(
-                'question'  => $q['statement'],
-                'selected_choice'    => $this->getAnsResult_for_BS($step['number'], $q['id'],$params)
-            );
+            if($q['type']=='Question')
+            {
+                $dr=array(
+                    'question'  => $q['statement'],
+                    'selected_choice'    => $this->getAnsResult_for_BS($step['number'], $q['id'],$params)
+                );
+            }
+            else
+            {
+                $dr=array(
+                    'question'  => $q['statement'],
+                    'selected_choice'    => ''
+                );
+            }
+            
             array_push($data, $dr);
         }
 
