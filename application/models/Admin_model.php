@@ -5293,7 +5293,7 @@ class Admin_model extends CI_Model {
                     }
                 break;
                 case '==':
-                    if(strtolower($result) == strtolower($condition['value']))
+                if(strtolower($result) == strtolower($condition['value']))
                     {
                         $data['step']=$condition['if_next_step'];
 
@@ -7835,6 +7835,80 @@ class Admin_model extends CI_Model {
         $arr=array();
         if(count($row)>1)
         {
+            $caption=array();
+            $caption[0]['value']='';
+            array_reverse($row);
+            for($i=(count($row)-1);$i>-1;$i--)
+            {
+                $caption[0]['value'].=$row[$i]['field_name'].': '.$row[$i]['value'].'. <br />';
+            }
+            return $caption;
+        }
+        else
+        {
+            $row=$row[0];
+            if(strpos($row['value'], ','))
+            {
+                $arr=explode(',', $row['value']);            
+            }
+            if(count($arr)>0)
+            {
+                $caption=array();
+                $caption[0]['value']='';
+                for($i=0;$i<count($arr);$i++)
+                {
+                    $st=$this->db->select('caption')
+                        ->from('ans_form')
+                        ->where('question', $q)
+                        ->where('value',$arr[$i])
+                        ->get()
+                        ->result_array();
+                    // print_r($st[0]);
+                    if(count($st)>0)
+                    {
+                        $caption[0]['value'].=($i+1).': '.$st[0]['caption'].'. <br />';
+                    }
+                    
+                }
+                // print_r($caption);
+                return $caption;
+            }
+            else
+            {
+                $caption=array();
+                if($row['field_name']=='other')
+                {
+                    $caption[0]['value']=$row['value'];
+                    return $caption;
+                }
+                $st=$this->db->select('caption')
+                        ->from('ans_form')
+                        ->where('question', $q)
+                        ->where('value',$row['value'])
+                        ->get()
+                        ->result_array();
+                // echo $this->db->last_query();
+                if(count($st)>0)
+                {
+                    $caption[0]['value']=$st[0]['caption'];
+                    return $caption;
+                }
+                else
+                {
+                    return array();
+                }
+            }
+        }
+        
+    }
+    
+    public function getAnsResult_for_BS($step, $q, $params)
+    {
+        $row=$this->db->query('select * from step_answers where step='.$step.' and pathway='.$params['pathway'].' and user_id='.$params['user_id'])->result_array();
+        
+        $arr=array();
+        if(count($row)>1)
+        {
             $caption='';
             array_reverse($row);
             for($i=(count($row)-1);$i>-1;$i--)
@@ -7876,7 +7950,7 @@ class Admin_model extends CI_Model {
                 $caption='';
                 if($row['field_name']=='other')
                 {
-                    $caption=$row['value'];
+                    $caption.=$row['value'];
                     return $caption;
                 }
                 $st=$this->db->select('caption')
@@ -7899,7 +7973,6 @@ class Admin_model extends CI_Model {
         }
         
     }
-    
     public function getCanSubmit($params)
     {
         $st=$this->db->select('can_submit')->from('user_pathway_status')
@@ -7939,7 +8012,7 @@ class Admin_model extends CI_Model {
             // print_r($q);
             $dr=array(
                 'question'  => $q['statement'],
-                'selected_choice'    => $this->getAnsResult($step['number'], $q['id'],$params)
+                'selected_choice'    => $this->getAnsResult_for_BS($step['number'], $q['id'],$params)
             );
             array_push($data, $dr);
         }
