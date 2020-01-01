@@ -553,6 +553,7 @@ class Pw extends REST_Controller {
         shell_exec('php '.$path.'/pathways/test.php '.$id.' &');
         $data['status']='200';
         $data['message']='Pathway submitted successfully';
+        $data['id']=$id;
         if($data)
         {
             // Set the response and exit
