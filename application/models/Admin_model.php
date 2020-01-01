@@ -7855,7 +7855,58 @@ class Admin_model extends CI_Model {
             $caption[0]['value']='';
             for($i=(count($row)-1);$i>-1;$i--)
             {
-                $caption[0]['value'].=$row[$i]['field_name'].': '.$row[$i]['value'].'. <br />';
+                if($row[$i]['field_name']=='score[]')
+                {
+                    if(strpos($row[$i]['value'], ','))
+                    {
+                        $arr=explode(',', $row[$i]['value']);            
+                    }
+                    if(count($arr)>0)
+                    {
+                        $caption=array();
+                        $caption[0]['value']='';
+                        for($i=0;$i<count($arr);$i++)
+                        {
+                            $st=$this->db->select('caption')
+                                ->from('ans_form')
+                                ->where('question', $q)
+                                ->where('value',$arr[$i])
+                                ->get()
+                                ->result_array();
+                            // print_r($st[0]);
+                            if(count($st)>0)
+                            {
+                                $caption[0]['value'].=($i+1).': '.$st[0]['caption'].'. <br />';
+                            }
+                            
+                        }
+                        // print_r($caption);
+                    }
+                    else
+                    {
+                        $caption=array();                
+                        $st=$this->db->select('caption')
+                                ->from('ans_form')
+                                ->where('question', $q)
+                                ->where('value',$row['value'])
+                                ->get()
+                                ->result_array();
+                        // echo $this->db->last_query();
+                        if(count($st)>0)
+                        {
+                            $caption[0]['value']=$st[0]['caption'];
+                        }
+                        else
+                        {
+                            return array();
+                        }
+                    }
+                }
+                else
+                {
+                    $caption[0]['value'].=$row[$i]['field_name'].': '.$row[$i]['value'].'. <br />';
+                }
+                
             }
             return $caption;
         }
@@ -7953,7 +8004,57 @@ class Admin_model extends CI_Model {
             $caption='';
             for($i=(count($row)-1);$i>-1;$i--)
             {
-                $caption.=$row[$i]['field_name'].': '.$row[$i]['value'].'. <br />';
+                if($row[$i]['field_name']=='score[]')
+                {
+                    if(strpos($row[$i]['value'], ','))
+                    {
+                        $arr=explode(',', $row[$i]['value']);            
+                    }
+                    if(count($arr)>0)
+                    {
+                        $caption='';
+                        for($i=0;$i<count($arr);$i++)
+                        {
+                            $st=$this->db->select('caption')
+                                ->from('ans_form')
+                                ->where('question', $q)
+                                ->where('value',$arr[$i])
+                                ->get()
+                                ->result_array();
+                            // print_r($st[0]);
+                            if(count($st)>0)
+                            {
+                                $caption.=($i+1).': '.$st[0]['caption'].'. <br />';
+                            }
+                            
+                        }
+                        // print_r($caption);
+                    }
+                    else
+                    {
+                        $caption='';                
+                        $st=$this->db->select('caption')
+                                ->from('ans_form')
+                                ->where('question', $q)
+                                ->where('value',$row['value'])
+                                ->get()
+                                ->result_array();
+                        // echo $this->db->last_query();
+                        if(count($st)>0)
+                        {
+                            $caption=$st[0]['caption'];
+                        }
+                        else
+                        {
+                            return array();
+                        }
+                    }
+                }
+                else
+                {
+                    $caption.=$row[$i]['field_name'].': '.$row[$i]['value'].'. <br />';
+                }
+                
             }
             return $caption;
         }
@@ -7971,7 +8072,7 @@ class Admin_model extends CI_Model {
                         ->result_array();
                 if(count($st)>0)
                 {
-                    $caption.=$st[0]['caption'];
+                    $caption=$st[0]['caption'];
                     return $caption;
                 }
                 else
@@ -7988,7 +8089,6 @@ class Admin_model extends CI_Model {
                 if(count($arr)>0)
                 {
                     $caption='';
-                    
                     for($i=0;$i<count($arr);$i++)
                     {
                         $st=$this->db->select('caption')
@@ -8009,7 +8109,7 @@ class Admin_model extends CI_Model {
                 }
                 else
                 {
-                    $caption='';             
+                    $caption=array();                
                     $st=$this->db->select('caption')
                             ->from('ans_form')
                             ->where('question', $q)
