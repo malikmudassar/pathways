@@ -7876,7 +7876,7 @@ class Admin_model extends CI_Model {
             else
             {
                 $caption=array();
-                if($row['field_name']=='other')
+                if($row['field_name']!='score' || $row['field_name']!='score[]')
                 {
                     $caption[0]['value']=$row['value'];
                     return $caption;
@@ -7948,7 +7948,7 @@ class Admin_model extends CI_Model {
             else
             {
                 $caption='';
-                if($row['field_name']=='other')
+                if($row['field_name']!='score' || $row['field_name']!='score[]')
                 {
                     $caption.=$row['value'];
                     return $caption;
