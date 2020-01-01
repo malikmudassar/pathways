@@ -5293,7 +5293,7 @@ class Admin_model extends CI_Model {
                     }
                 break;
                 case '==':
-                    if($result == $condition['value'])
+                    if(strtolower($result) == strtolower($condition['value']))
                     {
                         $data['step']=$condition['if_next_step'];
 
@@ -7835,12 +7835,11 @@ class Admin_model extends CI_Model {
         $arr=array();
         if(count($row)>1)
         {
-            $caption=array();
-            $caption[0]['value']='';
+            $caption='';
             array_reverse($row);
             for($i=(count($row)-1);$i>-1;$i--)
             {
-                $caption[0]['value'].=$row[$i]['field_name'].': '.$row[$i]['value'].'. <br />';
+                $caption.=$row[$i]['field_name'].': '.$row[$i]['value'].'. <br />';
             }
             return $caption;
         }
@@ -7853,8 +7852,7 @@ class Admin_model extends CI_Model {
             }
             if(count($arr)>0)
             {
-                $caption=array();
-                $caption[0]['value']='';
+                $caption='';
                 for($i=0;$i<count($arr);$i++)
                 {
                     $st=$this->db->select('caption')
@@ -7866,7 +7864,7 @@ class Admin_model extends CI_Model {
                     // print_r($st[0]);
                     if(count($st)>0)
                     {
-                        $caption[0]['value'].=($i+1).': '.$st[0]['caption'].'. <br />';
+                        $caption.=($i+1).': '.$st[0]['caption'].'. <br />';
                     }
                     
                 }
@@ -7875,10 +7873,10 @@ class Admin_model extends CI_Model {
             }
             else
             {
-                $caption=array();
+                $caption='';
                 if($row['field_name']=='other')
                 {
-                    $caption[0]['value']=$row['value'];
+                    $caption=$row['value'];
                     return $caption;
                 }
                 $st=$this->db->select('caption')
@@ -7890,7 +7888,7 @@ class Admin_model extends CI_Model {
                 // echo $this->db->last_query();
                 if(count($st)>0)
                 {
-                    $caption[0]['value']=$st[0]['caption'];
+                    $caption.=$st[0]['caption'];
                     return $caption;
                 }
                 else
