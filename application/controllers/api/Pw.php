@@ -471,61 +471,15 @@ class Pw extends REST_Controller {
         $data['platform']='ob';
         $data['user_id']=$params['user_id'];
         $data['organization_id']=$params['practice_id'];
-        // $id=$this->Admin_model->getPathwayStatusId($params);
+        $id=$this->Admin_model->getPathwayStatusId($params);
         // echo $id;exit;
         // $path=$_SERVER['DOCUMENT_ROOT'];
         $path='http://'.$_SERVER['SERVER_NAME'].'/pathways/index.php/';
         shell_exec('wget '.$path.'/api/pw/testPathwaySubmit/'.$params['user_id'].'/'.$params['practice_id'].'/'.$params['pathway'].' &');
-        // $data['condition_key']=strtolower($this->Admin_model->getPathwayName($params['pathway']));
-        // if($params['pathway']==25 && strtolower($params['gender'])=='male' )
-        // {
-        //     $data['condition_key']='bloodTestMale';
-        // }
-        // if($params['pathway']==25 && strtolower($params['gender'])=='female' )
-        // {
-        //     $data['condition_key']='bloodTestFemale';
-        // }
-        // if($params['pathway']==20 && strtolower($params['gender'])=='male')
-        // {
-        //     $data['condition_key']='sti-male';
-        // }
-        // if($params['pathway']==20 && strtolower($params['gender'])=='female')
-        // {
-        //     $data['condition_key']='sti-female';
-        // }
-        // if($params['pathway']==22)
-        // {
-        //     $data['condition_key']='chase-referrer';
-        // }
-        // if($params['pathway']==21)
-        // {
-        //     $data['condition_key']='sick-note';
-        // }
-        // if($params['pathway']==24)
-        // {
-        //     $data['condition_key']='order-medication';
-        // }
-        // if($params['pathway']==26)
-        // {
-        //     $data['condition_key']='general-advice';
-        // }
-        // $data['condition_schema']=$this->Admin_model->pathway_review_for_BS($params);
-        // $endpoint='v3/dr-iq/onboarding/pathway-save';
-        // $url = 'https://qa-driq-server.attech-ltd.com/'.$endpoint;
-        // //$url = 'https://stag-server.attech-ltd.com/'.$endpoint;
-        // $myvars = http_build_query($data, '', '&');
-        // $this->Admin_model->changeIsSubmittedStatus($params, 'yes');
-        // $ch = curl_init( $url );
-        // curl_setopt( $ch, CURLOPT_POST, 1);
-        // curl_setopt( $ch, CURLOPT_POSTFIELDS, $myvars);
-        // curl_setopt( $ch, CURLOPT_FOLLOWLOCATION, 1);
-        // curl_setopt( $ch, CURLOPT_HEADER, 0);
-        // curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true);
-
-        // curl_exec( $ch );
+        
         $data2['code']='200';
         $data2['message']='Pathway submitted successfully';
-        
+        $data['slotId']=$id;
         if($data2)
         {
             // Set the response and exit
