@@ -171,6 +171,10 @@ class Pw extends REST_Controller {
         {
             $this->Admin_model->finish_pw($Id, $user_id);
         }
+        if($data['back']==0)
+        {
+            $this->Admin_model->finish_pw($Id, $user_id);
+        }
         if($data['pathway']==24 && $data['step']==13)
         {
             $data['step_type']='add_medication';
@@ -200,7 +204,7 @@ class Pw extends REST_Controller {
     {
 
         $params=$_REQUEST;
-        
+        $Id=$_REQUEST['pw'];
         if(!isset($params['practice_id']))
         {
             $params['practice_id']=2;
@@ -264,6 +268,10 @@ class Pw extends REST_Controller {
         {
             $data['step_type']='add_medication';
         }
+        if($data['pathway']==24 && $data['step']==8)
+        {
+            $data['step_type']='add_medication';
+        }
         if($data['pathway']==23 && $data['step']==29)
         {
             $data['step_type']='link';
@@ -272,6 +280,10 @@ class Pw extends REST_Controller {
         if($data['step_type']=='textarea')
         {
             $data['step_type']='text';
+        }
+        if($data['back']==0)
+        {
+            $this->Admin_model->finish_pw($params['pathway'], $user_id);
         }
         if ($data)
         {
@@ -355,11 +367,19 @@ class Pw extends REST_Controller {
         {
             $this->Admin_model->finish_pw($params['pathway'], $params['user_id']);
         }
+        if($data['back']==0)
+        {
+            $this->Admin_model->finish_pw($params['pathway'], $user_id);
+        }
         if($data['pathway']==24 && $data['step']==11)
         {
             $data['step_type']='link';
         }
         if($data['pathway']==24 && $data['step']==13)
+        {
+            $data['step_type']='add_medication';
+        }
+        if($data['pathway']==24 && $data['step']==8)
         {
             $data['step_type']='add_medication';
         }
