@@ -7934,6 +7934,7 @@ class Admin_model extends CI_Model {
             }
             elseif($row['field_name']=='score[]')
             {
+                $arr=array();
                 if(strpos($row['value'], ','))
                 {
                     $arr=explode(',', $row['value']);            
