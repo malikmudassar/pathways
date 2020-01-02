@@ -7827,7 +7827,6 @@ class Admin_model extends CI_Model {
                         ->order_by('id', 'asc')
                         ->get()
                         ->result_array();
-        echo $this->db->last_query();exit;
                         // print_r($st);exit;
         $answers=array();
         $data=array();
