@@ -323,11 +323,52 @@ class Pw extends REST_Controller {
         $data['user_id']=$params['user_id'];
         $this->Admin_model->removeAnswers($data);
         $data['answer']=$this->Admin_model->getStepAnswer($params);
+        // from 327 to 362, they are all chapyan, and needs to be dynamic.will do that later
         if($params['pathway']==21 && $step['number']==11)
         {
             $data['answer']=array_reverse($data['answer']);
         }
-         
+        if($params['pathway']==22 && $step['number']==9)
+        {
+            $data['answer']=array_reverse($data['answer']);
+        }
+        if($params['pathway']==22 && $step['number']==41)
+        {
+            $data['answer']=array_reverse($data['answer']);
+        }
+        if($params['pathway']==22 && $step['number']==15)
+        {
+            $data['answer']=array_reverse($data['answer']);
+        }
+        if($params['pathway']==22 && $step['number']==29)
+        {
+            $data['answer']=array_reverse($data['answer']);
+        }
+        if($params['pathway']==22 && $step['number']==47)
+        {
+            $data['answer']=array_reverse($data['answer']);
+        }
+        if($params['pathway']==22 && $step['number']==61)
+        {
+            $data['answer']=array_reverse($data['answer']);
+        }
+        if($params['pathway']==22 && $step['number']==75)
+        {
+            $data['answer']=array_reverse($data['answer']);
+        }
+        if($params['pathway']==22 && $step['number']==89)
+        {
+            $data['answer']=array_reverse($data['answer']);
+        }
+
+        if($params['pathway']==24 && $step['number']==10)
+        {
+
+        }
+        if($params['pathway']==17 && $step['number']==52)
+        {
+
+        }
         // print_r($data['answer']);exit;
         $data['form']=array();
         $data['form']=$this->Admin_model->getAnsForm($data['question']['id'], $params);
