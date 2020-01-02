@@ -337,7 +337,13 @@ class Pw extends REST_Controller {
         }
         if($params['pathway']==17 && $step['number']==52)
         {
-
+            $value=$data['answer'][0]['value'];
+            // echo $value;exit;
+            $path='/var/www/html/pathways/img/';
+            $img_path = $path.$value;
+            // echo $img_path;exit;
+            $valueencoded=base64_encode(file_get_contents($path.$value));
+            $data['answer'][0]['value']=$valueencoded;
         }
         // print_r($data['answer']);exit;
         $data['form']=array();
