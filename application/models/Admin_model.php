@@ -7819,14 +7819,16 @@ class Admin_model extends CI_Model {
     }
     public function pathway_review($params)
     {
-        $st=$this->db->select('Distinct(step) as step')
+        $st=$this->db->select('Distinct(step) as step, id')
                         ->from('step_answers')
                         ->where('user_id',$params['user_id'])
                         ->where('pathway', $params['pathway'])
-                        ->order_by('id','asc')
+                        ->group_by('id')
+                        ->order_by('id', 'asc')
                         ->get()
                         ->result_array();
-        // print_r($st);exit;
+        echo $this->db->last_query();exit;
+                        // print_r($st);exit;
         $answers=array();
         $data=array();
         for($i=0;$i<count($st);$i++)
@@ -8189,13 +8191,15 @@ class Admin_model extends CI_Model {
     public function pathway_review_for_BS($params)
     {
         
-        $st=$this->db->select('Distinct(step) as step')
+        $st=$this->db->select('Distinct(step) as step, id')
                         ->from('step_answers')
                         ->where('user_id',$params['user_id'])
                         ->where('pathway', $params['pathway'])
-                        ->order_by('id','asc')
+                        ->group_by('id')
+                        ->order_by('id', 'asc')
                         ->get()
                         ->result_array();
+
         $answers=array();
         $data=array();
         for($i=0;$i<count($st);$i++)
