@@ -284,6 +284,7 @@ class Pw extends REST_Controller {
         if($data['back']==0)
         {
             $this->Admin_model->finish_pw($params['pathway'], $user_id);
+            $this->Admin_model->flushPw($params);
         }
         if ($data)
         {
@@ -321,7 +322,7 @@ class Pw extends REST_Controller {
         
         // print_r($data);exit;
         $data['user_id']=$params['user_id'];
-        $this->Admin_model->removeAnswers($data);
+        // $this->Admin_model->removeAnswers($data);
         $data['answer']=$this->Admin_model->getStepAnswer($params);
         // from 327 to 362, they are all chapyan, and needs to be dynamic.will do that later
         // if($params['pathway']==21 && $step['number']==11)
