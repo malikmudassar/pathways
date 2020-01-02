@@ -7301,6 +7301,7 @@ class Admin_model extends CI_Model {
                                             ->result_array();
                                 // echo $this->db->last_query();
                                 // print_r($st);exit;
+                                
                                 if(count($st)>0)
                                 {
                                     $this->db->where('step',$data['step'])
@@ -7512,7 +7513,6 @@ class Admin_model extends CI_Model {
                     //echo 'answer inserted';exit;
                     
                 }
-                
                 if($am['checkbox']>0)
                 {
                     // echo "<script>console.log('2205 saving checkbox data for step ".$data['step']."')</script>";
@@ -7805,6 +7805,7 @@ class Admin_model extends CI_Model {
                         ->where('pathway', $params['pathway'])
                         ->get()
                         ->result_array();
+        // print_r($st);exit;
         $answers=array();
         $data=array();
         for($i=0;$i<count($st);$i++)
@@ -7857,6 +7858,7 @@ class Admin_model extends CI_Model {
             {
                 if($row[$i]['field_name']=='score[]')
                 {
+                    $caption[0]['value']='score[]';
                     if(strpos($row[$i]['value'], ','))
                     {
                         $arr=explode(',', $row[$i]['value']);            
@@ -7901,6 +7903,7 @@ class Admin_model extends CI_Model {
                             return array();
                         }
                     }
+                    return $caption;
                 }
                 else
                 {
@@ -8050,6 +8053,7 @@ class Admin_model extends CI_Model {
                             return array();
                         }
                     }
+                    return $caption;
                 }
                 else
                 {
