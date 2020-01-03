@@ -516,7 +516,7 @@ class Pw extends REST_Controller {
         
         $data2['code']='200';
         $data2['message']='Pathway submitted successfully';
-        $data2['slotId']=$id;
+        $data2['slotId']=$params['pathway'];
         if($data2)
         {
             // Set the response and exit
