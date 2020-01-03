@@ -8343,8 +8343,8 @@ class Admin_model extends CI_Model {
 
     public function removeRestSteps($pathway, $user_id, $step)
     {
-        $this->db->query('Delete from step_answers where user_id='.$params['user_id'].'
-        and pathway='.$params['pathway']. ' and step <>'.$step);
+        $this->db->query('Delete from step_answers where user_id='.$user_id.'
+        and pathway='.$pathway. ' and step <>'.$step);
     }
 
     
