@@ -7938,6 +7938,17 @@ class Admin_model extends CI_Model {
         else
         {
             $row=$row[0];
+            if($row['field_name']=='file')
+            {
+                $value=$row['value'];
+                $caption=array();
+                // echo $value;exit;
+                $path='http://'.$_SERVER['SERVER_NAME'].'/pathways/img/';
+                $img_path = $path.$value;
+                // echo $img_path;exit;
+                $caption[0]['value']="<img scr='".$img_path."'></img>";
+                return $caption;
+            }
             if($row['field_name']=='score')
             {
                 $caption=array();
@@ -8088,6 +8099,17 @@ class Admin_model extends CI_Model {
         else
         {
             $row=$row[0];
+            if($row['field_name']=='file')
+            {
+                $value=$row['value'];
+                $caption='';
+                // echo $value;exit;
+                $path='http://'.$_SERVER['SERVER_NAME'].'/pathways/img/';
+                $img_path = $path.$value;
+                // echo $img_path;exit;
+                $caption="<img scr='".$img_path."'></img>";
+                return $caption;
+            }
             if($row['field_name']=='score')
             {
                 $caption='';
