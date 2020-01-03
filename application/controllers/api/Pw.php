@@ -195,6 +195,10 @@ class Pw extends REST_Controller {
         {
             $data['step_type']='link';
         }
+        if($data['pathway']==23 && $data['step']==51)
+        {
+            $data['step_type']='link';
+        }
         if($data['step_type']=='textarea')
         {
             $data['step_type']='text';
@@ -291,7 +295,10 @@ class Pw extends REST_Controller {
         if($data['pathway']==23 && $data['step']==29)
         {
             $data['step_type']='link';
-            // $this->Admin_model->flushPw($params);
+        }
+        if($data['pathway']==23 && $data['step']==51)
+        {
+            $data['step_type']='link';
         }
         if($data['step_type']=='textarea')
         {
@@ -414,6 +421,10 @@ class Pw extends REST_Controller {
             $data['step_type']='add_medication';
         }
         if($data['pathway']==23 && $data['step']==29)
+        {
+            $data['step_type']='link';
+        }
+        if($data['pathway']==23 && $data['step']==51)
         {
             $data['step_type']='link';
         }
