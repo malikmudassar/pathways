@@ -576,8 +576,8 @@ class Pw extends REST_Controller {
         }
         $data['condition_schema']=$this->Admin_model->pathway_review_for_BS($params);
         $endpoint='v3/dr-iq/onboarding/pathway-save';
-        $url = 'https://qa-driq-server.attech-ltd.com/'.$endpoint;
-        // $url = 'https://stag-server.attech-ltd.com/'.$endpoint;
+        //$url = 'https://qa-driq-server.attech-ltd.com/'.$endpoint;
+        $url = 'https://stag-server.attech-ltd.com/'.$endpoint;
         $myvars = http_build_query($data, '', '&');
         $this->Admin_model->changeIsSubmittedStatus($params, 'yes');
         $ch = curl_init( $url );
