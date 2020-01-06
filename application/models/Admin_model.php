@@ -7809,15 +7809,12 @@ class Admin_model extends CI_Model {
     }
     public function pathway_review($params)
     {
-        $st=$this->db->select('Distinct(step) as step, id')
+        $st=$this->db->select('Distinct(step) as step')
                         ->from('step_answers')
                         ->where('user_id',$params['user_id'])
                         ->where('pathway', $params['pathway'])
-                        ->group_by('id')
-                        ->order_by('id', 'asc')
                         ->get()
                         ->result_array();
-                        // print_r($st);exit;
         $answers=array();
         $data=array();
         for($i=0;$i<count($st);$i++)
