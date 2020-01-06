@@ -600,8 +600,15 @@ class Pw extends REST_Controller {
         }
         $data['condition_schema']=$this->Admin_model->pathway_review_for_BS($params);
         $endpoint='v3/dr-iq/onboarding/pathway-save';
-        $url = 'https://qa-driq-server.attech-ltd.com/'.$endpoint;
-        // $url = 'https://stag-server.attech-ltd.com/'.$endpoint;
+        if($_SERVER['SERVER_NAME']=='qa-pathways.dr-iq.com')
+        {
+            $url = 'https://qa-driq-server.attech-ltd.com/'.$endpoint;
+        }
+        else
+        {
+            $url = 'https://stag-server.attech-ltd.com/'.$endpoint;
+        }
+        
         $myvars = http_build_query($data, '', '&');
         $this->Admin_model->changeIsSubmittedStatus($params, 'yes');
         $ch = curl_init( $url );
@@ -738,12 +745,7 @@ class Pw extends REST_Controller {
 
     public function test_post()
     {
-        $pw=26;
-        $user_id=101;
-        $path=$_SERVER['DOCUMENT_ROOT'];
-        shell_exec('php '.$path.'/pathways/test.php '.$pw.' >> paging.log &');
-        $data2['code']='200';
-        $data2['message']='Pathway submitted successfully';
+        echo $_SERVER['SERVER_NAME'];exit;
         if($data2)
         {
             // Set the response and exit
