@@ -7323,7 +7323,7 @@ class Admin_model extends CI_Model {
                         }
                     }
                     
-                    echo 'text answer inserted';exit;
+                    // echo 'text answer inserted';exit;
                     
                 }
                 if($am['radio']>0)
