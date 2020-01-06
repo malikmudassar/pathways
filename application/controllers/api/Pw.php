@@ -509,6 +509,26 @@ class Pw extends REST_Controller {
         {
             $data['step_type']='text';
         }
+        if($data['pathway']==24 && $data['step']==11)
+        {
+            $data['step_type']='link';
+        }
+        if($data['pathway']==24 && $data['step']==13)
+        {
+            $data['step_type']='add_medication';
+        }
+        if($data['pathway']==24 && $data['step']==8)
+        {
+            $data['step_type']='add_medication';
+        }
+        if($data['pathway']==23 && $data['step']==29)
+        {
+            $data['step_type']='link';
+        }
+        if($data['pathway']==23 && $data['step']==51)
+        {
+            $data['step_type']='link';
+        }
         if($data)
         {
             // Set the response and exit
