@@ -7283,7 +7283,7 @@ class Admin_model extends CI_Model {
                     {
                         for($i=0;$i<count($ans_form);$i++)
                         {
-                            if($ans_form[$i]['type']=='text')
+                            if($ans_form[$i]['type']=='text' || $ans_form[$i]['type']=='textarea')
                             {
                                 if(!empty($data[$ans_form[$i]['name']]))
                                 {
@@ -7334,7 +7334,7 @@ class Admin_model extends CI_Model {
                         }
                     }
                     
-                    // echo 'text answer inserted';
+                    // echo 'text answer inserted';exit;
                     
                 }
                 if($am['radio']>0)
