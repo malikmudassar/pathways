@@ -626,7 +626,7 @@ class Pw extends REST_Controller {
         // print_r(($slot->slot_id));exit;
 
         $data2['code']='200';
-        $data2['message']='Pathway submitted successfully';
+        $data2['message']='Your request for online consultation has been submitted successfully';
         $data2['slotId']=$slot->slot_id;
         if($data2)
         {
