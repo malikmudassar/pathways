@@ -7760,6 +7760,8 @@ class Admin_model extends CI_Model {
                 ->where('step',$data['step'])
                 ->where('user_id',$data['user_id'])
                 ->where('pathway', $data['pathway'])
+                ->group_by('id')
+                ->order_by('id', 'asc')
                 ->get()
                 ->result_array();
                 // print_r($st);
