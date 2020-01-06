@@ -7945,7 +7945,7 @@ class Admin_model extends CI_Model {
                 $path='http://'.$_SERVER['SERVER_NAME'].'/pathways/img/';
                 $img_path = $path.$value;
                 // echo $img_path;exit;
-                $caption[0]['value']="<img scr='".$img_path."'></img>";
+                $caption[0]['value']="<img src='".$img_path."'></img>";
                 return $caption;
             }
             if($row['field_name']=='score')
@@ -8130,6 +8130,7 @@ class Admin_model extends CI_Model {
             }
             elseif($row['field_name']=='score[]')
             {
+                $arr=array();
                 if(strpos($row['value'], ','))
                 {
                     $arr=explode(',', $row['value']);            

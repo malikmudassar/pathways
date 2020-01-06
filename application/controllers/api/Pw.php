@@ -535,12 +535,64 @@ class Pw extends REST_Controller {
         $id=$this->Admin_model->getPathwayStatusId($params);
         // echo $id;exit;
         // $path=$_SERVER['DOCUMENT_ROOT'];
-        $path='http://'.$_SERVER['SERVER_NAME'].'/pathways/index.php/';
-        shell_exec('wget '.$path.'/api/pw/testPathwaySubmit/'.$params['user_id'].'/'.$params['practice_id'].'/'.$params['pathway'].' &');
-        
+        // $path='http://'.$_SERVER['SERVER_NAME'].'/pathways/index.php/';
+        // shell_exec('wget '.$path.'/api/pw/testPathwaySubmit/'.$params['user_id'].'/'.$params['practice_id'].'/'.$params['pathway'].' &');
+        $data['source']='obServer';
+        $data['platform']='ob';
+        $data['user_id']=$params['user_id'];
+        $data['organization_id']=$params['practice_id'];
+        $data['condition_key']=strtolower($this->Admin_model->getPathwayName($params['pathway']));
+        if($params['pathway']==25 && strtolower($params['gender'])=='male' )
+        {
+            $data['condition_key']='bloodTestMale';
+        }
+        if($params['pathway']==25 && strtolower($params['gender'])=='female' )
+        {
+            $data['condition_key']='bloodTestFemale';
+        }
+        if($params['pathway']==20 && strtolower($params['gender'])=='male')
+        {
+            $data['condition_key']='sti-male';
+        }
+        if($params['pathway']==20 && strtolower($params['gender'])=='female')
+        {
+            $data['condition_key']='sti-female';
+        }
+        if($params['pathway']==22)
+        {
+            $data['condition_key']='chase-referrer';
+        }
+        if($params['pathway']==21)
+        {
+            $data['condition_key']='sick-note';
+        }
+        if($params['pathway']==24)
+        {
+            $data['condition_key']='order-medication';
+        }
+        if($params['pathway']==26)
+        {
+            $data['condition_key']='general-advice';
+        }
+        $data['condition_schema']=$this->Admin_model->pathway_review_for_BS($params);
+        $endpoint='v3/dr-iq/onboarding/pathway-save';
+        $url = 'https://qa-driq-server.attech-ltd.com/'.$endpoint;
+        // $url = 'https://stag-server.attech-ltd.com/'.$endpoint;
+        $myvars = http_build_query($data, '', '&');
+        $this->Admin_model->changeIsSubmittedStatus($params, 'yes');
+        $ch = curl_init( $url );
+        curl_setopt( $ch, CURLOPT_POST, 1);
+        curl_setopt( $ch, CURLOPT_POSTFIELDS, $myvars);
+        curl_setopt( $ch, CURLOPT_FOLLOWLOCATION, 1);
+        curl_setopt( $ch, CURLOPT_HEADER, 0);
+        curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true);
+
+        $slot=curl_exec( $ch );
+        // print_r($slot);exit;
+
         $data2['code']='200';
         $data2['message']='Pathway submitted successfully';
-        $data2['slotId']=$params['pathway'];
+        $data2['slotId']=$slot['slot_id'];
         if($data2)
         {
             // Set the response and exit
@@ -554,6 +606,63 @@ class Pw extends REST_Controller {
                 'message' => 'Pathway doesn\'t have steps',
             ], REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
         }
+    }
+    public function testPathwaySubmit_get()
+    {
+        $params['user_id']=$this->uri->segment(4);
+        $params['practice_id']=$this->uri->segment(5);
+        $params['pathway']=$this->uri->segment(6);
+        $data['source']='obServer';
+        $data['platform']='ob';
+        $data['user_id']=$params['user_id'];
+        $data['organization_id']=$params['practice_id'];
+        $data['condition_key']=strtolower($this->Admin_model->getPathwayName($params['pathway']));
+        if($params['pathway']==25 && strtolower($params['gender'])=='male' )
+        {
+            $data['condition_key']='bloodTestMale';
+        }
+        if($params['pathway']==25 && strtolower($params['gender'])=='female' )
+        {
+            $data['condition_key']='bloodTestFemale';
+        }
+        if($params['pathway']==20 && strtolower($params['gender'])=='male')
+        {
+            $data['condition_key']='sti-male';
+        }
+        if($params['pathway']==20 && strtolower($params['gender'])=='female')
+        {
+            $data['condition_key']='sti-female';
+        }
+        if($params['pathway']==22)
+        {
+            $data['condition_key']='chase-referrer';
+        }
+        if($params['pathway']==21)
+        {
+            $data['condition_key']='sick-note';
+        }
+        if($params['pathway']==24)
+        {
+            $data['condition_key']='order-medication';
+        }
+        if($params['pathway']==26)
+        {
+            $data['condition_key']='general-advice';
+        }
+        $data['condition_schema']=$this->Admin_model->pathway_review_for_BS($params);
+        $endpoint='v3/dr-iq/onboarding/pathway-save';
+        $url = 'https://qa-driq-server.attech-ltd.com/'.$endpoint;
+        // $url = 'https://stag-server.attech-ltd.com/'.$endpoint;
+        $myvars = http_build_query($data, '', '&');
+        $this->Admin_model->changeIsSubmittedStatus($params, 'yes');
+        $ch = curl_init( $url );
+        curl_setopt( $ch, CURLOPT_POST, 1);
+        curl_setopt( $ch, CURLOPT_POSTFIELDS, $myvars);
+        curl_setopt( $ch, CURLOPT_FOLLOWLOCATION, 1);
+        curl_setopt( $ch, CURLOPT_HEADER, 0);
+        curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true);
+
+        curl_exec( $ch );
     }
     public function submit_pwT_post()
     {
@@ -641,62 +750,6 @@ class Pw extends REST_Controller {
         print_r($data['condition_schema']);
     }
 
-    public function testPathwaySubmit_get()
-    {
-        $params['user_id']=$this->uri->segment(4);
-        $params['practice_id']=$this->uri->segment(5);
-        $params['pathway']=$this->uri->segment(6);
-        $data['source']='obServer';
-        $data['platform']='ob';
-        $data['user_id']=$params['user_id'];
-        $data['organization_id']=$params['practice_id'];
-        $data['condition_key']=strtolower($this->Admin_model->getPathwayName($params['pathway']));
-        if($params['pathway']==25 && strtolower($params['gender'])=='male' )
-        {
-            $data['condition_key']='bloodTestMale';
-        }
-        if($params['pathway']==25 && strtolower($params['gender'])=='female' )
-        {
-            $data['condition_key']='bloodTestFemale';
-        }
-        if($params['pathway']==20 && strtolower($params['gender'])=='male')
-        {
-            $data['condition_key']='sti-male';
-        }
-        if($params['pathway']==20 && strtolower($params['gender'])=='female')
-        {
-            $data['condition_key']='sti-female';
-        }
-        if($params['pathway']==22)
-        {
-            $data['condition_key']='chase-referrer';
-        }
-        if($params['pathway']==21)
-        {
-            $data['condition_key']='sick-note';
-        }
-        if($params['pathway']==24)
-        {
-            $data['condition_key']='order-medication';
-        }
-        if($params['pathway']==26)
-        {
-            $data['condition_key']='general-advice';
-        }
-        $data['condition_schema']=$this->Admin_model->pathway_review_for_BS($params);
-        $endpoint='v3/dr-iq/onboarding/pathway-save';
-        $url = 'https://qa-driq-server.attech-ltd.com/'.$endpoint;
-        // $url = 'https://stag-server.attech-ltd.com/'.$endpoint;
-        $myvars = http_build_query($data, '', '&');
-        $this->Admin_model->changeIsSubmittedStatus($params, 'yes');
-        $ch = curl_init( $url );
-        curl_setopt( $ch, CURLOPT_POST, 1);
-        curl_setopt( $ch, CURLOPT_POSTFIELDS, $myvars);
-        curl_setopt( $ch, CURLOPT_FOLLOWLOCATION, 1);
-        curl_setopt( $ch, CURLOPT_HEADER, 0);
-        curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true);
-
-        curl_exec( $ch );
-    }
+    
 
 }
