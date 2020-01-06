@@ -7281,8 +7281,13 @@ class Admin_model extends CI_Model {
                     }
                     else
                     {
+                        $this->db->query('delete from step_answers where pathway='.$data['pathway']
+                                        .' and user_id='.$data['user_id']
+                                        .' and step='.$data['step'].'');
+                        // echo 'we are in else';exit;
                         for($i=0;$i<count($ans_form);$i++)
                         {
+                            // print_r($ans_form);
                             if($ans_form[$i]['type']=='text' || $ans_form[$i]['type']=='textarea')
                             {
                                 if(!empty($data[$ans_form[$i]['name']]))
@@ -7296,10 +7301,7 @@ class Admin_model extends CI_Model {
                                     );
                                     
                                     // echo '1050 <pre>';print_r($item);exit;
-                                    $this->db->query('delete from step_answers where pathway='.$data['pathway']
-                                        .' and user_id='.$data['user_id']
-                                        .' and step='.$data['step']
-                                        .' and field_name <>\''.$ans_form[$i]['name'].'\'');
+                                    
                                     $st=$this->db->select('*')
                                                 ->from('step_answers')
                                                 ->where('step',$data['step'])
@@ -7309,23 +7311,10 @@ class Admin_model extends CI_Model {
                                                 ->get()
                                                 ->result_array();
                                     // echo $this->db->last_query();
-                                    // print_r($st);exit;
+                                    // print_r($st);
                                     
-                                    if(count($st)>0)
-                                    {
-                                        $this->db->where('step',$data['step'])
-                                                ->where('user_id',$data['user_id'])
-                                                ->where('pathway', $data['pathway'])
-                                                ->where('field_name',$ans_form[$i]['name'])
-                                                ->update('step_answers',$item);
-                                                // echo $this->db->last_query();exit;
-                                    }
-                                    else
-                                    {
-                                        
-                                        $this->db->insert('step_answers',$item);
-                                        // echo $this->db->last_query();exit;
-                                    }
+                                    $this->db->insert('step_answers',$item);
+                                    // echo $this->db->last_query();
                                 }
                                 
                             }
@@ -7334,7 +7323,7 @@ class Admin_model extends CI_Model {
                         }
                     }
                     
-                    // echo 'text answer inserted';exit;
+                    echo 'text answer inserted';exit;
                     
                 }
                 if($am['radio']>0)
