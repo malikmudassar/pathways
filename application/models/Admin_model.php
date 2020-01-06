@@ -6753,7 +6753,7 @@ class Admin_model extends CI_Model {
                 ->where('pathway',$params['pathway'])
                 ->where('step',$params['step'])
                 ->get()->result_array();
-        $this->db->query('delete from step_answers where pathway='.$params['pathway'].' and user_id='.$params['user_id'].' and step > '.$params['step']);
+        // $this->db->query('delete from step_answers where pathway='.$params['pathway'].' and user_id='.$params['user_id'].' and step > '.$params['step']);
         // echo $this->db->last_query();exit;
         $data=$st[0];
         $st=$this->db->query('select questions.* from questions inner join step_questions on step_questions.question=questions.id where step='.$step['id'])->result_array();
