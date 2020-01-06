@@ -432,6 +432,10 @@ class Pw extends REST_Controller {
         {
             $data['step_type']='text';
         }
+        if($data['pathway']==21 && $data['step']==11)
+        {
+            $data['answer']=array_reverse($data['answer']);
+        }
         $this->Admin_model->removeFlowStep($step['number'], $params['pathway'], $params['user_id']);
         ///////////////////////////////////////////////////////////////
         if ($data)
@@ -596,8 +600,8 @@ class Pw extends REST_Controller {
         }
         $data['condition_schema']=$this->Admin_model->pathway_review_for_BS($params);
         $endpoint='v3/dr-iq/onboarding/pathway-save';
-        // $url = 'https://qa-driq-server.attech-ltd.com/'.$endpoint;
-        $url = 'https://stag-server.attech-ltd.com/'.$endpoint;
+        $url = 'https://qa-driq-server.attech-ltd.com/'.$endpoint;
+        // $url = 'https://stag-server.attech-ltd.com/'.$endpoint;
         $myvars = http_build_query($data, '', '&');
         $this->Admin_model->changeIsSubmittedStatus($params, 'yes');
         $ch = curl_init( $url );
