@@ -587,8 +587,8 @@ class Pw extends REST_Controller {
         curl_setopt( $ch, CURLOPT_HEADER, 0);
         curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true);
 
-        $slot=curl_exec( $ch );
-        // print_r($slot);exit;
+        $slot=json_decode(curl_exec( $ch ));
+        // print_r(($slot->slot_id));exit;
 
         $data2['code']='200';
         $data2['message']='Pathway submitted successfully';
