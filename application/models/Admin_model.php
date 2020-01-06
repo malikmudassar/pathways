@@ -7269,7 +7269,7 @@ class Admin_model extends CI_Model {
             {
                $am=$this->getAllById('answer_models',$globalSt[0]['ans_model']);
                 // echo '<pre>';print_r($am);exit;
-                if($am['text']>0)
+                if($am['text']>0 || $am['textarea']>0)
                 {
                     // echo 'it works';
                     //echo $am['text'].' textboxes <br>';
