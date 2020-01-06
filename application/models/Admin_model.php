@@ -7744,7 +7744,19 @@ class Admin_model extends CI_Model {
     // Modified
     public function getStepAnswer($data)
     {
-        $st=$this->db->select('*')
+        if($data['pathway']==21 && $data['step']==22)
+        {
+            $st=$this->db->select('*')
+                ->from('step_answers')
+                ->where('step',$data['step'])
+                ->where('user_id',$data['user_id'])
+                ->where('pathway', $data['pathway'])
+                ->get()
+                ->result_array();
+        }
+        else
+        {
+            $st=$this->db->select('*')
                 ->from('step_answers')
                 ->where('step',$data['step'])
                 ->where('user_id',$data['user_id'])
@@ -7753,19 +7765,13 @@ class Admin_model extends CI_Model {
                 ->order_by('id', 'asc')
                 ->get()
                 ->result_array();
+        }
+        
                 // print_r($st);
-        // echo $this->db->last_query();
+        // echo $this->db->last_query();exit;
         if(count($st)>0)
         {
-            return $st;
-            // if(count($st)>1)
-            // {
-            //     return $st;
-            // }
-            // else
-            // {
-            //     return $st[0];
-            // }              
+            return $st;         
         }
         else
         {
