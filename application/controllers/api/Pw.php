@@ -436,6 +436,10 @@ class Pw extends REST_Controller {
         {
             $data['answer']=array_reverse($data['answer']);
         }
+        if($data['pathway']==21 && $data['step']==22)
+        {
+            $data['answer']=array_reverse($data['answer']);
+        }
         $this->Admin_model->removeFlowStep($step['number'], $params['pathway'], $params['user_id']);
         ///////////////////////////////////////////////////////////////
         if ($data)
