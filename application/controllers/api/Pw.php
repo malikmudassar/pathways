@@ -449,6 +449,7 @@ class Pw extends REST_Controller {
         ///////////////////////////////////////////////////////////////
         if ($data)
         {
+            // print_r($data);die;
             // Set the response and exit
             $this->response($data, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
         }
@@ -490,7 +491,14 @@ class Pw extends REST_Controller {
         $data['form']=$this->Admin_model->getAnsForm($data['question']['id'],$params);
         $data['answer']=array();
         $data['answer']=$this->Admin_model->getStepAnswer($params);
-        
+        if($params['pathway']==21 && $step['number']==22)
+        {
+            $d=array();
+            $d[0]=$data['answer'][1];
+            $d[1]=$data['answer'][2];
+            $d[2]=$data['answer'][0];
+            $data['answer']=$d;
+        }
         $path=$this->Admin_model->getPathFlowByStep($params['step'],$params['pathway']);
         $data['step']=$path['step'];
         $data['back']=$path['back'];
