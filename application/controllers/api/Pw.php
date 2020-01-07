@@ -347,6 +347,14 @@ class Pw extends REST_Controller {
         $data['user_id']=$params['user_id'];
         // $this->Admin_model->removeAnswers($data);
         $data['answer']=$this->Admin_model->getStepAnswer($params);
+        if($params['pathway']==21 && $step['number']==22)
+        {
+            $d=array();
+            $d[0]=$data['answer'][1];
+            $d[1]=$data['answer'][2];
+            $d[2]=$data['answer'][0];
+            $data['answer']=$d;
+        }
         // print_r($data['answer']);exit;
         if($params['pathway']==24 && $step['number']==10)
         {
