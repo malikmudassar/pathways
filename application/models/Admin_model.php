@@ -7826,11 +7826,11 @@ class Admin_model extends CI_Model {
         $row=$this->db->query('select * from step_answers where step='.$step.' and pathway='.$params['pathway'].' and user_id='.$params['user_id'])->result_array();
         // print_r($row);
         // check if there are more than one answers 
-        if($params['pathway']==21 && $step==22)
+        if($params['pathway']==21 && $step==11)
         {
             $d=array();
-            $d[0]=$row[1];
-            $d[1]=$row[2];
+            $d[0]=$row[2];
+            $d[1]=$row[1];
             $d[2]=$row[0];
             $row=$d;
         }
@@ -8005,6 +8005,14 @@ class Admin_model extends CI_Model {
     {
         $row=$this->db->query('select * from step_answers where step='.$step.' and pathway='.$params['pathway'].' and user_id='.$params['user_id'])->result_array();
         // print_r($row);
+        if($params['pathway']==21 && $step==11)
+        {
+            $d=array();
+            $d[0]=$row[2];
+            $d[1]=$row[1];
+            $d[2]=$row[0];
+            $row=$d;
+        }
         if(count($row)>1)
         {
             $caption='';
