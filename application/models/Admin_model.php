@@ -8262,7 +8262,7 @@ class Admin_model extends CI_Model {
         }
         for($i=0;$i<count($st);$i++)
         {
-            if($i > $index)
+            if($i >= $index)
             {
                 $this->db->query('delete from pathway_steps where step='.$st[$i]['step'].'
                 and pathway='.$st[$i]['pathway'].' and user_id='.$st[$i]['user_id']);
