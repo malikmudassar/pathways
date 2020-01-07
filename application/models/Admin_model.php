@@ -7744,19 +7744,7 @@ class Admin_model extends CI_Model {
     // Modified
     public function getStepAnswer($data)
     {
-        if($data['pathway']==21 && $data['step']==22)
-        {
-            $st=$this->db->select('*')
-                ->from('step_answers')
-                ->where('step',$data['step'])
-                ->where('user_id',$data['user_id'])
-                ->where('pathway', $data['pathway'])
-                ->get()
-                ->result_array();
-        }
-        else
-        {
-            $st=$this->db->select('*')
+        $st=$this->db->select('*')
                 ->from('step_answers')
                 ->where('step',$data['step'])
                 ->where('user_id',$data['user_id'])
@@ -7765,7 +7753,6 @@ class Admin_model extends CI_Model {
                 ->order_by('id', 'asc')
                 ->get()
                 ->result_array();
-        }
         
                 // print_r($st);
         // echo $this->db->last_query();exit;
@@ -7863,25 +7850,34 @@ class Admin_model extends CI_Model {
     }
     public function getAnsResult($step, $q, $params)
     {
+        // get all answers for that step in step_answers
         $row=$this->db->query('select * from step_answers where step='.$step.' and pathway='.$params['pathway'].' and user_id='.$params['user_id'])->result_array();
         // print_r($row);
+        // check if there are more than one answers 
         if(count($row)>1)
         {
+            // More than one answers, either they are text boxes or a mixed answer model
             $caption=array();
             $caption[0]['value']='';
+            // loop through answers
             for($i=(count($row)-1);$i>-1;$i--)
             {
+                // check if there is a checkbox entry
                 if($row[$i]['field_name']=='score[]')
                 {
+                    $arr=array();
                     $caption[0]['value']='score[]';
+                    // check if there are comma seperated values
                     if(strpos($row[$i]['value'], ','))
                     {
                         $arr=explode(',', $row[$i]['value']);            
                     }
+                    // check if values were exploded. 
                     if(count($arr)>0)
                     {
                         $caption=array();
                         $caption[0]['value']='';
+                        // if values were splitted, loop through them to get all captions. 
                         for($i=0;$i<count($arr);$i++)
                         {
                             $st=$this->db->select('caption')
