@@ -12,7 +12,41 @@ class Admin_model extends CI_Model {
     }
     public function getFirstPathwayQuestion($id, $user_id=0, $age=0)
     {
-        if($user_id==0)
+        $st=$this->db->select('*')->from('pathway_steps')->where('pathway',$id)->where('user_id',$user_id)->order_by('id','desc')->get()->result_array();
+            // echo '<pre>';print_r($this->db->last_query());exit;
+        if(count($st)>0)
+        {
+            $data=array();
+            $step=$this->getStepByNumberPathway($st[0]['step'],$id);
+            if($step['type']!='question' && $step['type']!='info')
+            {
+                do {
+                    $path=$this->getPathFlowByStep($step['number'], $id);
+                    // print_r($path);exit;
+                    $step=$this->getStepByNumber($path['back'], $id);
+                    $path=$this->getPathFlowByStep($step['number'], $id);
+
+                }while($step['type']!='question');
+                
+                $params['step']=$path['step'];
+                $params['next']=$path['next'];
+                $data['step']=$step['number'];
+                $data['back']=$path['back'];
+                $data['next']=$path['next'];
+                $data['pathway']=$id;
+                $data['percent']=(int)$st[0]['percent'];
+            }
+            else
+            {
+                $path=$this->getPathFlowByStep($step['number'], $id);
+                $data['step']=$step['number'];
+                $data['back']=$path['back'];
+                $data['next']=$path['next'];
+                $data['pathway']=$id;
+                $data['percent']=(int)$st[0]['percent'];
+            }
+        }
+        else
         {
             $st=$this->db->select('*')->from('pathflow')->where('pathway',$id)->where('back',0)->get()->result_array();
             // echo '<pre>';print_r($this->db->last_query());exit;
@@ -21,69 +55,7 @@ class Admin_model extends CI_Model {
                 return false;
             }
             $data=$st[0];
-        }
-        else
-        {
-            $st=$this->db->select('*')->from('user_pathway_status')->where('pathway',$id)->where('user_id',$user_id)->get()->result_array();
-            // echo '<pre>';print_r($this->db->last_query());exit;
-            if(count($st)>0)
-            {
-                if($st[0]['percent']==100)
-                {
-                    $st=$this->db->select('*')->from('pathflow')->where('pathway',$id)->where('back',0)->get()->result_array();
-                    // echo '<pre>';print_r($this->db->last_query());exit;
-                    if(!count($st)>0)
-                    {
-                        return false;
-                    }
-                    $data=$st[0];
-                }
-                else
-                {
-                    $data=array();
-                    $step=$this->getStepByNumberPathway($st[0]['current_step'],$id);
-                    if($step['type']!='question' && $step['type']!='info')
-                    {
-                        do {
-                            $path=$this->getPathFlowByStep($step['number'], $id);
-                            // print_r($path);exit;
-                            $step=$this->getStepByNumber($path['back'], $id);
-                            $path=$this->getPathFlowByStep($step['number'], $id);
-
-                        }while($step['type']!='question');
-                        
-                        $params['step']=$path['step'];
-                        $params['next']=$path['next'];
-                        $data['step']=$step['number'];
-                        $data['back']=$path['back'];
-                        $data['next']=$path['next'];
-                        $data['pathway']=$id;
-                        $data['percent']=(int)$st[0]['percent'];
-                    }
-                    else
-                    {
-                        $path=$this->getPathFlowByStep($step['number'], $id);
-                        $data['step']=$step['number'];
-                        $data['back']=$path['back'];
-                        $data['next']=$path['next'];
-                        $data['pathway']=$id;
-                        $data['percent']=(int)$st[0]['percent'];
-                    }
-                    
-                    
-                }
-            }
-            else
-            {
-                $st=$this->db->select('*')->from('pathflow')->where('pathway',$id)->where('back',0)->get()->result_array();
-                // echo '<pre>';print_r($this->db->last_query());exit;
-                if(!count($st)>0)
-                {
-                    return false;
-                }
-                $data=$st[0];
-            }    
-        }  
+        } 
         $step=$this->getStepByNumberPathway($data['step'],$id);
         $data['step']=$step['number'];
         
