@@ -488,6 +488,7 @@ class Pw extends REST_Controller {
     {
         $params=$_REQUEST;
         $data=$this->Admin_model->getEditedQuestion($params);
+        $this->Admin_model->removeNextStepsfromPathwaySteps($params);
         $data['form']=$this->Admin_model->getAnsForm($data['question']['id'],$params);
         $data['answer']=array();
         $data['answer']=$this->Admin_model->getStepAnswer($params);

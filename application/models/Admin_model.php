@@ -8248,7 +8248,28 @@ class Admin_model extends CI_Model {
         $data['question']=$q;
         return $data;
     }
-
+    public function removeNextStepsfromPathwaySteps($data)
+    {
+        $st=$this->db->select('*')->from('pathway_steps')
+        ->where('user_id',$data['user_id'])->where('pathway', $data['pathway'])
+        ->get()->result_array();
+        for($i=0;$i<count($st);$i++)
+        {
+            if($data['step']==$st[$i]['step'])
+            {
+                $index=$i;
+            }
+        }
+        for($i=0;$i<count($st);$i++)
+        {
+            if($i > $index)
+            {
+                $this->db->query('delete from pathway_steps where step='.$st[$i]['step'].'
+                and pathway='.$st[$i]['pathway'].' and user_id='.$st[$i]['user_id']);
+            }
+        }
+        // print_r($st);exit;
+    }
     public function flush_pw_results($user_id, $pathway)
     {
         $this->db->query('delete from step_answers where user_id='.$user_id.' 
