@@ -491,7 +491,7 @@ class Pw extends REST_Controller {
         $data['form']=$this->Admin_model->getAnsForm($data['question']['id'],$params);
         $data['answer']=array();
         $data['answer']=$this->Admin_model->getStepAnswer($params);
-        if($params['pathway']==21 && $step['number']==22)
+        if($params['pathway']==21 && $params['step']==22)
         {
             $d=array();
             $d[0]=$data['answer'][1];
@@ -499,6 +499,7 @@ class Pw extends REST_Controller {
             $d[2]=$data['answer'][0];
             $data['answer']=$d;
         }
+        // print_r($data['answer']);exit;
         $path=$this->Admin_model->getPathFlowByStep($params['step'],$params['pathway']);
         $data['step']=$path['step'];
         $data['back']=$path['back'];
