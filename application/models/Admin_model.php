@@ -7775,7 +7775,7 @@ class Admin_model extends CI_Model {
     public function pathway_review($params)
     {
         $st=$this->db->select('Distinct(step) as step')
-                        ->from('step_answers')
+                        ->from('pathway_steps')
                         ->where('user_id',$params['user_id'])
                         ->where('pathway', $params['pathway'])
                         ->get()
@@ -8175,7 +8175,7 @@ class Admin_model extends CI_Model {
     {
         
         $st=$this->db->select('Distinct(step) as step')
-                        ->from('step_answers')
+                        ->from('pathway_steps')
                         ->where('user_id',$params['user_id'])
                         ->where('pathway', $params['pathway'])
                         ->get()
