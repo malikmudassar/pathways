@@ -7837,8 +7837,8 @@ class Admin_model extends CI_Model {
         if($params['pathway']==21 && $step==22)
         {
             $d=array();
-            $d[0]=$row[1];
-            $d[1]=$row[2];
+            $d[0]=$row[2];
+            $d[1]=$row[1];
             $d[2]=$row[0];
             $row=$d;
         }
