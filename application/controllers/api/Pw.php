@@ -522,7 +522,6 @@ class Pw extends REST_Controller {
         $data['step']=$params['step'];
         $this->Admin_model->updateStats($data);
         $st=$this->Admin_model->getStats($data);
-        $this->Admin_model->removeAnswers($data);
         // BMI Pathway, If step =1 , the step type should be dropdown
         // if($params['pathway']==3 && $params['step']==1)
         // {
