@@ -127,8 +127,6 @@ class Pw extends REST_Controller {
         $params=$_REQUEST;
         $data=$this->Admin_model->getFirstPathwayQuestion($Id, $user_id, $age);
         $data['user_id']=$user_id;
-        
-        
         $params['pathway']=$Id;
         $params['gender']=strtolower($_REQUEST['gender']);
         if(!isset($params['gender']))
@@ -142,7 +140,7 @@ class Pw extends REST_Controller {
         
         $data['answer']=$this->Admin_model->getStepAnswer($data);
         $data['form']=$this->Admin_model->getAnsForm($data['question']['id'], $params);
-        
+        $this->Admin_model->removeFlowStep($data['step'], $data['pathway'], $data['user_id']); 
         // print_r($data);exit;
         if($params['pathway']==21 && $step['number']==22)
         {
