@@ -7926,7 +7926,7 @@ class Admin_model extends CI_Model {
                 $path='http://'.$_SERVER['SERVER_NAME'].'/pathways/img/';
                 $img_path = $path.$value;
                 // echo $img_path;exit;
-                $caption[0]['value']="<img src='".$img_path."'></img>";
+                $caption[0]['value']=$img_path;
                 return $caption;
             }
             if($row['field_name']=='score')
