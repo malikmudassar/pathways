@@ -7837,11 +7837,14 @@ class Admin_model extends CI_Model {
         if($params['pathway']==21 && $step==22)
         {
             $d=array();
-            $d[0]=$row[2];
-            $d[1]=$row[1];
-            $d[2]=$row[0];
+            // print_r($row);exit;
+            $d[0]=$row[1];
+            $d[1]=$row[0];
+            $d[2]=$row[2];
             $row=$d;
+            // print_r($row);exit;
         }
+        
         if(count($row)>1)
         {
             // More than one answers, either they are text boxes or a mixed answer model
