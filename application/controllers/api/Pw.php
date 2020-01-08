@@ -137,9 +137,9 @@ class Pw extends REST_Controller {
         {
             $params['gender']=strtolower($_REQUEST['gender']);
         }
-        
-        $data['form']=$this->Admin_model->getAnsForm($data['question']['id'], $params);
         $data['answer']=$this->Admin_model->getStepAnswer($data);
+        $data['form']=$this->Admin_model->getAnsForm($data['question']['id'], $params);
+        
         // print_r($data);exit;
         if($params['pathway']==21 && $step['number']==22)
         {
