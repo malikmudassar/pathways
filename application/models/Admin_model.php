@@ -30,20 +30,20 @@ class Admin_model extends CI_Model {
                 
                 $params['step']=$path['step'];
                 $params['next']=$path['next'];
+                $data['id']=$step['id'];
+                $data['pathway']=$id;
                 $data['step']=$step['number'];
                 $data['back']=$path['back'];
                 $data['next']=$path['next'];
-                $data['pathway']=$id;
-                $data['percent']=(int)$st[0]['percent'];
             }
             else
             {
                 $path=$this->getPathFlowByStep($step['number'], $id);
+                $data['id']=$step['id'];
+                $data['pathway']=$id;
                 $data['step']=$step['number'];
                 $data['back']=$path['back'];
                 $data['next']=$path['next'];
-                $data['pathway']=$id;
-                $data['percent']=(int)$st[0]['percent'];
             }
         }
         else
@@ -63,7 +63,6 @@ class Admin_model extends CI_Model {
         {
             $data['step']="1";
             $step=$this->getStepByNumberPathway($data['step'],$id);
-            $data['percent']=0;
         }
         if($id==5)
         {
@@ -98,10 +97,7 @@ class Admin_model extends CI_Model {
         $st=$this->db->query('select questions.* from questions inner join step_questions on step_questions.question=questions.id where step='.$step['id'])->result_array();
         //echo '<pre>';print_r($this->db->last_query());exit;
         $data['question']=$st[0];
-        if(!isset($data['percent']))
-        {            
-            $data['percent']=0;
-        }
+        $data['percent']=25;
         return $data;
     }
 
