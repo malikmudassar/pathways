@@ -218,6 +218,10 @@ class Pw extends REST_Controller {
         {
             $data['step_type']='text';
         }
+        if($data['pathway']==21 && $data['step']==22)
+        {
+            $data['step_type']='text';
+        }
         // print_r($data);exit;
         if ($data['question'])
         {
@@ -455,6 +459,10 @@ class Pw extends REST_Controller {
         {
             $data['step_type']='link';
         }
+        if($data['pathway']==21 && $data['step']==22)
+        {
+            $data['step_type']='text';
+        }
         if($data['step_type']=='textarea')
         {
             $data['step_type']='text';
@@ -566,6 +574,10 @@ class Pw extends REST_Controller {
         if($data['pathway']==23 && $data['step']==51)
         {
             $data['step_type']='link';
+        }
+        if($data['pathway']==21 && $data['step']==22)
+        {
+            $data['step_type']='text';
         }
         if($data)
         {
