@@ -7905,7 +7905,7 @@ class Admin_model extends CI_Model {
                 }
                 else
                 {
-                    $caption[0]['value'].=$row[$i]['field_name'].': '.$row[$i]['value'].'. <br />';
+                    $caption[0]['value'].=preg_replace('/\s+/', '_', $row[$i]['field_name']).': '.$row[$i]['value'].'. <br />';
                 }
                 
             }
