@@ -7830,6 +7830,16 @@ class Admin_model extends CI_Model {
             $d[2]=$row[0];
             $row=$d;
         }
+        if($params['pathway']==22 && $step==89)
+        {
+            
+            $d=array();
+            $d[0]=$row[1];
+            $d[1]=$row[2];
+            $d[2]=$row[0];
+            $row=$d;
+            // print_r($row);exit;
+        }
         if($params['pathway']==21 && $step==22)
         {
             $d=array();
