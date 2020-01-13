@@ -210,7 +210,7 @@ class Pw extends REST_Controller {
         {
             $data['step_type']='link';
         }
-        if($data['pathway']==23 && $data['step']==51)
+        if($data['pathway']==23 && ($data['step']==29 || $data['step']==35 || $data['step']==45 || $data['step']==51 || $data['step']==66 || $data['step']==72 || $data['step']==82 || $data['step']==88))
         {
             $data['step_type']='link';
         }
@@ -319,7 +319,7 @@ class Pw extends REST_Controller {
         {
             $data['step_type']='link';
         }
-        if($data['pathway']==23 && $data['step']==51)
+        if($data['pathway']==23 && ($data['step']==29 || $data['step']==35 || $data['step']==45 || $data['step']==51 || $data['step']==66 || $data['step']==72 || $data['step']==82 || $data['step']==88))
         {
             $data['step_type']='link';
         }
@@ -459,7 +459,7 @@ class Pw extends REST_Controller {
         {
             $data['step_type']='link';
         }
-        if($data['pathway']==23 && $data['step']==51)
+        if($data['pathway']==23 && ($data['step']==29 || $data['step']==35 || $data['step']==45 || $data['step']==51 || $data['step']==66 || $data['step']==72 || $data['step']==82 || $data['step']==88))
         {
             $data['step_type']='link';
         }
@@ -579,7 +579,7 @@ class Pw extends REST_Controller {
         {
             $data['step_type']='link';
         }
-        if($data['pathway']==23 && $data['step']==51)
+        if($data['pathway']==23 && ($data['step']==29 || $data['step']==35 || $data['step']==45 || $data['step']==51 || $data['step']==66 || $data['step']==72 || $data['step']==82 || $data['step']==88))
         {
             $data['step_type']='link';
         }
@@ -697,6 +697,7 @@ class Pw extends REST_Controller {
             ], REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
         }
     }
+    // not used
     public function testPathwaySubmit_get()
     {
         $params['user_id']=$this->uri->segment(4);
@@ -754,6 +755,7 @@ class Pw extends REST_Controller {
 
         curl_exec( $ch );
     }
+    // not used
     public function submit_pwT_post()
     {
         // $params=$_REQUEST;
@@ -774,7 +776,7 @@ class Pw extends REST_Controller {
             ], REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
         }
     }
-
+    // not used
     public function submit_pathway_post()
     {
         $params=$_REQUEST;
@@ -802,23 +804,6 @@ class Pw extends REST_Controller {
         }
     }
 
-    public function test_post()
-    {
-        echo $_SERVER['SERVER_NAME'];exit;
-        if($data2)
-        {
-            // Set the response and exit
-            $this->response($data2, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
-        }
-        else
-        {
-            // Set the response and exit
-            $this->response([
-                'status' => FALSE,
-                'message' => 'Pathway doesn\'t have steps',
-            ], REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
-        }
-    }
 
     public function getPathwayName()
     {
