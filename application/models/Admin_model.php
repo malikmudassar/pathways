@@ -7781,38 +7781,42 @@ class Admin_model extends CI_Model {
         for($i=0;$i<count($st);$i++)
         {
             $step=$this->getStepByNumber($st[$i]['step'], $params['pathway']);
-            // print_r($step);  
-            $q=$this->getQuestionByStep($step['id']);
-            $path=$this->getPathFlowByStep($step['number'], $params['pathway']);
-            // print_r($q);
-            if($q['type']=='Question')
+            // print_r($step);  exit;
+            if($step['is_summary'] == 1)
             {
-                $dr=array(
-                    'type'      => $step['type'],
-                    'question'  => $q['statement'],
-                    'answer'    => $this->getAnsResult($step['number'], $q['id'],$params),
-                    'step'      => $path['step'],
-                    'back'      => $path['back'],
-                    'next'      => $path['next'],
-                    'can_submit'    =>  $this->getCanSubmit($params),
-                    'is_submitted'  =>  $this->getIsSubmitted($params)
-                );
-            }
-            else
-            {
-                $dr=array(
-                    'type'      => $step['type'],
-                    'question'  => $q['statement'],
-                    'answer'    => array(),
-                    'step'      => $path['step'],
-                    'back'      => $path['back'],
-                    'next'      => $path['next'],
-                    'can_submit'    =>  $this->getCanSubmit($params),
-                    'is_submitted'  =>  $this->getIsSubmitted($params)
-                );
+                $q=$this->getQuestionByStep($step['id']);
+                $path=$this->getPathFlowByStep($step['number'], $params['pathway']);
+                // print_r($q);
+                if($q['type']=='Question')
+                {
+                    $dr=array(
+                        'type'      => $step['type'],
+                        'question'  => $q['statement'],
+                        'answer'    => $this->getAnsResult($step['number'], $q['id'],$params),
+                        'step'      => $path['step'],
+                        'back'      => $path['back'],
+                        'next'      => $path['next'],
+                        'can_submit'    =>  $this->getCanSubmit($params),
+                        'is_submitted'  =>  $this->getIsSubmitted($params)
+                    );
+                }
+                else
+                {
+                    $dr=array(
+                        'type'      => $step['type'],
+                        'question'  => $q['statement'],
+                        'answer'    => array(),
+                        'step'      => $path['step'],
+                        'back'      => $path['back'],
+                        'next'      => $path['next'],
+                        'can_submit'    =>  $this->getCanSubmit($params),
+                        'is_submitted'  =>  $this->getIsSubmitted($params)
+                    );
+                }
+                
+                array_push($data, $dr);
             }
             
-            array_push($data, $dr);
         }
         return $data;
     }
