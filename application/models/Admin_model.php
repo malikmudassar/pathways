@@ -8223,26 +8223,30 @@ class Admin_model extends CI_Model {
         for($i=0;$i<count($st);$i++)
         {
             $step=$this->getStepByNumber($st[$i]['step'], $params['pathway']);
-            // print_r($step);  
-            $q=$this->getQuestionByStep($step['id']);
-            $path=$this->getPathFlowByStep($step['number'], $params['pathway']);
-            // print_r($q);
-            if($q['type']=='Question')
+            // print_r($step); 
+            if($step['is_summary']==1) 
             {
-                $dr=array(
-                    'question'  => $q['statement'],
-                    'selected_choice'    => $this->getAnsResult_for_BS($step['number'], $q['id'],$params)
-                );
+                $q=$this->getQuestionByStep($step['id']);
+                $path=$this->getPathFlowByStep($step['number'], $params['pathway']);
+                // print_r($q);
+                if($q['type']=='Question')
+                {
+                    $dr=array(
+                        'question'  => $q['statement'],
+                        'selected_choice'    => $this->getAnsResult_for_BS($step['number'], $q['id'],$params)
+                    );
+                }
+                else
+                {
+                    $dr=array(
+                        'question'  => $q['statement'],
+                        'selected_choice'    => ''
+                    );
+                }
+                
+                array_push($data, $dr);
             }
-            else
-            {
-                $dr=array(
-                    'question'  => $q['statement'],
-                    'selected_choice'    => ''
-                );
-            }
-            
-            array_push($data, $dr);
+                
         }
 
         return $data;
