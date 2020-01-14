@@ -7782,8 +7782,11 @@ class Admin_model extends CI_Model {
         {
             $step=$this->getStepByNumber($st[$i]['step'], $params['pathway']);
             // print_r($step);  exit;
-            if($step['is_summary'] == 1)
-            {
+            // There was a requirement to exclude some steps from summary, we did it but later some
+            // doctor didn't like it. hence commenting the condition. If later the requirement pops up 
+            // again just un-comment this condition here.
+            // if($step['is_summary'] == 1)
+            // {
                 $q=$this->getQuestionByStep($step['id']);
                 $path=$this->getPathFlowByStep($step['number'], $params['pathway']);
                 // print_r($q);
@@ -7815,7 +7818,7 @@ class Admin_model extends CI_Model {
                 }
                 
                 array_push($data, $dr);
-            }
+            // }
             
         }
         return $data;
@@ -8224,8 +8227,11 @@ class Admin_model extends CI_Model {
         {
             $step=$this->getStepByNumber($st[$i]['step'], $params['pathway']);
             // print_r($step); 
-            if($step['is_summary']==1) 
-            {
+            // There was a requirement to exclude some steps from summary, we did it but later some
+            // doctor didn't like it. hence commenting the condition. If later the requirement pops up 
+            // again just un-comment this condition here.
+            // if($step['is_summary']==1) 
+            // {
                 $q=$this->getQuestionByStep($step['id']);
                 $path=$this->getPathFlowByStep($step['number'], $params['pathway']);
                 // print_r($q);
@@ -8245,7 +8251,7 @@ class Admin_model extends CI_Model {
                 }
                 
                 array_push($data, $dr);
-            }
+            // }
                 
         }
 
@@ -8348,7 +8354,8 @@ class Admin_model extends CI_Model {
                 ->where('step >', $params['step'])
                 ->get()
                 ->result_array();
-        if(count($st)>0)
+        if(count($st)>0)if($step['is_summary']==1) 
+        // {
         {
             $this->db->query('Delete from step_answers where user_id='.$params['user_id'].'
              and pathway='.$params['pathway'].' and step > '.$params['step']);
