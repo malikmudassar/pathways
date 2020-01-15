@@ -7793,6 +7793,7 @@ class Admin_model extends CI_Model {
                 if($q['type']=='Question')
                 {
                     $dr=array(
+                        'pname'     => $this->getPathwayName($params['pathway']),
                         'type'      => $step['type'],
                         'question'  => $q['statement'],
                         'answer'    => $this->getAnsResult($step['number'], $q['id'],$params),
@@ -7806,6 +7807,7 @@ class Admin_model extends CI_Model {
                 else
                 {
                     $dr=array(
+                        'pname'     => $this->getPathwayName($params['pathway']),
                         'type'      => $step['type'],
                         'question'  => $q['statement'],
                         'answer'    => array(),
