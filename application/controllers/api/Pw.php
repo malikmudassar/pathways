@@ -501,6 +501,7 @@ class Pw extends REST_Controller {
     {
         $params=$_REQUEST;
         $data=$this->Admin_model->pathway_review($params);
+        
         if($data)
         {
             // Set the response and exit
@@ -659,14 +660,16 @@ class Pw extends REST_Controller {
             $data['condition_key']='general-advice';
         }
         $data['condition_schema']=$this->Admin_model->pathway_review_for_BS($params);
+        // print_r($data);exit;
         $endpoint='v3/dr-iq/onboarding/pathway-save';
-        if($_SERVER['SERVER_NAME']=='qa-pathways.dr-iq.com')
+        if($_SERVER['SERVER_NAME']=='pathways.dr-iq.com')
         {
-            $url = 'https://qa-driq-server.attech-ltd.com/'.$endpoint;
+            $url = 'https://stag-server.attech-ltd.com/'.$endpoint;
+            
         }
         else
         {
-            $url = 'https://stag-server.attech-ltd.com/'.$endpoint;
+            $url = 'https://qa-driq-server.attech-ltd.com/'.$endpoint;
         }
         
         $myvars = http_build_query($data, '', '&');
@@ -679,7 +682,7 @@ class Pw extends REST_Controller {
         curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true);
 
         $slot=json_decode(curl_exec( $ch ));
-        // print_r(($slot->slot_id));exit;
+        // print_r(($slot));exit;
 
         $data2['code']='200';
         $data2['message']='Your request for online consultation has been submitted successfully';
