@@ -7823,6 +7823,52 @@ class Admin_model extends CI_Model {
         }
         return $data;
     }
+    public function pathway_review_for_BS($params)
+    {
+        
+        $st=$this->db->select('Distinct(step) as step')
+                        ->from('pathway_steps')
+                        ->where('user_id',$params['user_id'])
+                        ->where('pathway', $params['pathway'])
+                        ->get()
+                        ->result_array();
+
+        $answers=array();
+        $data=array();
+        for($i=0;$i<count($st);$i++)
+        {
+            $step=$this->getStepByNumber($st[$i]['step'], $params['pathway']);
+            // print_r($step); 
+            // There was a requirement to exclude some steps from summary, we did it but later some
+            // doctor didn't like it. hence commenting the condition. If later the requirement pops up 
+            // again just un-comment this condition here.
+            // if($step['is_summary']==1) 
+            // {
+                $q=$this->getQuestionByStep($step['id']);
+                $path=$this->getPathFlowByStep($step['number'], $params['pathway']);
+                // print_r($q);
+                if($q['type']=='Question')
+                {
+                    $dr=array(
+                        'question'  => $q['statement'],
+                        'selected_choice'    => $this->getAnsResult_for_BS($step['number'], $q['id'],$params)
+                    );
+                }
+                else
+                {
+                    $dr=array(
+                        'question'  => $q['statement'],
+                        'selected_choice'    => ''
+                    );
+                }
+                
+                array_push($data, $dr);
+            // }
+                
+        }
+
+        return $data;
+    }
     public function getAnsResult($step, $q, $params)
     {
         // get all answers for that step in step_answers
@@ -7838,6 +7884,16 @@ class Admin_model extends CI_Model {
             $row=$d;
         }
         if($params['pathway']==22 && $step==89)
+        {
+            
+            $d=array();
+            $d[0]=$row[1];
+            $d[1]=$row[2];
+            $d[2]=$row[0];
+            $row=$d;
+            // print_r($row);exit;
+        }
+        if($params['pathway']==22 && ($step==29 || $step==9 || $step==15))
         {
             
             $d=array();
@@ -8211,52 +8267,7 @@ class Admin_model extends CI_Model {
                         ->result_array();
         return $st[0]['is_submitted'];
     }
-    public function pathway_review_for_BS($params)
-    {
-        
-        $st=$this->db->select('Distinct(step) as step')
-                        ->from('pathway_steps')
-                        ->where('user_id',$params['user_id'])
-                        ->where('pathway', $params['pathway'])
-                        ->get()
-                        ->result_array();
-
-        $answers=array();
-        $data=array();
-        for($i=0;$i<count($st);$i++)
-        {
-            $step=$this->getStepByNumber($st[$i]['step'], $params['pathway']);
-            // print_r($step); 
-            // There was a requirement to exclude some steps from summary, we did it but later some
-            // doctor didn't like it. hence commenting the condition. If later the requirement pops up 
-            // again just un-comment this condition here.
-            // if($step['is_summary']==1) 
-            // {
-                $q=$this->getQuestionByStep($step['id']);
-                $path=$this->getPathFlowByStep($step['number'], $params['pathway']);
-                // print_r($q);
-                if($q['type']=='Question')
-                {
-                    $dr=array(
-                        'question'  => $q['statement'],
-                        'selected_choice'    => $this->getAnsResult_for_BS($step['number'], $q['id'],$params)
-                    );
-                }
-                else
-                {
-                    $dr=array(
-                        'question'  => $q['statement'],
-                        'selected_choice'    => ''
-                    );
-                }
-                
-                array_push($data, $dr);
-            // }
-                
-        }
-
-        return $data;
-    }
+    
     
 
     public function getEditedQuestion($params)
