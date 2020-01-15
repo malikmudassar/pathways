@@ -7914,12 +7914,22 @@ class Admin_model extends CI_Model {
             // print_r($row);exit;
         }
         
-        if($params['pathway']==24 && ($step==13 || $step==8))
+        if($params['pathway']==24 && ($step==13 || $step==9))
         {
             $d=array();
             // print_r($row);exit;
-            $d[0]=$row[1];
-            $d[1]=$row[0];
+            $d[0]=$row[0];
+            $d[1]=$row[1];
+            $d[2]=$row[2];
+            $row=$d;
+            // print_r($row);exit;
+        }
+        if($params['pathway']==24 && ($step==15 || $step==29 || $step==47 || $step==61 || $step==75 ||$step==89))
+        {
+            $d=array();
+            // print_r($row);exit;
+            $d[0]=$row[0];
+            $d[1]=$row[1];
             $d[2]=$row[2];
             $row=$d;
             // print_r($row);exit;
