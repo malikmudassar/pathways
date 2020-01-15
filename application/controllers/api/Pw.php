@@ -137,7 +137,7 @@ class Pw extends REST_Controller {
         {
             $params['gender']=strtolower($_REQUEST['gender']);
         }
-        
+        $data['pname']=$this->Admin_model->getPathwayName($Id);
         $data['answer']=$this->Admin_model->getStepAnswer($data);
         $data['form']=$this->Admin_model->getAnsForm($data['question']['id'], $params);
         $this->Admin_model->removeFlowStep($data['step'], $data['pathway'], $data['user_id']); 
@@ -327,6 +327,7 @@ class Pw extends REST_Controller {
         {
             $data['step_type']='text';
         }
+        $data['pname']=$this->Admin_model->getPathwayName($data['pathway']);
         if($data['back']==0)
         {
             $this->Admin_model->finish_pw($params['pathway'], $params['user_id']);
@@ -476,7 +477,7 @@ class Pw extends REST_Controller {
             $data['step_type']='text';
         }
         
-        
+        $data['pname']=$this->Admin_model->getPathwayName($data['pathway']);
         $this->Admin_model->removeFlowStep($step['number'], $params['pathway'], $params['user_id']);
         ///////////////////////////////////////////////////////////////
         if ($data)
@@ -591,6 +592,7 @@ class Pw extends REST_Controller {
         {
             $data['step_type']='text';
         }
+        $data['pname']=$this->Admin_model->getPathwayName($data['pathway']);
         if($data)
         {
             // Set the response and exit
