@@ -7893,7 +7893,7 @@ class Admin_model extends CI_Model {
             $row=$d;
             // print_r($row);exit;
         }
-        if($params['pathway']==22 && ($step==29 || $step==9 || $step==15 || $step==41 || $step==75))
+        if($params['pathway']==22 && ($step==29 || $step==9 || $step==15 || $step==41 || $step==75 || $step==47))
         {
             
             $d=array();
