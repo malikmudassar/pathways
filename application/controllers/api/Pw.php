@@ -683,11 +683,12 @@ class Pw extends REST_Controller {
 
         $slot=json_decode(curl_exec( $ch ));
         // print_r(($slot));exit;
+        $this->Admin_model->insertSlotId($slot->slot_id, $data);
 
         $data2['code']='200';
         $data2['message']='Your request for online consultation has been submitted successfully';
-
-        $data2['slotId']=(int)$slot->slot_id;
+        $data2['slotId']=$this->Admin_model->getLastInsertedSlotId($data);
+        // $data2['slotId']=(int)$slot->slot_id;
         $this->Admin_model->finish_pw($params['pathway'], $params['user_id']);
         if($data2)
         {

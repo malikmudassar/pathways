@@ -7827,14 +7827,14 @@ class Admin_model extends CI_Model {
     }
     public function pathway_review_for_BS($params)
     {
-        
+        // print_r($params);exit;
         $st=$this->db->select('Distinct(step) as step')
                         ->from('pathway_steps')
                         ->where('user_id',$params['user_id'])
                         ->where('pathway', $params['pathway'])
                         ->get()
                         ->result_array();
-
+        // print_r($st);exit;
         $answers=array();
         $data=array();
         for($i=0;$i<count($st);$i++)
@@ -7868,7 +7868,7 @@ class Admin_model extends CI_Model {
             // }
                 
         }
-
+        // print_r($data);exit;
         return $data;
     }
     public function getAnsResult($step, $q, $params)
@@ -8516,6 +8516,22 @@ class Admin_model extends CI_Model {
         // echo $this->db->last_query();exit;
         // print_r($st);exit;
         return $st[0]['id'];
+    }
+
+    public function insertSlotId($slot_id, $data)
+    {
+        $item=array(
+            'slot_id'   => $slot_id,
+            'user_id'   => $data['user_id'],
+            'pathway'   => $data['pathway']
+        );
+        $this->db->insert('slots', $item);
+    }
+
+    public function getLastInsertedSlotId($data)
+    {
+        $st=$this->db->query('select * from slots where user_id='.$data['user_id'].' and pathway='.$data['pathway'].' order by id desc limit 2')->result_array();
+        return $st[0]['slot_id'];
     }
 
 }
