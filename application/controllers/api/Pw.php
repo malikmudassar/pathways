@@ -685,7 +685,7 @@ class Pw extends REST_Controller {
         // print_r(($slot));exit;
         if($slot->slot_id)
         {
-            $this->Admin_model->insertSlotId($slot->slot_id, $data);
+            $this->Admin_model->insertSlotId($slot->slot_id, $data['user_id'], $params['pathway']);
         }        
 
         $data2['code']='200';
