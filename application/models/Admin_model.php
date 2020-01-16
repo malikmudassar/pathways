@@ -8518,19 +8518,19 @@ class Admin_model extends CI_Model {
         return $st[0]['id'];
     }
 
-    public function insertSlotId($slot_id, $data)
+    public function insertSlotId($slot_id, $user_id, $pathway)
     {
         $item=array(
             'slot_id'   => $slot_id,
-            'user_id'   => $data['user_id'],
-            'pathway'   => $data['pathway']
+            'user_id'   => $user_id,
+            'pathway'   => $pathway
         );
         $this->db->insert('slots', $item);
     }
 
-    public function getLastInsertedSlotId($data)
+    public function getLastInsertedSlotId($user_id, $pathway)
     {
-        $st=$this->db->query('select * from slots where user_id='.$data['user_id'].' and pathway='.$data['pathway'].' order by id desc limit 2')->result_array();
+        $st=$this->db->query('select * from slots where user_id='.$user_id.' and pathway='.$pathway.' order by id desc limit 2')->result_array();
         return $st[0]['slot_id'];
     }
 
