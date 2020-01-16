@@ -682,7 +682,7 @@ class Pw extends REST_Controller {
         curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true);
 
         $slot=json_decode(curl_exec( $ch ));
-        print_r(($slot));exit;
+        // print_r(($slot));exit;
         if($slot->slot_id)
         {
             $this->Admin_model->insertSlotId($slot->slot_id, $params['user_id'], $params['pathway']);
