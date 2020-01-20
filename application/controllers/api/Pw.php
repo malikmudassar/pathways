@@ -664,7 +664,7 @@ class Pw extends REST_Controller {
         $endpoint='v3/dr-iq/onboarding/pathway-save';
         if($_SERVER['SERVER_NAME']=='pathways.dr-iq.com')
         {
-            $url = 'https://stag-server.attech-ltd.com/'.$endpoint;
+            $url = 'https://server.attech-ltd.com/'.$endpoint;
             
         }
         else
