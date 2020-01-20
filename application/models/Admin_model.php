@@ -8398,9 +8398,12 @@ class Admin_model extends CI_Model {
 
     public function flushPw($params)
     {
-        $this->db->query('Delete from step_answers where user_id='.$params['user_id'].'
+        // print_r($params);exit;
+        $this->db->query('delete from step_answers where user_id='.$params['user_id'].'
         and pathway='.$params['pathway']);
         $this->db->query('delete from user_pathway_status where pathway='.$params['pathway'].' and 
+        user_id='.$params['user_id']);
+        $this->db->query('delete from pathway_steps where pathway='.$params['pathway'].' and 
         user_id='.$params['user_id']);
     }
 

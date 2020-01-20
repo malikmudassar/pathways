@@ -247,7 +247,9 @@ class Pw extends REST_Controller {
     {
 
         $params=$_REQUEST;
+        // print_r($params);exit;
         $Id=$_REQUEST['pw'];
+        $data['user_id']=$params['user_id'];
         if(!isset($params['practice_id']))
         {
             $params['practice_id']=2;
@@ -301,7 +303,8 @@ class Pw extends REST_Controller {
         if($data['pathway']==24 && $data['step']==16)
         {
             $data['step_type']='redirect';
-            $this->Admin_model->flushPw($params);
+            // print_r($data);exit;
+            $this->Admin_model->flushPw($data);
         }
         if($data['pathway']==24 && $data['step']==11)
         {
@@ -437,7 +440,7 @@ class Pw extends REST_Controller {
         if($data['pathway']==24 && $data['step']==16)
         {
             $data['step_type']='redirect';
-            $this->Admin_model->flushPw($params);
+            $this->Admin_model->flushPw($data);
         }
         if($data['back']==0)
         {
