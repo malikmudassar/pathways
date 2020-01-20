@@ -304,7 +304,7 @@ class Pw extends REST_Controller {
         {
             $data['step_type']='redirect';
             // print_r($data);exit;
-            $this->Admin_model->flushPw($data);
+            // $this->Admin_model->flushPw($data);
         }
         if($data['pathway']==24 && $data['step']==11)
         {
@@ -440,7 +440,7 @@ class Pw extends REST_Controller {
         if($data['pathway']==24 && $data['step']==16)
         {
             $data['step_type']='redirect';
-            $this->Admin_model->flushPw($data);
+            // $this->Admin_model->flushPw($data);
         }
         if($data['back']==0)
         {
