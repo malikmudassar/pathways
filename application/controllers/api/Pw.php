@@ -362,7 +362,12 @@ class Pw extends REST_Controller {
     {
 
         $params=$_REQUEST;
-        
+        // print_r($params);exit;
+        if($params['pathway']==24 && $params['step']==16)
+        {
+            // echo 'in here';exit;
+            $this->Admin_model->removeFlowStep(2, $params['pathway'], $params['user_id']);
+        }
         $step=$this->Admin_model->getBackStepByFlow($params);
         // echo '<pre>';print_r($step);exit;
         
