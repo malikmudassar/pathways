@@ -756,7 +756,7 @@ class Pw extends REST_Controller {
         }
         if($params['pathway']==26)
         {
-            $data['condition_key']='general-advice';
+            $data['condition_key']='general-advise';
         }
         $data['condition_schema']=$this->Admin_model->pathway_review_for_BS($params);
         $endpoint='v3/dr-iq/onboarding/pathway-save';
