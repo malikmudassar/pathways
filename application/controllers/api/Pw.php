@@ -186,10 +186,10 @@ class Pw extends REST_Controller {
         {            
             $data['percent']=0;
         }
-        if($data['step']==1)
-        {
-            $this->Admin_model->finish_pw($Id, $user_id);
-        }
+        // if($data['step']==1)
+        // {
+        //     $this->Admin_model->finish_pw($Id, $user_id);
+        // }
         if($data['back']==0)
         {
             $this->Admin_model->finish_pw($Id, $user_id);
@@ -254,10 +254,10 @@ class Pw extends REST_Controller {
         {
             $params['practice_id']=2;
         }       
-        if($params['step']==1)
-        {
-            $this->Admin_model->flushPw($params);
-        }
+        // if($params['step']==1 && $Id != 17)
+        // {
+        //     $this->Admin_model->flushPw($params);
+        // }
         $this->Admin_model->saveResult($params);
         //$name=$this->Admin_model->getPathwayName($params['pathway']);
         
