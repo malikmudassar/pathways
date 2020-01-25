@@ -48,8 +48,8 @@ class Pw extends REST_Controller {
     }
     public function pathways_post()
     {
-        $req_dump = print_r($_REQUEST, true);
-        $fp = file_put_contents('/var/log/apache2/access.log', $req_dump, FILE_APPEND);
+        // $req_dump = print_r($_REQUEST, true);
+        // $fp = file_put_contents('/var/log/apache2/access.log', $req_dump, FILE_APPEND);
         $user_id=$_REQUEST['user_id'];
         if($_SERVER['SERVER_NAME']=='pathways.dr-iq.com')
         {
