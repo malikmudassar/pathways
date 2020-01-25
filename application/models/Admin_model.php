@@ -6896,7 +6896,26 @@ class Admin_model extends CI_Model {
 
         $this->db->WHERE('id',$menuId)->update('pathways',$item);
     }
-
+    public function getUserPermittedPathways($pws)
+    {
+        // print_r($pws);
+        $keys=$pws['data'];
+        $p=array();
+        for($i=0;$i<count($keys);$i++)
+        {
+            $st=$this->db->query('select pathway from conditions where name=\''.$keys[$i].'\'')->result_array();
+            $v=$st[0]['pathway'];
+            $p[$i]=$v;
+        }
+        $pw=$this->db->select('*')
+                        ->from('pathways')
+                        ->where('publish','yes')
+                        ->where_in('id', $p)
+                        ->order_by('orders', 'asc')
+                        ->get()
+                        ->result_array();
+        return $pw;
+    }
     public function getPublishedPathways()
     {
         return $this->db->select('*')
