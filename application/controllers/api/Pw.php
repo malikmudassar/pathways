@@ -72,7 +72,7 @@ class Pw extends REST_Controller {
         $pws=json_decode(curl_exec( $ch ));
         // print_r((array)$pws);exit;
         $req_dump = print_r($pws, true);
-        // file_put_contents('/var/log/apache2/access.log', $req_dump, FILE_APPEND);
+        file_put_contents('/var/log/apache2/access.log', $req_dump, FILE_APPEND);
         $pathways=$this->Admin_model->getUserPermittedPathways((array)$pws);
         if ($pathways)
         {
