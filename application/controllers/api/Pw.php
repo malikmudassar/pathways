@@ -239,6 +239,10 @@ class Pw extends REST_Controller {
         {
             $data['step_type']='link';
         }
+        if($data['pathway']==17 && $data['step']==32)
+        {
+            $data['step_type']='link';
+        }
         if($data['step_type']=='textarea')
         {
             $data['step_type']='text';
@@ -357,6 +361,10 @@ class Pw extends REST_Controller {
             $data['step_type']='link';
         }
         if($data['pathway']==23 && ($data['step']==29 || $data['step']==35 || $data['step']==45 || $data['step']==51 || $data['step']==66 || $data['step']==72 || $data['step']==82 || $data['step']==88))
+        {
+            $data['step_type']='link';
+        }
+        if($data['pathway']==17 && $data['step']==32)
         {
             $data['step_type']='link';
         }
@@ -508,6 +516,10 @@ class Pw extends REST_Controller {
             $data['step_type']='add_medication';
         }
         if($data['pathway']==23 && $data['step']==29)
+        {
+            $data['step_type']='link';
+        }
+        if($data['pathway']==17 && $data['step']==32)
         {
             $data['step_type']='link';
         }
