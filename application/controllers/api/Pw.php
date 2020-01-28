@@ -257,6 +257,7 @@ class Pw extends REST_Controller {
             {
                 $data['form'][$i]['type']='dropdown';
             }
+            $data['step_type']='dropdown';
         }
         $data['pathway']=$Id;
         // print_r($data);exit;
@@ -369,6 +370,7 @@ class Pw extends REST_Controller {
             {
                 $data['form'][$i]['type']='dropdown';
             }
+            $data['step_type']='dropdown';
         }
         $data['pathway']=$params['pathway'];
         $data['pname']=$this->Admin_model->getPathwayName($data['pathway']);
@@ -531,6 +533,7 @@ class Pw extends REST_Controller {
             {
                 $data['form'][$i]['type']='dropdown';
             }
+            $data['step_type']='dropdown';
         }
         $data['pathway']=$params['pathway'];
         $data['pname']=$this->Admin_model->getPathwayName($data['pathway']);
