@@ -251,7 +251,7 @@ class Pw extends REST_Controller {
         {
             $data['step_type']='text';
         }
-        if($data['pathway']=23 && (in_array($data['step'],[27,33,43,49,64,70,80,86])))
+        if($data['pathway']=23 && ($data['step']==27 || $data['step']==33 || $data['step']==43 || $data['step']==49 || $data['step']==64 || $data['step']==70 || $data['step']==80 || $data['step']==86))
         {
             for($i=0;$i<count($data['form']);$i++)
             {
@@ -364,7 +364,7 @@ class Pw extends REST_Controller {
         {
             $data['step_type']='text';
         }
-        if($data['pathway']=23 && (in_array($data['step'],[27,33,43,49,64,70,80,86])))
+        if($data['pathway']=23 && ($data['step']==27 || $data['step']==33 || $data['step']==43 || $data['step']==49 || $data['step']==64 || $data['step']==70 || $data['step']==80 || $data['step']==86))
         {
             for($i=0;$i<count($data['form']);$i++)
             {
@@ -527,8 +527,8 @@ class Pw extends REST_Controller {
         {
             $data['step_type']='text';
         }
-        if($data['pathway']=23 && (in_array($data['step'],[27,33,43,49,64,70,80,86])))
-        {
+        if($data['pathway']=23 && ($data['step']==27 || $data['step']==33 || $data['step']==43 || $data['step']==49 || $data['step']==64 || $data['step']==70 || $data['step']==80 || $data['step']==86))
+        { //[27,33,43,49,64,70,80,86]
             for($i=0;$i<count($data['form']);$i++)
             {
                 $data['form'][$i]['type']='dropdown';
