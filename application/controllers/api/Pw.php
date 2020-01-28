@@ -258,6 +258,7 @@ class Pw extends REST_Controller {
                 $data['form'][$i]['type']='dropdown';
             }
         }
+        $data['pathway']=$Id;
         // print_r($data);exit;
         if ($data['question'])
         {
@@ -369,6 +370,7 @@ class Pw extends REST_Controller {
                 $data['form'][$i]['type']='dropdown';
             }
         }
+        $data['pathway']=$params['pathway'];
         $data['pname']=$this->Admin_model->getPathwayName($data['pathway']);
         if($data['back']==0)
         {
@@ -530,6 +532,7 @@ class Pw extends REST_Controller {
                 $data['form'][$i]['type']='dropdown';
             }
         }
+        $data['pathway']=$params['pathway'];
         $data['pname']=$this->Admin_model->getPathwayName($data['pathway']);
         $this->Admin_model->removeFlowStep($step['number'], $params['pathway'], $params['user_id']);
         ///////////////////////////////////////////////////////////////
