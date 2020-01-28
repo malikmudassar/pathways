@@ -251,6 +251,13 @@ class Pw extends REST_Controller {
         {
             $data['step_type']='text';
         }
+        if($data['pathway']=23 && (in_array($data['step'],[27,33,43,49,64,70,80,86])))
+        {
+            for($i=0;$i<count($data['form']);$i++)
+            {
+                $data['form'][$i]['type']='dropdown';
+            }
+        }
         // print_r($data);exit;
         if ($data['question'])
         {
@@ -354,6 +361,13 @@ class Pw extends REST_Controller {
         if($data['step_type']=='textarea')
         {
             $data['step_type']='text';
+        }
+        if($data['pathway']=23 && (in_array($data['step'],[27,33,43,49,64,70,80,86])))
+        {
+            for($i=0;$i<count($data['form']);$i++)
+            {
+                $data['form'][$i]['type']='dropdown';
+            }
         }
         $data['pname']=$this->Admin_model->getPathwayName($data['pathway']);
         if($data['back']==0)
@@ -509,7 +523,13 @@ class Pw extends REST_Controller {
         {
             $data['step_type']='text';
         }
-        
+        if($data['pathway']=23 && (in_array($data['step'],[27,33,43,49,64,70,80,86])))
+        {
+            for($i=0;$i<count($data['form']);$i++)
+            {
+                $data['form'][$i]['type']='dropdown';
+            }
+        }
         $data['pname']=$this->Admin_model->getPathwayName($data['pathway']);
         $this->Admin_model->removeFlowStep($step['number'], $params['pathway'], $params['user_id']);
         ///////////////////////////////////////////////////////////////
