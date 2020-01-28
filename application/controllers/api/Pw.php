@@ -73,8 +73,8 @@ class Pw extends REST_Controller {
         // print_r((array)$pws);exit;
         $req_dump = print_r($pws, true);
         // file_put_contents('/var/log/apache2/access.log', $req_dump, FILE_APPEND);
-        // $pathways=$this->Admin_model->getUserPermittedPathways((array)$pws);
-        $pathways=$this->Admin_model->getUserPublishedPathways($user_id);
+        $pathways=$this->Admin_model->getUserPermittedPathways((array)$pws);
+        // $pathways=$this->Admin_model->getUserPublishedPathways($user_id);
         if ($pathways)
         {
             // Set the response and exit
@@ -426,7 +426,7 @@ class Pw extends REST_Controller {
             // echo $img_path;exit;
             $valueencoded=base64_encode(file_get_contents($path.$value));
             $data['answer'][0]['value']=$valueencoded;
-        }
+        }        
         if($params['pathway']==17 && $step['number']==52)
         {
             $value=$data['answer'][0]['value'];
