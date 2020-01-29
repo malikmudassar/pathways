@@ -53,7 +53,7 @@ class Pw extends REST_Controller {
         $user_id=$_REQUEST['user_id'];
         if($_SERVER['SERVER_NAME']=='pathways.dr-iq.com')
         {
-            $url='https://server.attech-ltd.com/v3/dr-iq/onboarding/allowed-pathways';
+            $url='https://qa-driq-server.attech-ltd.com/v3/dr-iq/onboarding/allowed-pathways';
         }
         else
         {
