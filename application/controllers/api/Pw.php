@@ -57,7 +57,7 @@ class Pw extends REST_Controller {
         }
         else
         {
-            $url='https://qa-driq-server.attech-ltd.com/v3/dr-iq/onboarding/allowed-pathways';
+            $url='https://stag-server.attech-ltd.com/v3/dr-iq/onboarding/allowed-pathways';
         }
         
         $myvars=array();
