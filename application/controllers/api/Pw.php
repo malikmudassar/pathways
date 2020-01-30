@@ -740,7 +740,7 @@ class Pw extends REST_Controller {
         }
         else
         {
-            $url = 'https://stag-server.attech-ltd.com/'.$endpoint;
+            $url = 'https://qa-driq-server.attech-ltd.com/'.$endpoint;
         }
         
         $myvars = http_build_query($data, '', '&');
