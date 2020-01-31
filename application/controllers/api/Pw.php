@@ -605,6 +605,14 @@ class Pw extends REST_Controller {
             $d[2]=$data['answer'][0];
             $data['answer']=$d;
         }
+        if($params['pathway']==21 && $params['step']==11)
+        {
+            $d=array();
+            $d[0]=$data['answer'][2];
+            $d[1]=$data['answer'][1];
+            $d[2]=$data['answer'][0];
+            $data['answer']=$d;
+        }
         // print_r($data['answer']);exit;
         $path=$this->Admin_model->getPathFlowByStep($params['step'],$params['pathway']);
         $data['step']=$path['step'];
