@@ -7042,11 +7042,48 @@ class Admin_model extends CI_Model {
         }
         else
         {
-            return $this->db->select('*')->from('ans_form')->where('question',$qId)->get()->result_array();
+            $answer=$this->db->select('*')->from('ans_form')->where('question',$qId)->get()->result_array();
+            for($i=0;$i<count($answer);$i++)
+            {
+                if((int)$answer[$i]['redirect']>0)
+                {
+                    if($_SERVER['SERVER_NAME']=='pathways.dr-iq.com')
+                    {
+                        $url='https://server.attech-ltd.com/v3/dr-iq/onboarding/allowed-pathways';
+                    }
+                    else
+                    {
+                        $url='https://qa-driq-server.attech-ltd.com/v3/dr-iq/onboarding/allowed-pathways';
+                    }
+                    
+                    $myvars=array();
+                    $myvars['organization_id']= $_REQUEST['practice_id'];               
+                    $ch = curl_init( $url );
+                    curl_setopt( $ch, CURLOPT_POST, 1);
+                    curl_setopt( $ch, CURLOPT_POSTFIELDS, $myvars);
+                    curl_setopt( $ch, CURLOPT_FOLLOWLOCATION, 1);
+                    curl_setopt( $ch, CURLOPT_HEADER, 0);
+                    curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true);
+
+                    $pws=(array)json_decode(curl_exec( $ch ));
+                    $key=$this->getConditionKeyByPwId((int)$answer[$i]['redirect']);
+                    if(!in_array($key, $pws['data']))
+                    {
+                        $answer[$i]['redirect']='0';
+                    }                   
+                    
+                }
+                
+            }
+            return $answer;
         }
         
     }
-
+    public function getConditionKeyByPwId($id)
+    {
+        $st=$this->db->select('name')->from('conditions')->where('pathway', $id)->get()->result_array();
+        return $st[0]['name'];
+    }
     public function assign_ans_model($data, $id)
     {
         $item=array(
