@@ -600,8 +600,16 @@ class Pw extends REST_Controller {
         if($params['pathway']==21 && $params['step']==22)
         {
             $d=array();
-            $d[0]=$data['answer'][1];
+            $d[0]=$data['answer'][0];
             $d[1]=$data['answer'][2];
+            $d[2]=$data['answer'][1];
+            $data['answer']=$d;
+        }
+        if($params['pathway']==21 && $params['step']==11)
+        {
+            $d=array();
+            $d[0]=$data['answer'][2];
+            $d[1]=$data['answer'][1];
             $d[2]=$data['answer'][0];
             $data['answer']=$d;
         }
