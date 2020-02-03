@@ -55,6 +55,10 @@ class Pw extends REST_Controller {
         {
             $url='https://server.attech-ltd.com/v3/dr-iq/onboarding/allowed-pathways';
         }
+        elseif($_SERVER['SERVER_NAME']=='stag-pathways.dr-iq.com')
+        {
+            $url='https://stag-server.attech-ltd.com/v3/dr-iq/onboarding/allowed-pathways';
+        }
         else
         {
             $url='https://qa-driq-server.attech-ltd.com/v3/dr-iq/onboarding/allowed-pathways';
@@ -744,6 +748,11 @@ class Pw extends REST_Controller {
         if($_SERVER['SERVER_NAME']=='pathways.dr-iq.com')
         {
             $url = 'https://server.attech-ltd.com/'.$endpoint;
+            
+        }
+        elseif($_SERVER['SERVER_NAME']=='stag-pathways.dr-iq.com')
+        {
+            $url = 'https://stag-server.attech-ltd.com/'.$endpoint;
             
         }
         else
