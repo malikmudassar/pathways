@@ -7051,6 +7051,10 @@ class Admin_model extends CI_Model {
                     {
                         $url='https://server.attech-ltd.com/v3/dr-iq/onboarding/allowed-pathways';
                     }
+                    elseif($_SERVER['SERVER_NAME']=='stag-pathways.dr-iq.com')
+                    {
+                        $url='https://stag-server.attech-ltd.com/v3/dr-iq/onboarding/allowed-pathways';
+                    }
                     else
                     {
                         $url='https://qa-driq-server.attech-ltd.com/v3/dr-iq/onboarding/allowed-pathways';
