@@ -7850,8 +7850,8 @@ class Admin_model extends CI_Model {
             // There was a requirement to exclude some steps from summary, we did it but later some
             // doctor didn't like it. hence commenting the condition. If later the requirement pops up 
             // again just un-comment this condition here.
-            // if($step['is_summary'] == 1)
-            // {
+            if($step['is_summary'] == 1)
+            {
                 $q=$this->getQuestionByStep($step['id']);
                 $path=$this->getPathFlowByStep($step['number'], $params['pathway']);
                 // print_r($q);
@@ -7885,7 +7885,7 @@ class Admin_model extends CI_Model {
                 }
                 
                 array_push($data, $dr);
-            // }
+            }
             
         }
         return $data;
@@ -7909,8 +7909,8 @@ class Admin_model extends CI_Model {
             // There was a requirement to exclude some steps from summary, we did it but later some
             // doctor didn't like it. hence commenting the condition. If later the requirement pops up 
             // again just un-comment this condition here.
-            // if($step['is_summary']==1) 
-            // {
+            if($step['is_summary']==1) 
+            {
                 $q=$this->getQuestionByStep($step['id']);
                 $path=$this->getPathFlowByStep($step['number'], $params['pathway']);
                 // print_r($q);
@@ -7930,7 +7930,7 @@ class Admin_model extends CI_Model {
                 }
                 
                 array_push($data, $dr);
-            // }
+            }
                 
         }
         // print_r($data);exit;
