@@ -7293,7 +7293,8 @@ class Admin_model extends CI_Model {
     {
         // echo '<pre>';print_r($data);exit;
         $step=$this->getStepByNumber($data['step'], $data['pathway']);
-        // print_r($step);
+        $quest=$this->getQuestionByStep($step['id']);
+        
         if($step['type']=='question' || $step['type']=='info' || $step['type']=='alert')
         {
             $st=$this->db->query('Select questions.* from questions inner join step_questions on step_questions.question=questions.id where step_questions.step='.$step['id'])->result_array();
@@ -7308,15 +7309,16 @@ class Admin_model extends CI_Model {
                     //echo $am['text'].' textboxes <br>';
                     $ans_form=$this->getAnsForm($globalSt[0]['id'], $data);
                     // echo '<pre>';print_r($ans_form);print_r($data);exit;
-                    if($data['score'])
-                    {
+                    
+                    if( $data['score'] && !($data['pathway'] == 23 && $quest['id'] == 511) )
+                    { 
                         // do nothing
                     }
                     else
-                    {
-                        $this->db->query('delete from step_answers where pathway='.$data['pathway']
-                                        .' and user_id='.$data['user_id']
-                                        .' and step='.$data['step'].'');
+                    { 
+                        // $this->db->query('delete from step_answers where pathway='.$data['pathway']
+                        //                 .' and user_id='.$data['user_id']
+                        //                 .' and step='.$data['step'].'');
                         // echo 'we are in else';exit;
                         for($i=0;$i<count($ans_form);$i++)
                         {
@@ -7373,10 +7375,10 @@ class Admin_model extends CI_Model {
                         );
                         
                         // echo '<pre> path';print_r($pth);exit;
-                        $this->db->query('delete from step_answers where pathway='.$data['pathway']
-                                        .' and user_id='.$data['user_id']
-                                        .' and step='.$data['step']
-                                        .' and field_name <> \'score\'');
+                        // $this->db->query('delete from step_answers where pathway='.$data['pathway']
+                        //                 .' and user_id='.$data['user_id']
+                        //                 .' and step='.$data['step']
+                        //                 .' and field_name <> \'score\'');
                         $st=$this->db->select('*')
                                     ->from('step_answers')                                
                                     ->where('user_id',$data['user_id'])
@@ -7388,21 +7390,22 @@ class Admin_model extends CI_Model {
     
                         // echo '<pre>';print_r($st);exit;
                         // $st=$this->db->query('select * from step_answers where step='.$data['step'])->result_array();
-                        if(count($st)>0)
-                        {
+                        // if(count($st)>0)
+                        // {
                             
-                            $this->db->where('step',$data['step'])
-                                    ->where('user_id',$data['user_id'])
-                                    ->where('pathway', $data['pathway'])
-                                    ->where('field_name', 'score')
-                                    ->update('step_answers',$item);
-                            // echo $this->db->last_query();exit;
-                        }
-                        else
-                        {                        
-                            $this->db->insert('step_answers',$item);
-                            // echo $this->db->last_query();exit;
-                        }
+                        //     $this->db->where('step',$data['step'])
+                        //             ->where('user_id',$data['user_id'])
+                        //             ->where('pathway', $data['pathway'])
+                        //             ->where('field_name', 'score')
+                        //             ->update('step_answers',$item);
+                        //     // echo $this->db->last_query();exit;
+                        // }
+                        // else
+                        // {                        
+                        //     $this->db->insert('step_answers',$item);
+                        //     // echo $this->db->last_query();exit;
+                        // }
+                        $this->db->insert('step_answers',$item);
                     }
                     
                 }
@@ -7486,21 +7489,23 @@ class Admin_model extends CI_Model {
                                         ->result_array();
                             // echo $this->db->last_query();
                             // print_r($st);exit;
-                            if(count($st)>0)
-                            {
-                                $this->db->where('step',$data['step'])
-                                        ->where('user_id',$data['user_id'])
-                                        ->where('pathway', $data['pathway'])
-                                        ->where('field_name',$ans_form[$i]['name'])
-                                        ->update('step_answers',$item);
-                                        // echo $this->db->last_query();exit;
-                            }
-                            else
-                            {
+                            // if(count($st)>0)
+                            // {
+                            //     $this->db->where('step',$data['step'])
+                            //             ->where('user_id',$data['user_id'])
+                            //             ->where('pathway', $data['pathway'])
+                            //             ->where('field_name',$ans_form[$i]['name'])
+                            //             ->update('step_answers',$item);
+                            //             // echo $this->db->last_query();exit;
+                            // }
+                            // else
+                            // {
                                 
-                                $this->db->insert('step_answers',$item);
-                                // echo $this->db->last_query();exit;
-                            }
+                            //     $this->db->insert('step_answers',$item);
+                            //     // echo $this->db->last_query();exit;
+                            // }
+
+                            $this->db->insert('step_answers',$item);
                         }
                         
                         
@@ -7564,10 +7569,10 @@ class Admin_model extends CI_Model {
                             'value'     => implode(',', $data['score'])
                         );
                         // print_r($item);exit;
-                        $this->db->query('delete from step_answers where pathway='.$data['pathway']
-                                        .' and user_id='.$data['user_id']
-                                        .' and step='.$data['step']
-                                        .' and field_name <> \'score[]\'');
+                        // $this->db->query('delete from step_answers where pathway='.$data['pathway']
+                        //                 .' and user_id='.$data['user_id']
+                        //                 .' and step='.$data['step']
+                        //                 .' and field_name <> \'score[]\'');
                         $st=$this->db->select('*')
                                     ->from('step_answers')
                                     ->where('step',$data['step'])
@@ -7576,20 +7581,21 @@ class Admin_model extends CI_Model {
                                     ->where('pathway', $data['pathway'])
                                     ->get()
                                     ->result_array();
-                        if(count($st)>0)
-                        {
+                        // if(count($st)>0)
+                        // {
                             
-                            $this->db->where('step',$data['step'])
-                                    ->where('user_id',$data['user_id'])
-                                    ->where('pathway', $data['pathway'])
-                                    ->where('field_name','score[]')
-                                    ->update('step_answers',$item);
-                        }
-                        else
-                        {
+                        //     $this->db->where('step',$data['step'])
+                        //             ->where('user_id',$data['user_id'])
+                        //             ->where('pathway', $data['pathway'])
+                        //             ->where('field_name','score[]')
+                        //             ->update('step_answers',$item);
+                        // }
+                        // else
+                        // {
                             
-                            $this->db->insert('step_answers',$item);
-                        }
+                        //     $this->db->insert('step_answers',$item);
+                        // }
+                        $this->db->insert('step_answers',$item);
                     }
                     
                 } 
