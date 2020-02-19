@@ -28,7 +28,7 @@ class Pw extends REST_Controller {
         $this->load->model('Admin_model');
     }
 
-
+    // GET request for pathways list [not used]
     public function pathways_get()
     {
         $pathways=$this->Admin_model->getPublishedPathways();
@@ -46,9 +46,16 @@ class Pw extends REST_Controller {
                 ], REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
             }
     }
+    /*    
+        Post request for listing pathways
+        @Params
+            user_id
+            practice_id
+        return JSON
+    */
     public function pathways_post()
     {
-        $req_dump = print_r($_REQUEST, true);
+        // $req_dump = print_r($_REQUEST, true);
         // $fp = file_put_contents('/var/log/apache2/access.log', $req_dump, FILE_APPEND);
         $user_id=$_REQUEST['user_id'];
         if($_SERVER['SERVER_NAME']=='pathways.dr-iq.com')
