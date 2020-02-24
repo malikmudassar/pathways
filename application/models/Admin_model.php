@@ -7993,13 +7993,13 @@ class Admin_model extends CI_Model {
             // print_r($row);exit;
         }
         
-        if($params['pathway']==24 && ($step==13 || $step==9))
+        if($params['pathway']==24 && ($step==13 || $step==9 ))
         {
             $d=array();
             // print_r($row);exit;
-            $d[0]=$row[0];
+            $d[0]=$row[2];
             $d[1]=$row[1];
-            $d[2]=$row[2];
+            $d[2]=$row[0];
             $row=$d;
             // print_r($row);exit;
         }
