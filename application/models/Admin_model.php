@@ -8371,11 +8371,11 @@ class Admin_model extends CI_Model {
                             }
                             
                         }else{
-                            $caption[0]['value'].=str_replace('_', ' ', $row[$i]['field_name']).': '.$row[$i]['value'].'. <br />';
+                            $caption.=str_replace('_', ' ', $row[$i]['field_name']).': '.$row[$i]['value'].'. <br />';
                         }
                         
                     }else{
-                        $caption[0]['value'].=str_replace('_', ' ', $row[$i]['field_name']).': '.$row[$i]['value'].'. <br />';
+                        $caption.=str_replace('_', ' ', $row[$i]['field_name']).': '.$row[$i]['value'].'. <br />';
                     }
                     //=======================
                 }
@@ -8388,10 +8388,10 @@ class Admin_model extends CI_Model {
                 $countt = 1;
                 foreach($fieldNameArray as $nvRow){
                     foreach($nvRow as $key => $value){
-                        $caption[0]['value'].=str_replace('_', ' ', ucfirst($key)).': '.$value.'. <br />';
+                        $caption.=str_replace('_', ' ', ucfirst($key)).': '.$value.'. <br />';
                     }
                     if($countt < count($fieldNameArray)){
-                        $caption[0]['value'].='<br />';
+                        $caption.='<br />';
                     }
                     $countt++;
                 }
