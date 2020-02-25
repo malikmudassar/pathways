@@ -8232,9 +8232,9 @@ class Admin_model extends CI_Model {
         if($params['pathway']==21 && $step==11)
         {
             $d=array();
-            $d[0]=$row[2];
+            $d[0]=$row[0];
             $d[1]=$row[1];
-            $d[2]=$row[0];
+            $d[2]=$row[2];
             $row=$d;
         }
         if($params['pathway']==22 && $step==89)
@@ -8247,7 +8247,7 @@ class Admin_model extends CI_Model {
             $row=$d;
             // print_r($row);exit;
         }
-        if($params['pathway']==22 && ($step==29 || $step==9 || $step==15 || $step==41 || $step==75 || $step==47))
+        if($params['pathway']==22 && ($step==29 || $step==75 || $step==47))
         {
             
             $d=array();
@@ -8264,6 +8264,17 @@ class Admin_model extends CI_Model {
             $d[0]=$row[1];
             $d[1]=$row[0];
             $d[2]=$row[2];
+            $row=$d;
+            // print_r($row);exit;
+        }
+
+        if($params['pathway']==22 && ($step==9 || $step==41 || $step==15 ))
+        {
+            $d=array();
+            // print_r($row);exit;
+            $d[0]=$row[2];
+            $d[1]=$row[1];
+            $d[2]=$row[0];
             $row=$d;
             // print_r($row);exit;
         }
@@ -8288,12 +8299,13 @@ class Admin_model extends CI_Model {
             $row=$d;
             // print_r($row);exit;
         }
+
         if($params['pathway']==23 && in_array($step, [26,27,32,33,42,43,48,49,63,64,69,70,79,80,85,86]))
         {
             $d=array();
             $d=array_reverse($row);
             $row=$d;
-        }
+        }  
         
         if(count($row)>1)
         {
