@@ -7993,7 +7993,7 @@ class Admin_model extends CI_Model {
             // print_r($row);exit;
         }
         
-        if($params['pathway']==24 && ($step==13 || $step==9 ))
+        if($params['pathway']==24 && ($step==13 || $step==8 ))
         {
             $d=array();
             // print_r($row);exit;
@@ -8027,6 +8027,7 @@ class Admin_model extends CI_Model {
             $caption=array();
             $caption[0]['value']='';
             // loop through answers
+            $fieldNameArray = array();
             for($i=(count($row)-1);$i>-1;$i--)
             {
                 // check if there is a checkbox entry
@@ -8085,10 +8086,42 @@ class Admin_model extends CI_Model {
                 }
                 else
                 {
-                    $caption[0]['value'].=str_replace('_', ' ', $row[$i]['field_name']).': '.$row[$i]['value'].'. <br />';
+                    //=======================
+                    if($params['pathway']==24 && ($step==13 || $step==8 ))
+                    {
+                        $valueArray = explode(',', $row[$i]['value']);
+                        
+                        if(count($valueArray) > 0){ 
+                            
+                            $countt = 0;
+                            foreach($valueArray as $vRow){
+                                $fieldNameArray[$countt][$row[$i]['field_name']] = $vRow;
+                                $countt++;
+                            }
+                            
+                        }else{
+                            $caption[0]['value'].=str_replace('_', ' ', $row[$i]['field_name']).': '.$row[$i]['value'].'. <br />';
+                        }
+                        
+                    }else{
+                        $caption[0]['value'].=str_replace('_', ' ', $row[$i]['field_name']).': '.$row[$i]['value'].'. <br />';
+                    }
+                    //=======================
                 }
                 
             }
+
+            //=======================
+            if($params['pathway']==24 && ($step==13 || $step==8 ))
+            {
+                foreach($fieldNameArray as $nvRow){
+                    foreach($nvRow as $key => $value){
+                        $caption[0]['value'].=str_replace('_', ' ', ucfirst($key)).': '.$value.'. <br />';
+                    }
+                    $caption[0]['value'].='<hr>';
+                }
+            }
+            //=======================
             return $caption;
         }
         else
