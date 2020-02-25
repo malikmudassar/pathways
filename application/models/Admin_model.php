@@ -8268,13 +8268,13 @@ class Admin_model extends CI_Model {
             // print_r($row);exit;
         }
         
-        if($params['pathway']==24 && ($step==13 || $step==9))
+        if($params['pathway']==24 && ($step==13 || $step==8 ))
         {
             $d=array();
             // print_r($row);exit;
-            $d[0]=$row[0];
+            $d[0]=$row[2];
             $d[1]=$row[1];
-            $d[2]=$row[2];
+            $d[2]=$row[0];
             $row=$d;
             // print_r($row);exit;
         }
@@ -8294,20 +8294,29 @@ class Admin_model extends CI_Model {
             $d=array_reverse($row);
             $row=$d;
         }
+        
         if(count($row)>1)
         {
             $caption='';
+            $fieldNameArray = array();
             for($i=(count($row)-1);$i>-1;$i--)
             {
+                // check if there is a checkbox entry
                 if($row[$i]['field_name']=='score[]')
                 {
+                    $arr=array();
+                    $caption[0]['value']='score[]';
+                    // check if there are comma seperated values
                     if(strpos($row[$i]['value'], ','))
                     {
                         $arr=explode(',', $row[$i]['value']);            
                     }
+                    // check if values were exploded. 
                     if(count($arr)>0)
                     {
-                        $caption='';
+                        $caption=array();
+                        $caption[0]['value']='';
+                        // if values were splitted, loop through them to get all captions. 
                         for($i=0;$i<count($arr);$i++)
                         {
                             $st=$this->db->select('caption')
@@ -8319,7 +8328,7 @@ class Admin_model extends CI_Model {
                             // print_r($st[0]);
                             if(count($st)>0)
                             {
-                                $caption.=($i+1).': '.$st[0]['caption'].'. <br />';
+                                $caption[0]['value'].=($i+1).': '.$st[0]['caption'].'. <br />';
                             }
                             
                         }
@@ -8327,7 +8336,7 @@ class Admin_model extends CI_Model {
                     }
                     else
                     {
-                        $caption='';                
+                        $caption=array();                
                         $st=$this->db->select('caption')
                                 ->from('ans_form')
                                 ->where('question', $q)
@@ -8337,7 +8346,7 @@ class Admin_model extends CI_Model {
                         // echo $this->db->last_query();
                         if(count($st)>0)
                         {
-                            $caption=$st[0]['caption'];
+                            $caption[0]['value']=$st[0]['caption'];
                         }
                         else
                         {
@@ -8348,10 +8357,46 @@ class Admin_model extends CI_Model {
                 }
                 else
                 {
-                    $caption.=$row[$i]['field_name'].': '.$row[$i]['value'].'. <br />';
+                    //=======================
+                    if($params['pathway']==24 && ($step==13 || $step==8 ))
+                    {
+                        $valueArray = explode(',', $row[$i]['value']);
+                        
+                        if(count($valueArray) > 0){ 
+                            
+                            $countt = 0;
+                            foreach($valueArray as $vRow){
+                                $fieldNameArray[$countt][$row[$i]['field_name']] = $vRow;
+                                $countt++;
+                            }
+                            
+                        }else{
+                            $caption[0]['value'].=str_replace('_', ' ', $row[$i]['field_name']).': '.$row[$i]['value'].'. <br />';
+                        }
+                        
+                    }else{
+                        $caption[0]['value'].=str_replace('_', ' ', $row[$i]['field_name']).': '.$row[$i]['value'].'. <br />';
+                    }
+                    //=======================
                 }
                 
             }
+
+            //=======================
+            if($params['pathway']==24 && ($step==13 || $step==8 ))
+            {
+                $countt = 1;
+                foreach($fieldNameArray as $nvRow){
+                    foreach($nvRow as $key => $value){
+                        $caption[0]['value'].=str_replace('_', ' ', ucfirst($key)).': '.$value.'. <br />';
+                    }
+                    if($countt < count($fieldNameArray)){
+                        $caption[0]['value'].='<br />';
+                    }
+                    $countt++;
+                }
+            }
+            //=======================
             return $caption;
         }
         else
