@@ -8118,7 +8118,7 @@ class Admin_model extends CI_Model {
                     foreach($nvRow as $key => $value){
                         $caption[0]['value'].=str_replace('_', ' ', ucfirst($key)).': '.$value.'. <br />';
                     }
-                    $caption[0]['value'].='<hr>';
+                    $caption[0]['value'].='<br /><br /><br />';
                 }
             }
             //=======================
