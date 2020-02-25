@@ -8114,11 +8114,15 @@ class Admin_model extends CI_Model {
             //=======================
             if($params['pathway']==24 && ($step==13 || $step==8 ))
             {
+                $countt = 1;
                 foreach($fieldNameArray as $nvRow){
                     foreach($nvRow as $key => $value){
                         $caption[0]['value'].=str_replace('_', ' ', ucfirst($key)).': '.$value.'. <br />';
                     }
-                    $caption[0]['value'].='<br /><br /><br />';
+                    if($countt < count($fieldNameArray)){
+                        $caption[0]['value'].='<br />';
+                    }
+                    $countt++;
                 }
             }
             //=======================
