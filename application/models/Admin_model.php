@@ -101,7 +101,7 @@ class Admin_model extends CI_Model {
         return $data;
     }
 
-    public function getNextPathwayQuestion($params)
+    public function getNextPathwayQuestion($params) 
     {        
         // echo '<pre>1';print_r($params); exit;
         

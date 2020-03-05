@@ -166,7 +166,7 @@ class Pw extends REST_Controller {
 
         //-----------------------------------------
         $this->admin_model->flush_pw_results($user_id, $Id);
-        $this->admin_model->flush_pw_steps($Id, $user_id);
+        $this->admin_model->flush_pw_steps($Id, $user_id); 
         //-----------------------------------------
 
         $age=$_REQUEST['age'];
