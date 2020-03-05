@@ -66,6 +66,10 @@ class Pw extends REST_Controller {
         {
             $url='https://stag-server.attech-ltd.com/v3/dr-iq/onboarding/allowed-pathways';
         }
+        elseif($_SERVER['SERVER_NAME']=='dev-pathways.dr-iq.com')
+        {
+            $url='https://dev-driq-server.attech-ltd.com/v3/dr-iq/onboarding/allowed-pathways';
+        }
         else
         {
             $url='https://qa-driq-server.attech-ltd.com/v3/dr-iq/onboarding/allowed-pathways';
@@ -159,6 +163,12 @@ class Pw extends REST_Controller {
         $this->session->set_userdata('flag','white');
         $Id=$_REQUEST['pw'];
         $user_id=$_REQUEST['user_id'];
+
+        //-----------------------------------------
+        $this->admin_model->flush_pw_results($user_id, $Id);
+        $this->admin_model->flush_pw_steps($Id, $user_id);
+        //-----------------------------------------
+
         $age=$_REQUEST['age'];
         $params=$_REQUEST;
         $data=$this->Admin_model->getFirstPathwayQuestion($Id, $user_id, $age);
@@ -332,6 +342,7 @@ class Pw extends REST_Controller {
         if(!empty($data['form']))
         {
             $data['step_type']=$data['form'][0]['type'];
+            $data['max_limit'] = $data['form'][0]['max_limit'];
         }
         else
         {
@@ -364,6 +375,10 @@ class Pw extends REST_Controller {
             $data['step_type']='add_medication';
         }
         if($data['pathway']==24 && $data['step']==8)
+        {
+            $data['step_type']='add_medication';
+        }
+        if($data['pathway']==29 && $data['step']==19)
         {
             $data['step_type']='add_medication';
         }
@@ -523,6 +538,10 @@ class Pw extends REST_Controller {
             $data['step_type']='add_medication';
         }
         if($data['pathway']==24 && $data['step']==8)
+        {
+            $data['step_type']='add_medication';
+        }
+        if($data['pathway']==29 && $data['step']==19)
         {
             $data['step_type']='add_medication';
         }
@@ -769,6 +788,10 @@ class Pw extends REST_Controller {
         {
             $url = 'https://stag-server.attech-ltd.com/'.$endpoint;
             
+        }
+        elseif($_SERVER['SERVER_NAME']=='dev-pathways.dr-iq.com')
+        {
+            $url='https://dev-driq-server.attech-ltd.com/'.$endpoint;
         }
         else
         {
