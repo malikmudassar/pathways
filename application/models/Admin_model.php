@@ -101,7 +101,7 @@ class Admin_model extends CI_Model {
         return $data;
     }
 
-    public function getNextPathwayQuestion($params)
+    public function getNextPathwayQuestion($params) 
     {        
         // echo '<pre>1';print_r($params); exit;
         
@@ -8773,4 +8773,8 @@ class Admin_model extends CI_Model {
         return $st[0]['slot_id'];
     }
 
+    public function flush_pw_steps($pw, $user_id)
+    {
+        $this->db->query('delete from pathway_steps where pathway='.$pw.' and user_id='.$user_id);
+    }
 }
