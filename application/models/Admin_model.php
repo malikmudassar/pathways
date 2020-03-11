@@ -7605,39 +7605,65 @@ class Admin_model extends CI_Model {
                         {
                             if(!empty($data[$ans_form[$i]['name']]))
                             {
-                                // Upload file 
-                                $file=base64_decode($data[$ans_form[$i]['name']]);
-                                $file_name=md5(uniqid(rand(), true)). '.' . 'png';
-                                $path='/var/www/html/pathways/img/'.$file_name;
-                                file_put_contents($path,$file);
-                                $item=array(
-                                    'pathway'   => $data['pathway'],
-                                    'step'      => $data['step'],
-                                    'value'     => $file_name,
-                                    'field_name'=>$ans_form[$i]['name'],
-                                    'user_id'   =>$data['user_id']
-                                );
-                                
-                                $st=$this->db->select('*')
-                                    ->from('step_answers')
-                                    ->where('step',$data['step'])
-                                    ->where('user_id',$data['user_id'])
-                                    ->where('pathway', $data['pathway'])
-                                    ->where('field_name',$ans_form[$i]['name'])
-                                    ->get()
-                                    ->result_array();
-                                if(count($st)>0)
-                                {
-                                    $this->db->where('step',$data['step'])
-                                        ->where('user_id',$data['user_id'])
-                                        ->where('pathway', $data['pathway'])
-                                        ->where('field_name',$ans_form[$i]['name'])
-                                        ->update('step_answers',$item);
-                                }
-                                else
-                                {
+
+                                $file_name_array = explode(',', $data[$ans_form[$i]['name']]);
+                                //------------
+                                $this->db->query("DELETE FROM step_answers 
+                                                    WHERE pathway = '".$data['pathway']."' 
+                                                    AND step = ".$data['step']."
+                                                    AND user_id = ".$data['user_id']."
+                                                ");
+                                //------------
+                                foreach($file_name_array as $fnRow){
+                                    // Upload file 
+                                    $file=base64_decode($fnRow);
+                                    $file_name=md5(uniqid(rand(), true)). '.' . 'png';
+                                    $path='/var/www/html/pathways/img/'.$file_name;
+                                    file_put_contents($path,$file);
+                                    $item=array(
+                                        'pathway'   => $data['pathway'],
+                                        'step'      => $data['step'],
+                                        'value'     => $file_name,
+                                        'field_name'=>$ans_form[$i]['name'],
+                                        'user_id'   =>$data['user_id']
+                                    );
+
                                     $this->db->insert('step_answers',$item);
                                 }
+
+                                // Upload file 
+                                // $file=base64_decode($data[$ans_form[$i]['name']]);
+                                // $file_name=md5(uniqid(rand(), true)). '.' . 'png';
+                                // $path='/var/www/html/pathways/img/'.$file_name;
+                                // file_put_contents($path,$file);
+                                // $item=array(
+                                //     'pathway'   => $data['pathway'],
+                                //     'step'      => $data['step'],
+                                //     'value'     => $file_name,
+                                //     'field_name'=>$ans_form[$i]['name'],
+                                //     'user_id'   =>$data['user_id']
+                                // );
+                                
+                                // $st=$this->db->select('*')
+                                //     ->from('step_answers')
+                                //     ->where('step',$data['step'])
+                                //     ->where('user_id',$data['user_id'])
+                                //     ->where('pathway', $data['pathway'])
+                                //     ->where('field_name',$ans_form[$i]['name'])
+                                //     ->get()
+                                //     ->result_array();
+                                // if(count($st)>0)
+                                // {
+                                //     $this->db->where('step',$data['step'])
+                                //         ->where('user_id',$data['user_id'])
+                                //         ->where('pathway', $data['pathway'])
+                                //         ->where('field_name',$ans_form[$i]['name'])
+                                //         ->update('step_answers',$item);
+                                // }
+                                // else
+                                // {
+                                //     $this->db->insert('step_answers',$item);
+                                // }
                             }
                             
                         }
