@@ -471,11 +471,13 @@ class Pw extends REST_Controller {
         // print_r($data['answer']);exit;
         if($params['pathway']==24 && $step['number']==10)
         {
-            $valueencoded = '';
-            $count = 1;
-            if(!empty($data['answer'])){
-                foreach($data['answer'] as $aRow){
-
+            $data['answer'] = array_reverse($data['answer']);
+            $valueencoded   = '';
+            $count          = 1;
+            if(!empty($data['answer']))
+            {
+                foreach($data['answer'] as $aRow)
+                {
                     $value = $aRow['value'];
                     $path = '/var/www/html/pathways/img/';
                     $img_path = $path.$value;
@@ -499,6 +501,7 @@ class Pw extends REST_Controller {
         }        
         if($params['pathway']==17 && $step['number']==52)
         {
+            $data['answer'] = array_reverse($data['answer']);
             $valueencoded   = '';
             $count          = 1;
             if(!empty($data['answer'])){
