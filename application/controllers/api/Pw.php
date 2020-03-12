@@ -434,7 +434,8 @@ class Pw extends REST_Controller {
             ], REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
         }
         
-    }
+    }    
+    
     public function back_pw_post()
     {
 
@@ -542,6 +543,7 @@ class Pw extends REST_Controller {
                     $data['form'][$i]['type']='dropdown';
                 }
             } 
+            $data['max_limit'] = $data['form'][0]['max_limit'];
         }
         else
         {
