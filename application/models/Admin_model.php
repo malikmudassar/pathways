@@ -8434,6 +8434,28 @@ class Admin_model extends CI_Model {
                     $countt++;
                 }
             }
+            // Rash Multiple images
+            if($params['pathway']==17 && $step==52)
+            {
+                $row = array_reverse($row);
+                $valueencoded   = '';
+                $count          = 1;
+                if(!empty($row)){
+                    foreach($row as $aRow){
+
+                        $value = $aRow['value'];
+                        $path = '/var/www/html/pathways/img/';
+                        $img_path = $path.$value;
+                        $valueencoded .= base64_encode(file_get_contents($path.$value));
+
+                        if($count != count($row)){
+                            $valueencoded .= ',';
+                        }
+                        $count++;
+                    }
+                }
+                $caption = $valueencoded;
+            }
             //=======================
             return $caption;
         }
