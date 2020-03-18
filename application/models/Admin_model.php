@@ -8332,7 +8332,7 @@ class Admin_model extends CI_Model {
             $d=array_reverse($row);
             $row=$d;
         }  
-        
+        // if there are multiple results 
         if(count($row)>1)
         {
             $caption='';
@@ -8444,9 +8444,9 @@ class Admin_model extends CI_Model {
                     foreach($row as $aRow){
 
                         $value = $aRow['value'];
-                        $path = '/var/www/html/pathways/img/';
+                        $path='http://'.$_SERVER['SERVER_NAME'].'/pathways/img/';
                         $img_path = $path.$value;
-                        $valueencoded .= base64_encode(file_get_contents($path.$value));
+                        $valueencoded .= $img_path;
 
                         if($count != count($row)){
                             $valueencoded .= ',';
