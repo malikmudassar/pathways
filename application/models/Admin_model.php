@@ -8466,7 +8466,7 @@ class Admin_model extends CI_Model {
         else
         {
             $row=$row[0];
-            if($row['field_name']=='file')
+            if($row['field_name']=='files' || $row['field_name']=='file')
             {
                 $value=$row['value'];
                 $caption='';
