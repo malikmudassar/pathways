@@ -856,7 +856,7 @@ class Pw extends REST_Controller {
         }        
 
         $data2['code']='200';
-        $data2['message']='Your request for online consultation has been submitted successfully';
+        $data2['message']='Your online consultation has been successfully submitted.';
         $data2['slotId']=$this->Admin_model->getLastInsertedSlotId($params['user_id'],$params['pathway']);
         // $data2['slotId']=($slot->slot_id)?$slot->slot_id:3955;
         $this->Admin_model->finish_pw($params['pathway'], $params['user_id']);
