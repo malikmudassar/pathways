@@ -8044,7 +8044,7 @@ class Admin_model extends CI_Model {
             // print_r($row);exit;
         }
 
-        if($params['pathway']==23 && in_array($step, [20,26,27,32,33,42,43,48,49,63,64,69,70,79,80,85,86]))
+        if($params['pathway']==23 && in_array($step, [20,23,26,27,32,33,42,43,48,49,63,64,69,70,79,80,85,86]))
         {
             $d=array();
             $d=array_reverse($row);
@@ -8330,7 +8330,7 @@ class Admin_model extends CI_Model {
             // print_r($row);exit;
         }
 
-        if($params['pathway']==23 && in_array($step, [20,26,27,32,33,42,43,48,49,63,64,69,70,79,80,85,86]))
+        if($params['pathway']==23 && in_array($step, [20,23,26,27,32,33,42,43,48,49,63,64,69,70,79,80,85,86]))
         {
             $d=array();
             $d=array_reverse($row);
