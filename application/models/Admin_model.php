@@ -7952,9 +7952,9 @@ class Admin_model extends CI_Model {
 
                 $optionString = '';
                 if(!empty($optionss)){
-                    $optionString = '<br />';
+                    $optionString = '<br /><br />';
                     foreach($optionss as $optRow){
-                        $optionString .= $optRow['caption'].' <br />';
+                        $optionString .= '- '.$optRow['caption'].' <br />';
                     }
                 }
                 //-------------------------------------------------------------------------------------------
