@@ -7943,12 +7943,27 @@ class Admin_model extends CI_Model {
             if($step['is_summary']==1) 
             {
                 $q=$this->getQuestionByStep($step['id']);
+                //------------------------------------------------------------- Get all options and concate with the question statement
+                $optionss = $this->db->query("  SELECT caption 
+                                                FROM `ans_form` 
+                                                WHERE `question` = ".$q['id']." 
+                                                AND (type = 'radio' OR type = 'checkbox') 
+                                            ")->result_array();
+
+                $optionString = '';
+                if(!empty($optionss)){
+                    $optionString = '<br />';
+                    foreach($optionss as $optRow){
+                        $optionString .= $optRow['caption'].' <br />';
+                    }
+                }
+                //-------------------------------------------------------------------------------------------
                 $path=$this->getPathFlowByStep($step['number'], $params['pathway']);
                 // print_r($q);
                 if($q['type']=='Question')
                 {
                     $dr=array(
-                        'question'  => $q['statement'],
+                        'question'  => $q['statement'].$optionString,
                         'selected_choice'    => $this->getAnsResult_for_BS($step['number'], $q['id'],$params)
                     );
                 }
