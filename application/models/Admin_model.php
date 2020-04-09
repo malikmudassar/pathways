@@ -7945,13 +7945,14 @@ class Admin_model extends CI_Model {
                 $q=$this->getQuestionByStep($step['id']);
 
                 //------------------------------------------------------------- Get all options and concate with the question statement
+                $optionString = '';
                 if($q['display_summary_options'] == 1){
                     $optionss = $this->db->query("  SELECT caption 
                                                     FROM `ans_form` 
                                                     WHERE `question` = ".$q['id']." 
                                                     AND (type = 'radio' OR type = 'checkbox') 
                                                 ")->result_array();
-                    $optionString = '';
+                    
                     if(!empty($optionss)){
                         $optionString = '<br /><br />';
                         foreach($optionss as $optRow){
