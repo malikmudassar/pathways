@@ -7083,6 +7083,16 @@ class Admin_model extends CI_Model {
                 }
                 
             }
+
+            if(!empty($answer)){
+                $count = 0;
+                foreach($answer as $aRow){
+                    if(!empty($aRow['units_list'])){
+                        $answer[$count]['units_list'] = json_decode($aRow['units_list'], true);
+                    }
+                    $count++;
+                }
+            }
             return $answer;
         }
         
