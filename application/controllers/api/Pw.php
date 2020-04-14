@@ -857,6 +857,16 @@ class Pw extends REST_Controller {
 
         $data2['code']='200';
         $data2['message']='Your online consultation has been successfully submitted.';
+
+        if($params['pathway'] == 32){
+            $string = 'Your linkage key has been requested successfully.
+
+We will send this to you within 24 hours.
+
+You’ll then be able to view your medical record and test results in the app.';
+            $data2['message'] = $string;
+        }
+        
         $data2['slotId']=$this->Admin_model->getLastInsertedSlotId($params['user_id'],$params['pathway']);
         // $data2['slotId']=($slot->slot_id)?$slot->slot_id:3955;
         $this->Admin_model->finish_pw($params['pathway'], $params['user_id']);
