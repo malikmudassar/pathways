@@ -6923,11 +6923,11 @@ class Admin_model extends CI_Model {
     }
     public function getPublishedPathways()
     {
-        return $this->db->select('*')
-                        ->from('pathways')
-                        ->where('publish','yes')
-                        ->get()
-                        ->result_array();
+        return $this->db->query("   SELECT p.*, c.`name` AS url_key
+                                    FROM pathways p, conditions c
+                                    WHERE p.`id` = c.`pathway`
+                                    AND p.`publish` = 'yes' "
+                                )->result_array();
     }
     public function getUserPublishedPathways($user_id)
     {
