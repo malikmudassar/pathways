@@ -824,7 +824,7 @@ class Pw extends REST_Controller {
         $data['condition_schema']=$this->Admin_model->pathway_review_for_BS($params);
         
         if($params['pathway'] == 32){
-            $data['condition_schema'] = array();
+            $data['condition_schema'] = [];
         }
         
 
