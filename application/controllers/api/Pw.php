@@ -822,6 +822,12 @@ class Pw extends REST_Controller {
             $data['condition_key']='linkage_key';
         }
         $data['condition_schema']=$this->Admin_model->pathway_review_for_BS($params);
+        
+        if($params['pathway'] == 32){
+            $data['condition_schema'] = array();
+        }
+        
+
         // print_r($data);exit;
         $endpoint='v3/dr-iq/onboarding/pathway-save';
         if($_SERVER['SERVER_NAME']=='pathways.dr-iq.com')
@@ -853,8 +859,8 @@ class Pw extends REST_Controller {
         curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true);
 
         $slot=json_decode(curl_exec( $ch ));
-        echo $myvars;
-        print_r(($slot));exit;
+        // echo $myvars;
+        // print_r(($slot));exit;
         if($slot->slot_id)
         {
             $this->Admin_model->insertSlotId($slot->slot_id, $params['user_id'], $params['pathway']);
