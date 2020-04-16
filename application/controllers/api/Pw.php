@@ -817,6 +817,10 @@ class Pw extends REST_Controller {
         {
             $data['condition_key']='asthma';
         }
+        if($params['pathway']==32)
+        {
+            $data['condition_key']='linkage_key';
+        }
         $data['condition_schema']=$this->Admin_model->pathway_review_for_BS($params);
         // print_r($data);exit;
         $endpoint='v3/dr-iq/onboarding/pathway-save';
