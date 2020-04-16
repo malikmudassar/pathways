@@ -7089,6 +7089,8 @@ class Admin_model extends CI_Model {
                 foreach($answer as $aRow){
                     if(!empty($aRow['units_list'])){
                         $answer[$count]['units_list'] = json_decode($aRow['units_list'], true);
+                    }else{
+                        unset($answer[$count]['units_list']);
                     }
                     $count++;
                 }
