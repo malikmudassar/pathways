@@ -406,10 +406,12 @@ class Pw extends REST_Controller {
             }
             $data['step_type']='dropdown';
         }
-        if($data['pathway']==23 && ($data['step']==49 ))
+
+        if($data['pathway']==23 && ($data['step'] == 49 ))
         {
-            $data['step_type']='bmi';
+            $data['step_type']='bmiCalculator';
         }
+
         $data['pathway']=$params['pathway'];
         $data['pname']=$this->Admin_model->getPathwayName($data['pathway']);
         if($data['back']==0)
@@ -622,6 +624,12 @@ class Pw extends REST_Controller {
             }
             $data['step_type']='dropdown';
         }
+
+        if($data['pathway']==23 && ($data['step'] == 49 ))
+        {
+            $data['step_type']='bmiCalculator';
+        }
+        
         $data['pathway']=$params['pathway'];
         $data['pname']=$this->Admin_model->getPathwayName($data['pathway']);
         $this->Admin_model->removeFlowStep($step['number'], $params['pathway'], $params['user_id']);
