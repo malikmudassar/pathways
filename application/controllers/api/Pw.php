@@ -409,7 +409,7 @@ class Pw extends REST_Controller {
 
         if($data['pathway']==23 && ($data['step'] == 49 ))
         {
-            $data['step_type']='bmi';
+            $data['step_type']='bmiCalculator';
         }
 
         $data['pathway']=$params['pathway'];
@@ -627,7 +627,7 @@ class Pw extends REST_Controller {
 
         if($data['pathway']==23 && ($data['step'] == 49 ))
         {
-            $data['step_type']='bmi';
+            $data['step_type']='bmiCalculator';
         }
         
         $data['pathway']=$params['pathway'];
