@@ -406,6 +406,10 @@ class Pw extends REST_Controller {
             }
             $data['step_type']='dropdown';
         }
+        if($data['pathway']==23 && ($data['step']==49 ))
+        {
+            $data['step_type']='bmi';
+        }
         $data['pathway']=$params['pathway'];
         $data['pname']=$this->Admin_model->getPathwayName($data['pathway']);
         if($data['back']==0)
